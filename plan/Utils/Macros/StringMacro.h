@@ -29,6 +29,8 @@
 #define str_Delete_Success @"删除成功"
 #define str_OK @"确定"
 #define str_Cancel @"取消"
+#define str_Show @"显示"
+#define str_Notify_Later @"稍后提醒"
 #define str_Delete_Plan @"删除该计划"
 #define str_NoPlan_EveryDay @"暂无每日计划内容"
 #define str_NoPlan_LongTerm @"暂无长远计划内容"

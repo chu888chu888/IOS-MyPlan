@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		132263781B9825D400D21637 /* UIDevice+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 132263771B9825D400D21637 /* UIDevice+Util.m */; };
+		132263A21B9C7DC200D21637 /* LocalNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 132263A11B9C7DC200D21637 /* LocalNotificationManager.m */; };
 		135B21891B900394005CE84A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B21881B900394005CE84A /* main.m */; };
 		135B218C1B900394005CE84A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B218B1B900394005CE84A /* AppDelegate.m */; };
 		135B218F1B900394005CE84A /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B218E1B900394005CE84A /* FirstViewController.m */; };
@@ -73,6 +74,8 @@
 /* Begin PBXFileReference section */
 		132263761B9825D400D21637 /* UIDevice+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Util.h"; sourceTree = "<group>"; };
 		132263771B9825D400D21637 /* UIDevice+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Util.m"; sourceTree = "<group>"; };
+		132263A01B9C7DC200D21637 /* LocalNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotificationManager.h; sourceTree = "<group>"; };
+		132263A11B9C7DC200D21637 /* LocalNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNotificationManager.m; sourceTree = "<group>"; };
 		135B21831B900394005CE84A /* plan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = plan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		135B21871B900394005CE84A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		135B21881B900394005CE84A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -185,6 +188,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1322639E1B9C7C7C00D21637 /* NotifyCenter */ = {
+			isa = PBXGroup;
+			children = (
+				1322639F1B9C7C7C00D21637 /* LocalNotify */,
+			);
+			path = NotifyCenter;
+			sourceTree = "<group>";
+		};
+		1322639F1B9C7C7C00D21637 /* LocalNotify */ = {
+			isa = PBXGroup;
+			children = (
+				132263A01B9C7DC200D21637 /* LocalNotificationManager.h */,
+				132263A11B9C7DC200D21637 /* LocalNotificationManager.m */,
+			);
+			path = LocalNotify;
+			sourceTree = "<group>";
+		};
 		135B217A1B900394005CE84A = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +276,7 @@
 		135B21AF1B900F86005CE84A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1322639E1B9C7C7C00D21637 /* NotifyCenter */,
 				135B22191B92E72A005CE84A /* AlertCenter */,
 				135B21DD1B91368B005CE84A /* Cache */,
 				135B21D91B90A111005CE84A /* Catagory */,
@@ -668,6 +689,7 @@
 				135B222B1B92FDEB005CE84A /* PlanCell.m in Sources */,
 				135B21E01B9136A4005CE84A /* PlanCache.m in Sources */,
 				137700E91B953521008C83FD /* AboutViewController.m in Sources */,
+				132263A21B9C7DC200D21637 /* LocalNotificationManager.m in Sources */,
 				135B218F1B900394005CE84A /* FirstViewController.m in Sources */,
 				135B21891B900394005CE84A /* main.m in Sources */,
 				135B22341B932A4F005CE84A /* AddPlanViewController.m in Sources */,

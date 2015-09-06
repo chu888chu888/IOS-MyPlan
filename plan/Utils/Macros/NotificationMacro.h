@@ -13,5 +13,7 @@
 
 #define Notify_Settings_Changed @"Notify_Settings_Changed"
 #define Notify_Plan_Save @"Notify_Plan_Save"
+//推送通知
+#define Notify_Push_ReceivedPush @"Notify_Push_ReceivedPush"
 
 #endif
