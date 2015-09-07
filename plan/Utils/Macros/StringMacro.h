@@ -83,5 +83,7 @@
 
 
 #define str_Avatar @"kAvatar"
+#define str_TableName_Settings @"t_settings"
+#define str_TableName_Plan @"t_plan"
 
 #endif

@@ -16,6 +16,8 @@ NSString *const kPlan_CompleteTime = @"completetime";
 NSString *const kPlan_UpdateTime = @"updatetime";
 NSString *const kPlan_IsCompleted = @"iscompleted";
 NSString *const kPlan_PlanType = @"plantype";
+NSString *const kPlan_IsNotify = @"isnotify";
+NSString *const kPlan_NotifyTime = @"notifytime";
 
 
 @implementation Plan
@@ -28,6 +30,8 @@ NSString *const kPlan_PlanType = @"plantype";
 @synthesize updatetime = _updatetime;
 @synthesize iscompleted = _iscompleted;
 @synthesize plantype = _plantype;
+@synthesize isnotify = _isnotify;
+@synthesize notifytime = _notifytime;
 
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
@@ -44,6 +48,8 @@ NSString *const kPlan_PlanType = @"plantype";
         self.updatetime = [dict objectOrNilForKey:kPlan_UpdateTime];
         self.iscompleted = [dict objectOrNilForKey:kPlan_IsCompleted];
         self.plantype = [dict objectOrNilForKey:kPlan_PlanType];
+        self.isnotify = [dict objectOrNilForKey:kPlan_IsNotify];
+        self.notifytime = [dict objectOrNilForKey:kPlan_NotifyTime];
     }
     
     return self;
@@ -64,6 +70,8 @@ NSString *const kPlan_PlanType = @"plantype";
     self.updatetime = [aDecoder decodeObjectForKey:kPlan_UpdateTime];
     self.iscompleted = [aDecoder decodeObjectForKey:kPlan_IsCompleted];
     self.plantype = [aDecoder decodeObjectForKey:kPlan_PlanType];
+    self.isnotify = [aDecoder decodeObjectForKey:kPlan_IsNotify];
+    self.notifytime = [aDecoder decodeObjectForKey:kPlan_NotifyTime];
     
     return self;
 }
@@ -78,6 +86,8 @@ NSString *const kPlan_PlanType = @"plantype";
     [aCoder encodeObject:_updatetime forKey:kPlan_UpdateTime];
     [aCoder encodeObject:_iscompleted forKey:kPlan_IsCompleted];
     [aCoder encodeObject:_plantype forKey:kPlan_PlanType];
+    [aCoder encodeObject:_isnotify forKey:kPlan_IsNotify];
+    [aCoder encodeObject:_notifytime forKey:kPlan_NotifyTime];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -92,6 +102,8 @@ NSString *const kPlan_PlanType = @"plantype";
     copy.updatetime = [self.updatetime copyWithZone:zone];
     copy.iscompleted = [self.iscompleted copyWithZone:zone];
     copy.plantype = [self.plantype copyWithZone:zone];
+    copy.isnotify = [self.isnotify copyWithZone:zone];
+    copy.notifytime = [self.notifytime copyWithZone:zone];
     
     return copy;
 }

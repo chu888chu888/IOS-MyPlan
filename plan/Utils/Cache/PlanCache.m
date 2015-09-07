@@ -19,6 +19,7 @@ if (!(SomeBool)) { \
 NSLog(@"Failure on line %d, %@ error(%d): %@", __LINE__, Title, [Db lastErrorCode], [Db lastErrorMessage]);\
 }}
 
+
 NSString * dbFilePath(NSString * filename) {
     NSArray * documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,  NSUserDomainMask,YES);
     NSString * documentDirectory = [documentPaths objectAtIndex:0];
@@ -105,15 +106,55 @@ static NSMutableDictionary * __contactsOnlineState;
     [__db setShouldCacheStatements:YES];
     
     // 个人设置
-    if (![__db tableExists:@"t_settings"]) {
-        BOOL b = [__db executeUpdate:@"CREATE TABLE t_settings (nickname TEXT, birthday TEXT, email TEXT, gender TEXT, lifespan TEXT)"];
-        FMDBQuickCheck(b, @"create table t_settings", __db);
+    if (![__db tableExists:str_TableName_Settings]) {
+        
+        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (nickname TEXT, birthday TEXT, email TEXT, gender TEXT, lifespan TEXT)", str_TableName_Settings];
+        
+        BOOL b = [__db executeUpdate:sqlString];
+        
+        NSString *log = [NSString stringWithFormat: @"create table %@", str_TableName_Settings];
+        
+        FMDBQuickCheck(b, log, __db);
     }
     
     // 计划
-    if (![__db tableExists:@"t_plan"]) {
-        BOOL b = [__db executeUpdate:@"CREATE TABLE t_plan (planid TEXT, content TEXT, createtime TEXT, completetime TEXT, updatetime TEXT, iscompleted TEXT, plantype TEXT)"];
-        FMDBQuickCheck(b, @"create table t_plan", __db);
+    if (![__db tableExists:str_TableName_Plan]) {
+        
+        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (planid TEXT, content TEXT, createtime TEXT, completetime TEXT, updatetime TEXT, iscompleted TEXT, isnotify TEXT, notifytime TEXT, plantype TEXT)", str_TableName_Plan];
+        
+        BOOL b = [__db executeUpdate:sqlString];
+        
+        NSString *log = [NSString stringWithFormat:@"create table %@", str_TableName_Plan];
+        
+        FMDBQuickCheck(b, log, __db);
+        
+    } else { //新增字段
+        
+        //新增提醒字段
+        if (![__db columnExists:@"isnotify" inTableWithName:str_TableName_Plan]) {
+            
+            NSString *sqlString = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",str_TableName_Plan, @"isnotify"];
+            
+            BOOL b = [__db executeUpdate:sqlString];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+            
+            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET %@=0",str_TableName_Plan, @"isnotify"];
+            
+            b = [__db executeUpdate:sqlString];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+            
+        }
+        //新增提醒时间字段
+        if (![__db columnExists:@"notifytime" inTableWithName:str_TableName_Plan]) {
+            
+            NSString *sqlString = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",str_TableName_Plan, @"notifytime"];
+            
+            BOOL b = [__db executeUpdate:sqlString];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+        }
     }
 
 }
@@ -198,22 +239,34 @@ static NSMutableDictionary * __contactsOnlineState;
         if (!plan.plantype) {
             plan.plantype = @"";
         }
+        if (!plan.notifytime) {
+            plan.notifytime = @"";
+        }
         
         BOOL hasRec = NO;
-        FMResultSet * rs = [__db executeQuery:@"SELECT * FROM t_plan WHERE planid=?" withArgumentsInArray:@[plan.planid]];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE planid=?", str_TableName_Plan];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plan.planid]];
         hasRec = [rs next];
         [rs close];
         if (hasRec) {
-            BOOL b = [__db executeUpdate:@"UPDATE t_plan SET content=?, createtime=?, completetime=?, updatetime=?, iscompleted=?, plantype=? WHERE planid=?" withArgumentsInArray:@[plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.plantype, plan.planid]];
             
-            NSString * log = @"store(update) t_plan";
+            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET content=?, createtime=?, completetime=?, updatetime=?, iscompleted=?, isnotify=?, notifytime=?, plantype=? WHERE planid=?", str_TableName_Plan];
+            
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype, plan.planid]];
+            
+            NSString * log = [NSString stringWithFormat:@"store(update) %@", str_TableName_Plan];
+            
             FMDBQuickCheck(b, log, __db);
         }
         else
         {
-            BOOL b = [__db executeUpdate:@"INSERT INTO t_plan(planid, content, createtime, completetime, updatetime, iscompleted, plantype) values(?, ?, ?, ?, ?, ?, ?)" withArgumentsInArray:@[plan.planid, plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.plantype]];
+            sqlString = [NSString stringWithFormat:@"INSERT INTO %@(planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype) values(?, ?, ?, ?, ?, ?, ?, ?, ?)", str_TableName_Plan];
             
-            NSString * log = @"store(insert) t_plan";
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid, plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype]];
+            
+            NSString * log = [NSString stringWithFormat:@"store(insert) %@", str_TableName_Plan];
+            
             FMDBQuickCheck(b, log, __db);
         }
         
@@ -234,14 +287,18 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         BOOL hasRec = NO;
-        FMResultSet * rs = [__db executeQuery:@"SELECT * FROM t_plan WHERE planid=?" withArgumentsInArray:@[plan.planid]];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE planid=?", str_TableName_Plan];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plan.planid]];
         hasRec = [rs next];
         [rs close];
         if (hasRec) {
-            BOOL b = [__db executeUpdate:@"DELETE FROM t_plan WHERE planid=?" withArgumentsInArray:@[plan.planid]];
             
-            NSString * log = @"delete plan from t_plan";
-            FMDBQuickCheck(b, log, __db);
+            sqlString = [NSString stringWithFormat:@"DELETE FROM %@ WHERE planid=?", str_TableName_Plan];
+            
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid]];
+            
+            FMDBQuickCheck(b, sqlString, __db);
         }
         
         [NotificationCenter postNotificationName:Notify_Plan_Save object:nil];
@@ -294,8 +351,9 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSMutableArray *array = [NSMutableArray array];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype FROM %@ WHERE plantype=? ORDER BY createtime DESC", str_TableName_Plan];
         
-        FMResultSet * rs = [__db executeQuery:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, plantype FROM t_plan WHERE plantype=? ORDER BY createtime DESC" withArgumentsInArray:@[plantype]];
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype]];
         
         while ([rs next]) {
             
@@ -306,6 +364,8 @@ static NSMutableDictionary * __contactsOnlineState;
             plan.completetime = [rs stringForColumn:@"completetime"];
             plan.updatetime = [rs stringForColumn:@"updatetime"];
             plan.iscompleted = [rs stringForColumn:@"iscompleted"];
+            plan.isnotify = [rs stringForColumn:@"isnotify"];
+            plan.notifytime = [rs stringForColumn:@"notifytime"];
             plan.plantype = [rs stringForColumn:@"plantype"];
             
             [array addObject:plan];
@@ -330,8 +390,9 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSString *total = @"0";
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT COUNT(*) as total FROM %@ WHERE plantype=?", str_TableName_Plan];
         
-        FMResultSet * rs = [__db executeQuery:@"SELECT COUNT(*) as total FROM t_plan WHERE plantype=?" withArgumentsInArray:@[plantype]];
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype]];
         
         if([rs next]) {
             
@@ -356,8 +417,9 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSString *completed = @"0";
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT COUNT(*) as completed FROM %@ WHERE plantype=? and iscompleted=1", str_TableName_Plan];
         
-        FMResultSet * rs = [__db executeQuery:@"SELECT COUNT(*) as completed FROM t_plan WHERE plantype=? and iscompleted=1" withArgumentsInArray:@[plantype]];
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype]];
         
         if([rs next]) {
             
