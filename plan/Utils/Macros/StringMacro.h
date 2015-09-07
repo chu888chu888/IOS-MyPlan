@@ -38,6 +38,8 @@
 #define str_Plan_Add @"新增计划"
 #define str_Plan_Edit @"编辑计划"
 #define str_Plan_NoContent @"至少写点什么吧"
+#define str_Plan_Today @"今天"
+#define str_Plan_Yesterday @"昨天"
 
 #define str_More @"更多"
 #define str_More_Settings @"个人设置"
@@ -72,6 +74,7 @@
 #define str_Set_Lifespan_Tips2 @"请输入假如你可以活到的岁数"
 #define str_Set_Lifespan_Tips3 @"别闹，请填写正常人的寿命！"
 
+#define str_Notify_Tips1 @"提醒："
 
 #define str_About_Version @"当前版本："
 #define str_About_Copyright @"© 2015 Andwho Inc."

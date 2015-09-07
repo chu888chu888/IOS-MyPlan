@@ -9,10 +9,12 @@
 #import "PlanCache.h"
 #import "AddPlanViewController.h"
 
-NSUInteger const kAnd_SetupEdgeInset = 10;
-NSUInteger const kAnd_TitleTextFieldHeight = 39;
+NSUInteger const kEdgeInset = 10;
 
-@interface AddPlanViewController ()<UITextFieldDelegate, UITextViewDelegate>
+@interface AddPlanViewController ()<UITextFieldDelegate, UITextViewDelegate>{
+    
+    NSUInteger yOffset;
+}
 
 @property (strong, nonatomic) UITextField *textNoteTitle;
 @property (strong, nonatomic) UITextView *textNoteDetail;
@@ -70,10 +72,13 @@ NSUInteger const kAnd_TitleTextFieldHeight = 39;
 }
 
 - (void)loadCustomView{
-    NSUInteger yOffset = 0;
+    yOffset = kEdgeInset;
     {
-        UITextView *detailTextView = [[UITextView alloc] initWithFrame:CGRectMake(kAnd_SetupEdgeInset, yOffset, CGRectGetWidth(self.view.bounds) - kAnd_SetupEdgeInset * 2,self.view.bounds.size.height - yOffset)];
+        UITextView *detailTextView = [[UITextView alloc] initWithFrame:CGRectMake(kEdgeInset, yOffset, WIDTH_FULL_SCREEN - kEdgeInset * 2, HEIGHT_FULL_SCREEN / 3)];
         detailTextView.backgroundColor = [UIColor clearColor];
+        detailTextView.layer.borderWidth = 1;
+        detailTextView.layer.borderColor = [color_GrayLight CGColor];
+        detailTextView.layer.cornerRadius = 5;
         detailTextView.font = font_Normal_18;
         detailTextView.textColor = color_Black;
         detailTextView.delegate = self;
@@ -81,24 +86,31 @@ NSUInteger const kAnd_TitleTextFieldHeight = 39;
         
         [self.view addSubview:detailTextView];
         
+        yOffset += HEIGHT_FULL_SCREEN / 3 + kEdgeInset;
+        
         self.textNoteDetail = detailTextView;
+    }
+    
+    {
+        NSInteger labelWidth = 60;
+        NSInteger labelHeight = 30;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kEdgeInset, yOffset, labelWidth, labelHeight)];
+        label.text = str_Notify_Tips1;
+        label.textColor = color_Black;
+        label.font = font_Normal_18;
+        
+        UISwitch *switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(kEdgeInset + labelWidth, yOffset, 20, labelHeight)];
+        [switchButton setOn:NO];
+        [switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+        
+        [self.view addSubview:label];
+        [self.view addSubview:switchButton];
     }
     
     if (self.operationType == Edit) {
         self.textNoteDetail.text = self.plan.content;
     }
-}
-
-- (void)addLineForView:(UIView *)view{
-    CGRect frame = CGRectZero;
-    frame.origin.x = 0;
-    frame.origin.y = CGRectGetHeight(view.bounds) - 1;
-    frame.size.width = CGRectGetWidth(view.bounds);
-    frame.size.height = 1;
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:frame];
-    lineView.backgroundColor = color_GrayLight;
-    [view addSubview:lineView];
 }
 
 #pragma mark - action
@@ -110,6 +122,17 @@ NSUInteger const kAnd_TitleTextFieldHeight = 39;
         return;
     }
     [self savePlan];
+}
+
+-(void)switchAction:(id)sender
+{
+    UISwitch *switchButton = (UISwitch*)sender;
+    BOOL isButtonOn = [switchButton isOn];
+    if (isButtonOn) {
+
+    }else {
+
+    }
 }
 
 - (void)savePlan {

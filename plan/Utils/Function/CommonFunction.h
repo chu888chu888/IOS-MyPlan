@@ -14,6 +14,10 @@
 
 + (NSDateComponents *)getDateTime:(NSDate *)date;
 
+//NSString转换NSDate
 + (NSDate *)NSStringDateToNSDate:(NSString *)datetime formatter:(NSString *)format;
+
+//NSDate转换NSString
++ (NSString *)NSDateToNSString:(NSDate *)datetime formatter:(NSString *)format;
 
 @end

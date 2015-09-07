@@ -39,4 +39,12 @@
     return date;
 }
 
+//NSDate转换NSString
++ (NSString *)NSDateToNSString:(NSDate *)datetime formatter:(NSString *)format {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:format];
+    NSString *dateStr = [formatter stringFromDate:datetime];
+    return dateStr;
+}
+
 @end
