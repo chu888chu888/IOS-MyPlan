@@ -31,8 +31,8 @@ NSUInteger const kToolBarHeight = 44;
 
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
     if (self.operationType == Add) {
         self.title = str_Plan_Add;
@@ -51,8 +51,8 @@ NSUInteger const kToolBarHeight = 44;
 }
 
 - (void)didReceiveMemoryWarning{
+    
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -217,7 +217,7 @@ NSUInteger const kToolBarHeight = 44;
 - (void)onPickerCertainBtn
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm"];
     labelNotifyTime.text = [dateFormatter stringFromDate:datePicker.date];
     
     [self onPickerCancelBtn];
