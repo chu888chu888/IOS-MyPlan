@@ -53,6 +53,8 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
     
     if (self.planType == PlanEveryday)
         [self moveUnderLineViewToLeft];
+    
+    [self getPlanData];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -11,6 +11,7 @@
 #import "UIButton+Util.h"
 #import "MoreViewController.h"
 #import "FirstViewController.h"
+#import "AddPlanViewController.h"
 
 NSUInteger const kSecondsPerDay = 86400;
 
@@ -50,6 +51,7 @@ NSUInteger const kSecondsPerDay = 86400;
     self.title = str_ViewTitle_1;
     self.tabBarItem.title = str_ViewTitle_1;
     
+    [NotificationCenter addObserver:self selector:@selector(toPlan:) name:Notify_Push_LocalNotify object:nil];
     [NotificationCenter addObserver:self selector:@selector(refreshView:) name:Notify_Settings_Changed object:nil];
     [NotificationCenter addObserver:self selector:@selector(refreshView:) name:Notify_Plan_Save object:nil];
     
@@ -69,6 +71,32 @@ NSUInteger const kSecondsPerDay = 86400;
 - (void)dealloc
 {
     [NotificationCenter removeObserver:self];
+}
+
+- (void)toPlan:(NSNotification*)notification
+{
+    NSDictionary *dict = notification.userInfo;
+    Plan *plan = [[Plan alloc] init];
+    plan.planid = [dict objectForKey:@"tag"];
+    plan.createtime = [dict objectForKey:@"createtime"];
+    plan.content = [dict objectForKey:@"content"];
+    plan.plantype = [dict objectForKey:@"plantype"];
+    plan.iscompleted = [dict objectForKey:@"iscompleted"];
+    plan.completetime = [dict objectForKey:@"completetime"];
+    plan.isnotify = @"1";
+    plan.notifytime = [dict objectForKey:@"notifytime"];
+    
+    __weak typeof(self) weakSelf = self;
+    AddPlanViewController *controller = [[AddPlanViewController alloc]init];
+    controller.planType = [plan.plantype isEqualToString:@"1"] ? PlanEveryday : PlanLife;
+    controller.operationType = Edit;
+    controller.plan = plan;
+    controller.finishBlock = ^(){
+        
+        [weakSelf alertToastMessage:str_Save_Success];
+    };
+    controller.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)refreshView:(NSNotification*)notification

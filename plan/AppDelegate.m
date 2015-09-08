@@ -30,7 +30,7 @@
     {
         //程序在后台或者已关闭
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [NotificationCenter postNotificationName:Notify_Push_ReceivedPush object:nil userInfo:localNotify.userInfo];
+            [NotificationCenter postNotificationName:Notify_Push_LocalNotify object:nil userInfo:localNotify.userInfo];
         });
     }
     
@@ -78,7 +78,7 @@
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
     if (state == UIApplicationStateInactive) {
         //程序在后台或者已关闭
-        [NotificationCenter postNotificationName:Notify_Push_ReceivedPush object:nil userInfo:notification.userInfo];
+        [NotificationCenter postNotificationName:Notify_Push_LocalNotify object:nil userInfo:notification.userInfo];
     }
     else {
         //程序正在运行
@@ -96,7 +96,7 @@
     }
     else if(buttonIndex == 1) {
         //显示
-        [NotificationCenter postNotificationName:Notify_Push_ReceivedPush object:nil userInfo:lastNotification.userInfo];
+        [NotificationCenter postNotificationName:Notify_Push_LocalNotify object:nil userInfo:lastNotification.userInfo];
     }
     else if(buttonIndex == 2) {
         //5分钟后提醒

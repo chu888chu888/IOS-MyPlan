@@ -113,9 +113,7 @@ static NSMutableDictionary * __contactsOnlineState;
         
         BOOL b = [__db executeUpdate:sqlString];
         
-        NSString *log = [NSString stringWithFormat: @"create table %@", str_TableName_Settings];
-        
-        FMDBQuickCheck(b, log, __db);
+        FMDBQuickCheck(b, sqlString, __db);
     }
     
     // 计划
@@ -125,9 +123,7 @@ static NSMutableDictionary * __contactsOnlineState;
         
         BOOL b = [__db executeUpdate:sqlString];
         
-        NSString *log = [NSString stringWithFormat:@"create table %@", str_TableName_Plan];
-        
-        FMDBQuickCheck(b, log, __db);
+        FMDBQuickCheck(b, sqlString, __db);
         
     } else { //新增字段
         
@@ -199,15 +195,13 @@ static NSMutableDictionary * __contactsOnlineState;
         if (hasRec) {
             BOOL b = [__db executeUpdate:@"UPDATE t_settings SET nickname=?, birthday=?, email=?, gender=?, lifespan=?" withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan]];
             
-            NSString * log = @"store(update) t_settings";
-            FMDBQuickCheck(b, log, __db);
+            FMDBQuickCheck(b, @"store(update) t_settings", __db);
         }
         else
         {
             BOOL b = [__db executeUpdate:@"INSERT INTO t_settings(nickname, birthday, email, gender, lifespan) values(?, ?, ?, ?, ?)" withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan]];
-            
-            NSString * log = @"store(insert) t_settings";
-            FMDBQuickCheck(b, log, __db);
+
+            FMDBQuickCheck(b, @"store(insert) t_settings", __db);
         }
         
         [NotificationCenter postNotificationName:Notify_Settings_Changed object:nil];
@@ -256,17 +250,15 @@ static NSMutableDictionary * __contactsOnlineState;
             
             BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype, plan.planid]];
             
-            NSString * log = [NSString stringWithFormat:@"store(update) %@", str_TableName_Plan];
-            
-            FMDBQuickCheck(b, log, __db);
+            FMDBQuickCheck(b, sqlString, __db);
             
             //更新提醒
             if (b && [plan.isnotify isEqualToString:@"1"]) {
                 
-                [PlanCache updateLocalNotification:plan.planid content:plan.content time:plan.notifytime];
+                [self updateLocalNotification:plan];
             } else {
                 
-                [PlanCache cancelLocalNotification:plan.planid];
+                [self cancelLocalNotification:plan.planid];
             }
         }
         else
@@ -275,14 +267,12 @@ static NSMutableDictionary * __contactsOnlineState;
             
             BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid, plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype]];
             
-            NSString * log = [NSString stringWithFormat:@"store(insert) %@", str_TableName_Plan];
-            
-            FMDBQuickCheck(b, log, __db);
+            FMDBQuickCheck(b, sqlString, __db);
             
             //添加提醒
             if (b && [plan.isnotify isEqualToString:@"1"]) {
                 
-                [PlanCache addLocalNotification:plan.planid content:plan.content time:plan.notifytime];
+                [self addLocalNotification:plan];
             }
         }
         
@@ -448,26 +438,31 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 
-+ (void)addLocalNotification:(NSString *)planid content:(NSString*)content time:(NSString *)time
++ (void)addLocalNotification:(Plan *)plan
 {
     //时间格式：yyyy-MM-dd HH:mm:ss
-    NSDate *date = [CommonFunction NSStringDateToNSDate:time formatter:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *date = [CommonFunction NSStringDateToNSDate:plan.notifytime formatter:@"yyyy-MM-dd HH:mm:ss"];
     NSMutableDictionary *destDic = [NSMutableDictionary dictionary];
-    [destDic setObject:planid forKey:@"tag"];
+    [destDic setObject:plan.planid forKey:@"tag"];
     [destDic setObject:@([date timeIntervalSince1970]) forKey:@"time"];
     [destDic setObject:@(NotificationTypePlan) forKey:@"type"];
-    [LocalNotificationManager createLocalNotification:date userInfo:destDic alertBody:content];
+    
+    [destDic setObject:plan.createtime forKey:@"createtime"];
+    [destDic setObject:plan.plantype forKey:@"plantype"];
+    [destDic setObject:plan.iscompleted forKey:@"iscompleted"];
+    [destDic setObject:plan.completetime forKey:@"completetime"];
+    [destDic setObject:plan.content forKey:@"content"];
+    [destDic setObject:plan.notifytime forKey:@"notifytime"];
+    [LocalNotificationManager createLocalNotification:date userInfo:destDic alertBody:plan.content];
 }
 
-+ (void)updateLocalNotification:(NSString *)planid content:(NSString*)content time:(NSString *)time
++ (void)updateLocalNotification:(Plan *)plan
 {
     //首先取消该计划的本地所有通知
-    NSArray *array = [LocalNotificationManager getNotificationWithTag:planid type:NotificationTypePlan];
-    for (UILocalNotification *item in array) {
-        [LocalNotificationManager cancelNotification:item];
-    }
+    [self cancelLocalNotification:plan.planid];
+    
     //重新添加新的通知
-    [self addLocalNotification:planid content:content time:time];
+    [self addLocalNotification:plan];
 }
 
 + (void)cancelLocalNotification:(NSString*)planid

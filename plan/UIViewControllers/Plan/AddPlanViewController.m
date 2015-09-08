@@ -138,6 +138,9 @@ NSUInteger const kToolBarHeight = 44;
 
 - (void)showDatePicker
 {
+    //收起键盘
+    [self.textNoteDetail resignFirstResponder];
+    
     UIView *pickerView = [[UIView alloc] initWithFrame:self.view.bounds];
     pickerView.backgroundColor = [UIColor clearColor];
     
@@ -191,8 +194,6 @@ NSUInteger const kToolBarHeight = 44;
 
 -(void)switchAction:(id)sender
 {
-    [self.textNoteDetail resignFirstResponder];
-    
     UISwitch *btnSwitch = (UISwitch*)sender;
     BOOL isButtonOn = [btnSwitch isOn];
     if (isButtonOn) {
