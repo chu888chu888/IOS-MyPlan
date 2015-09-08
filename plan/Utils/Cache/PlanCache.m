@@ -11,6 +11,7 @@
 #import "FMDatabasePool.h"
 #import "FMDatabaseQueue.h"
 #import "FMDatabaseAdditions.h"
+#import "LocalNotificationManager.h"
 
 
 
@@ -258,6 +259,15 @@ static NSMutableDictionary * __contactsOnlineState;
             NSString * log = [NSString stringWithFormat:@"store(update) %@", str_TableName_Plan];
             
             FMDBQuickCheck(b, log, __db);
+            
+            //更新提醒
+            if (b && [plan.isnotify isEqualToString:@"1"]) {
+                
+                [PlanCache updateLocalNotification:plan.planid content:plan.content time:plan.notifytime];
+            } else {
+                
+                [PlanCache cancelLocalNotification:plan.planid];
+            }
         }
         else
         {
@@ -268,6 +278,12 @@ static NSMutableDictionary * __contactsOnlineState;
             NSString * log = [NSString stringWithFormat:@"store(insert) %@", str_TableName_Plan];
             
             FMDBQuickCheck(b, log, __db);
+            
+            //添加提醒
+            if (b && [plan.isnotify isEqualToString:@"1"]) {
+                
+                [PlanCache addLocalNotification:plan.planid content:plan.content time:plan.notifytime];
+            }
         }
         
         [NotificationCenter postNotificationName:Notify_Plan_Save object:nil];
@@ -428,6 +444,38 @@ static NSMutableDictionary * __contactsOnlineState;
         [rs close];
         
         return completed;
+    }
+}
+
+
++ (void)addLocalNotification:(NSString *)planid content:(NSString*)content time:(NSString *)time
+{
+    //时间格式：yyyy-MM-dd HH:mm:ss
+    NSDate *date = [CommonFunction NSStringDateToNSDate:time formatter:@"yyyy-MM-dd HH:mm:ss"];
+    NSMutableDictionary *destDic = [NSMutableDictionary dictionary];
+    [destDic setObject:planid forKey:@"tag"];
+    [destDic setObject:@([date timeIntervalSince1970]) forKey:@"time"];
+    [destDic setObject:@(NotificationTypePlan) forKey:@"type"];
+    [LocalNotificationManager createLocalNotification:date userInfo:destDic alertBody:content];
+}
+
++ (void)updateLocalNotification:(NSString *)planid content:(NSString*)content time:(NSString *)time
+{
+    //首先取消该计划的本地所有通知
+    NSArray *array = [LocalNotificationManager getNotificationWithTag:planid type:NotificationTypePlan];
+    for (UILocalNotification *item in array) {
+        [LocalNotificationManager cancelNotification:item];
+    }
+    //重新添加新的通知
+    [self addLocalNotification:planid content:content time:time];
+}
+
++ (void)cancelLocalNotification:(NSString*)planid
+{
+    //取消该计划的本地所有通知
+    NSArray *array = [LocalNotificationManager getNotificationWithTag:planid type:NotificationTypePlan];
+    for (UILocalNotification *item in array) {
+        [LocalNotificationManager cancelNotification:item];
     }
 }
 

@@ -9,11 +9,17 @@
 #import "PlanCache.h"
 #import "AddPlanViewController.h"
 
+NSUInteger const kDatePickerBgViewTag = 20150907;
 NSUInteger const kEdgeInset = 10;
+NSUInteger const kDatePickerHeight = 216;
+NSUInteger const kToolBarHeight = 44;
 
 @interface AddPlanViewController ()<UITextFieldDelegate, UITextViewDelegate>{
     
     NSUInteger yOffset;
+    UIDatePicker *datePicker;
+    UISwitch *switchButton;
+    UILabel *labelNotifyTime;
 }
 
 @property (strong, nonatomic) UITextField *textNoteTitle;
@@ -94,23 +100,82 @@ NSUInteger const kEdgeInset = 10;
     {
         NSInteger labelWidth = 60;
         NSInteger labelHeight = 30;
+        NSInteger switchWidth = 20;
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kEdgeInset, yOffset, labelWidth, labelHeight)];
         label.text = str_Notify_Tips1;
         label.textColor = color_Black;
         label.font = font_Normal_18;
         
-        UISwitch *switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(kEdgeInset + labelWidth, yOffset, 20, labelHeight)];
-        [switchButton setOn:NO];
-        [switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+        UISwitch *btnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(kEdgeInset + labelWidth, yOffset, switchWidth, labelHeight)];
+        [btnSwitch setOn:NO];
+        [btnSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
         
+        switchButton = btnSwitch;
         [self.view addSubview:label];
-        [self.view addSubview:switchButton];
+        [self.view addSubview:btnSwitch];
+        
+        UILabel *labelTime = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btnSwitch.frame) + kEdgeInset, yOffset, WIDTH_FULL_SCREEN - kEdgeInset * 3 - labelWidth - switchWidth, labelHeight)];
+        labelTime.textColor = color_Black;
+        labelTime.font = font_Normal_18;
+        labelTime.userInteractionEnabled = YES;
+        UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
+        [labelTime addGestureRecognizer:labelTapGestureRecognizer];
+        
+        labelNotifyTime = labelTime;
+        [self.view addSubview:labelTime];
     }
     
     if (self.operationType == Edit) {
         self.textNoteDetail.text = self.plan.content;
+        
+        if ([self.plan.isnotify isEqualToString:@"1"]) {
+            [switchButton setOn:YES];
+            labelNotifyTime.text = self.plan.notifytime;
+        }
     }
+}
+
+- (void)showDatePicker
+{
+    UIView *pickerView = [[UIView alloc] initWithFrame:self.view.bounds];
+    pickerView.backgroundColor = [UIColor clearColor];
+    
+    {
+        UIView *bgView = [[UIView alloc] initWithFrame:pickerView.bounds];
+        bgView.backgroundColor = [UIColor blackColor];
+        bgView.alpha = 0.3;
+        [pickerView addSubview:bgView];
+    }
+    
+    {
+        UIToolbar* toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, pickerView.frame.size.height - kDatePickerHeight - kToolBarHeight, CGRectGetWidth(pickerView.bounds), kToolBarHeight)];
+        toolbar.barStyle = UIBarStyleBlack;
+        toolbar.translucent = YES;
+        UIBarButtonItem* item1 = [[UIBarButtonItem alloc] initWithTitle:str_OK style:UIBarButtonItemStylePlain target:nil action:@selector(onPickerCertainBtn)];
+        UIBarButtonItem* item2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIBarButtonItem* item3 = [[UIBarButtonItem alloc] initWithTitle:str_Cancel style:UIBarButtonItemStylePlain target:nil action:@selector(onPickerCancelBtn)];
+        NSArray* toolbarItems = [NSArray arrayWithObjects:item3, item2, item1, nil];
+        [toolbar setItems:toolbarItems];
+        [pickerView addSubview:toolbar];
+    }
+    
+    {
+        UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, pickerView.frame.size.height - kDatePickerHeight, CGRectGetWidth(pickerView.bounds), kDatePickerHeight)];
+        picker.backgroundColor = [UIColor whiteColor];
+        picker.locale = [NSLocale currentLocale];
+        picker.datePickerMode = UIDatePickerModeDateAndTime;
+        picker.minimumDate = [NSDate date];
+        
+        NSDate *defaultDate = [[NSDate date] dateByAddingTimeInterval:5 * 60];
+        picker.date = defaultDate;
+
+        [pickerView addSubview:picker];
+        datePicker = picker;
+    }
+    
+    pickerView.tag = kDatePickerBgViewTag;
+    [self.view addSubview:pickerView];
 }
 
 #pragma mark - action
@@ -126,16 +191,51 @@ NSUInteger const kEdgeInset = 10;
 
 -(void)switchAction:(id)sender
 {
-    UISwitch *switchButton = (UISwitch*)sender;
-    BOOL isButtonOn = [switchButton isOn];
+    [self.textNoteDetail resignFirstResponder];
+    
+    UISwitch *btnSwitch = (UISwitch*)sender;
+    BOOL isButtonOn = [btnSwitch isOn];
     if (isButtonOn) {
 
+        [self showDatePicker];
+        
     }else {
 
+        labelNotifyTime.text = @"";
+        [self onPickerCancelBtn];
     }
 }
 
-- (void)savePlan {
+-(void) labelTouchUpInside:(UITapGestureRecognizer *)recognizer
+{
+    if ([switchButton isOn]) {
+        [self showDatePicker];
+    }
+}
+
+- (void)onPickerCertainBtn
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+    labelNotifyTime.text = [dateFormatter stringFromDate:datePicker.date];
+    
+    [self onPickerCancelBtn];
+    
+}
+
+- (void)onPickerCancelBtn
+{
+    UIView *pickerView = [self.view viewWithTag:kDatePickerBgViewTag];
+    [pickerView removeFromSuperview];
+    
+    NSString *time = labelNotifyTime.text;
+    if (!time || [time isEqualToString:@""]) {
+        [switchButton setOn:NO];
+    }
+}
+
+- (void)savePlan
+{
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
@@ -152,6 +252,14 @@ NSUInteger const kEdgeInset = 10;
         self.plan.iscompleted = @"0";
     } else {
         self.plan.updatetime = timeNow;
+    }
+    
+    if ([switchButton isOn]) {
+        self.plan.isnotify = @"1";
+        self.plan.notifytime = labelNotifyTime.text;
+    } else {
+        self.plan.isnotify = @"0";
+        self.plan.notifytime = @"";
     }
     
     self.plan.content = self.textNoteDetail.text;
