@@ -305,6 +305,12 @@ static NSMutableDictionary * __contactsOnlineState;
             BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid]];
             
             FMDBQuickCheck(b, sqlString, __db);
+            
+            //取消提醒
+            if (b && [plan.isnotify isEqualToString:@"1"]) {
+                
+                [self cancelLocalNotification:plan.planid];
+            }
         }
         
         [NotificationCenter postNotificationName:Notify_Plan_Save object:nil];
