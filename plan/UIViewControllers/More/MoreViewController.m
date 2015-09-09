@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "HelpViewController.h"
 #import "MoreViewController.h"
 #import "AboutViewController.h"
 #import "SettingsViewController.h"
@@ -171,9 +172,9 @@ NSUInteger const kMoreViewSectionButtonTag = 1000;
 
 - (void)toHelpViewController
 {
-//    SetupCenter_UseHelpViewController *viewController = [[SetupCenter_UseHelpViewController alloc]init];
-//    
-//    [self.navigationController pushViewController:viewController animated:YES];
+    HelpViewController *controller = [[HelpViewController alloc] init];
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)toLike

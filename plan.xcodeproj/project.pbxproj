@@ -11,6 +11,8 @@
 		132263A21B9C7DC200D21637 /* LocalNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 132263A11B9C7DC200D21637 /* LocalNotificationManager.m */; };
 		132263A81B9C809400D21637 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 132263A51B9C809400D21637 /* FirstViewController.m */; };
 		132263A91B9C809400D21637 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 132263A71B9C809400D21637 /* SecondViewController.m */; };
+		133B07A21B9FBCA30015E752 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 133B07A11B9FBCA30015E752 /* HelpViewController.m */; };
+		133B07AD1B9FC46A0015E752 /* Questions in Resources */ = {isa = PBXBuildFile; fileRef = 133B07AC1B9FC46A0015E752 /* Questions */; };
 		135B21891B900394005CE84A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B21881B900394005CE84A /* main.m */; };
 		135B218C1B900394005CE84A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B218B1B900394005CE84A /* AppDelegate.m */; };
 		135B21971B900394005CE84A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 135B21961B900394005CE84A /* Images.xcassets */; };
@@ -80,6 +82,9 @@
 		132263A51B9C809400D21637 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		132263A61B9C809400D21637 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		132263A71B9C809400D21637 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		133B07A01B9FBCA30015E752 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		133B07A11B9FBCA30015E752 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
+		133B07AC1B9FC46A0015E752 /* Questions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Questions; sourceTree = "<group>"; };
 		135B21831B900394005CE84A /* plan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = plan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		135B21871B900394005CE84A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		135B21881B900394005CE84A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -214,6 +219,30 @@
 				132263A71B9C809400D21637 /* SecondViewController.m */,
 			);
 			path = MainView;
+			sourceTree = "<group>";
+		};
+		133B079B1B9FBC620015E752 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				133B07AC1B9FC46A0015E752 /* Questions */,
+				133B07A01B9FBCA30015E752 /* HelpViewController.h */,
+				133B07A11B9FBCA30015E752 /* HelpViewController.m */,
+			);
+			path = Help;
+			sourceTree = "<group>";
+		};
+		133B079C1B9FBC620015E752 /* Like */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Like;
+			sourceTree = "<group>";
+		};
+		133B079D1B9FBC620015E752 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Share;
 			sourceTree = "<group>";
 		};
 		135B217A1B900394005CE84A = {
@@ -464,9 +493,12 @@
 			isa = PBXGroup;
 			children = (
 				137700E61B953501008C83FD /* About */,
-				137700E21B953490008C83FD /* Settings */,
+				133B079B1B9FBC620015E752 /* Help */,
+				133B079C1B9FBC620015E752 /* Like */,
 				137700D91B952EE5008C83FD /* MoreViewController.h */,
 				137700DA1B952EE5008C83FD /* MoreViewController.m */,
+				137700E21B953490008C83FD /* Settings */,
+				133B079D1B9FBC620015E752 /* Share */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -625,6 +657,7 @@
 				137701081B95DF67008C83FD /* Icon_Gender_M_Normal@2x.png in Resources */,
 				137701071B95DF67008C83FD /* Icon_Gender_F_Selected@2x.png in Resources */,
 				135B22311B9301C9005CE84A /* Btn_Plan_Doing@2x.png in Resources */,
+				133B07AD1B9FC46A0015E752 /* Questions in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,6 +715,7 @@
 				135B221F1B92E74C005CE84A /* PromptMessage.m in Sources */,
 				132263781B9825D400D21637 /* UIDevice+Util.m in Sources */,
 				135B21D21B909955005CE84A /* Config.m in Sources */,
+				133B07A21B9FBCA30015E752 /* HelpViewController.m in Sources */,
 				135B22091B92B126005CE84A /* UIViewController+Util.m in Sources */,
 				135B21EA1B913F77005CE84A /* NSString+Util.m in Sources */,
 				135B21ED1B9142BE005CE84A /* Plan.m in Sources */,
