@@ -88,7 +88,6 @@ NSUInteger const kToolBarHeight = 44;
         detailTextView.font = font_Normal_18;
         detailTextView.textColor = color_Black;
         detailTextView.delegate = self;
-        [detailTextView becomeFirstResponder];
         
         [self.view addSubview:detailTextView];
         
@@ -127,12 +126,17 @@ NSUInteger const kToolBarHeight = 44;
     }
     
     if (self.operationType == Edit) {
+        
         self.textNoteDetail.text = self.plan.content;
         
         if ([self.plan.isnotify isEqualToString:@"1"]) {
             [switchButton setOn:YES];
             labelNotifyTime.text = self.plan.notifytime;
         }
+        
+    } else {
+        
+        [self.textNoteDetail becomeFirstResponder];
     }
 }
 
