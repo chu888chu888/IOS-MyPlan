@@ -43,7 +43,8 @@
 
 #define str_More @"更多"
 #define str_More_Settings @"个人设置"
-#define str_More_Help @"使用帮助"
+#define str_More_Help @"常见问题"
+#define str_More_Like @"五星鼓励"
 #define str_More_Share @"推荐分享"
 #define str_More_Feedback @"建议反馈"
 #define str_More_About @"关于我们"

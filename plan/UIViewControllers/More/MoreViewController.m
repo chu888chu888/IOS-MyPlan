@@ -45,8 +45,7 @@ NSUInteger const kMoreViewSectionButtonTag = 1000;
     [self.view addSubview:self.layerView];
     
     {
-//        NSArray *sectionTitles = @[@"个人设置", @"使用帮助", @"推荐分享", @"建议反馈", @"关于我们", @"去欢迎页"];
-        NSArray *sectionTitles = @[str_More_Settings, str_More_About];
+        NSArray *sectionTitles = @[str_More_Settings, str_More_Help, str_More_Like, str_More_Share, str_More_About];
         
         UIView *view = [self createSectionViewWithTitles:sectionTitles buttonAction:@selector(sectionButtonAction:)];
 //        CGRect frame = view.frame;
@@ -132,70 +131,90 @@ NSUInteger const kMoreViewSectionButtonTag = 1000;
     [view addSubview:lineView];
 }
 
-- (void)sectionButtonAction:(UIButton *)button{
+- (void)sectionButtonAction:(UIButton *)button
+{
     switch (button.tag - kMoreViewSectionButtonTag) {
         case 0:
             [self toPersonSettingViewController];
             break;
         case 1:
-//            [self toHelpViewController];
-//            break;
+            [self toHelpViewController];
+            break;
         case 2:
-//            [self toShareViewController];
-//            break;
+            [self toLike];
+            break;
         case 3:
+            [self toShareViewController];
+            break;
+        case 4:
 //            [self toFeedbackViewController];
 //            break;
-        case 4:
+        case 5:
 //            [self toCheckUpdateViewController];
 //            break;
-        case 5:
+        case 6:
             [self toAboutViewController];
             break;
-        case 6:
+        case 7:
 //            [self toWelcomeViewController];
         default:
             break;
     }
 }
 
-- (void)toPersonSettingViewController{
+- (void)toPersonSettingViewController
+{
     SettingsViewController *controller = [[SettingsViewController alloc] init];
     
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)toHelpViewController{
+- (void)toHelpViewController
+{
 //    SetupCenter_UseHelpViewController *viewController = [[SetupCenter_UseHelpViewController alloc]init];
 //    
 //    [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)toShareViewController{
+- (void)toLike
+{
+    /*
+     *跳转到下载界面：http://itunes.apple.com/app/idxxxxxxxxx?mt=8
+     *跳转到评分界面：itms-apps://http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=xxxxxxxxx&type=Purple+Software
+    */
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=983206049&type=Purple+Software"]];
+}
+
+- (void)toShareViewController
+{
 //    SetupCenter_ShareViewController *viewController = [[SetupCenter_ShareViewController alloc]init];
 //    
 //    [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)toFeedbackViewController{
+- (void)toFeedbackViewController
+{
 //    SetupCenter_FeedbackViewController *viewController = [[SetupCenter_FeedbackViewController alloc]init];
 //    
 //    [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)toCheckUpdateViewController{
+- (void)toCheckUpdateViewController
+{
     //    SetupCenter_ShareViewController *viewController = [[SetupCenter_ShareViewController alloc]init];
     //
     //    [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)toAboutViewController{
+- (void)toAboutViewController
+{
     AboutViewController *controller = [[AboutViewController alloc]init];
     
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)toWelcomeViewController{
+- (void)toWelcomeViewController
+{
 //    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 //    [appDelegate showWelcomeView];
 }
