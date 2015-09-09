@@ -49,8 +49,7 @@ NSUInteger const kMoreViewSectionButtonTag = 1000;
         NSArray *sectionTitles = @[str_More_Settings, str_More_Help, str_More_Like, str_More_Share, str_More_About];
         
         UIView *view = [self createSectionViewWithTitles:sectionTitles buttonAction:@selector(sectionButtonAction:)];
-//        CGRect frame = view.frame;
-//        view.frame = frame;
+
         [self.layerView addSubview:view];
     }
 }

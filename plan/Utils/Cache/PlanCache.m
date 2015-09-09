@@ -447,7 +447,7 @@ static NSMutableDictionary * __contactsOnlineState;
 + (void)addLocalNotification:(Plan *)plan
 {
     //时间格式：yyyy-MM-dd HH:mm:ss
-    NSDate *date = [CommonFunction NSStringDateToNSDate:plan.notifytime formatter:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *date = [CommonFunction NSStringDateToNSDate:plan.notifytime formatter:@"yyyy-MM-dd HH:mm"];
     NSMutableDictionary *destDic = [NSMutableDictionary dictionary];
     [destDic setObject:plan.planid forKey:@"tag"];
     [destDic setObject:@([date timeIntervalSince1970]) forKey:@"time"];
