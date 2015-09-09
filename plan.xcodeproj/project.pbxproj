@@ -231,13 +231,6 @@
 			path = Help;
 			sourceTree = "<group>";
 		};
-		133B079C1B9FBC620015E752 /* Like */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Like;
-			sourceTree = "<group>";
-		};
 		133B079D1B9FBC620015E752 /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -494,7 +487,6 @@
 			children = (
 				137700E61B953501008C83FD /* About */,
 				133B079B1B9FBC620015E752 /* Help */,
-				133B079C1B9FBC620015E752 /* Like */,
 				137700D91B952EE5008C83FD /* MoreViewController.h */,
 				137700DA1B952EE5008C83FD /* MoreViewController.m */,
 				137700E21B953490008C83FD /* Settings */,
