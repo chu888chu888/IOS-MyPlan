@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "ShareCenter.h"
 #import "HelpViewController.h"
 #import "MoreViewController.h"
 #import "AboutViewController.h"
@@ -187,9 +188,7 @@ NSUInteger const kMoreViewSectionButtonTag = 1000;
 
 - (void)toShareViewController
 {
-//    SetupCenter_ShareViewController *viewController = [[SetupCenter_ShareViewController alloc]init];
-//    
-//    [self.navigationController pushViewController:viewController animated:YES];
+    [ShareCenter showShare:@"标题" content:@"我有计划" shareUrl:str_Website_URL sharedImageURL:@""];
 }
 
 - (void)toFeedbackViewController
