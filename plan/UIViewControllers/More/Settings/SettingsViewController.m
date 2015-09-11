@@ -176,7 +176,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     avatarBg.contentMode = UIViewContentModeScaleAspectFit;
     
     UIImage *avatarImage = [[Config shareInstance] getAvatar];
-    CGFloat avatarSize = bgSize - yDistance * 2;
+    CGFloat avatarSize = bgSize - yDistance;
     UIImageView *avatar = [[UIImageView alloc] initWithFrame:CGRectMake(ceilf((bgSize - avatarSize)/2), ceilf((bgSize - avatarSize)/2), avatarSize, avatarSize)];
     avatar.backgroundColor = [UIColor clearColor];
     avatar.image = avatarImage;
@@ -410,7 +410,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         }
         
         if (text.length == 0) {
-            [weakSelf alertButtonMessage:str_Set_Nickname_Tips3];
+            [weakSelf alertButtonMessage:str_Set_Nickname_Tips1];
             return;
         }
 

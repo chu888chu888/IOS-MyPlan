@@ -66,12 +66,11 @@
 #define str_Settings_SetAvatar_Album @"从相册选择"
 
 #define str_Set_Nickname @"设置昵称"
-#define str_Set_Nickname_Tips1 @"请设置昵称"
+#define str_Set_Nickname_Tips1 @"请输入昵称"
 #define str_Set_Nickname_Tips2 @"昵称不能大于10个字符！"
-#define str_Set_Nickname_Tips3 @"请输入昵称"
 
 #define str_Set_Lifespan @"设置生命"
-#define str_Set_Lifespan_Tips1 @"请设置生命"
+#define str_Set_Lifespan_Tips1 @"请输入生命"
 #define str_Set_Lifespan_Tips2 @"请输入假如你可以活到的岁数"
 #define str_Set_Lifespan_Tips3 @"别闹，请填写正常人的寿命！"
 
@@ -79,12 +78,17 @@
 
 #define str_About_Version @"当前版本："
 #define str_About_Copyright @"© 2015 Andwho Inc."
-#define str_About_Wechat @"微信公众号:疯子乙"
+#define str_About_Wechat @"微信公众号:Andwho"
 #define str_About_Content @"对于世界上大多数人，生命的长度最多不过30000来天。所以，时间对于每一个人都是奢侈品。人生苦短，时间有限，想要成功就得对自己狠一点，从坚持每天给自己定一些计划开始，然后逐个完成它们，让生活更有意义，让生命更有价值。乔布斯说过：活着就是为了改变世界！就算不能改变世界，理想还是要有的，只要坚持不懈，万一哪天就实现了呢？"
 
+
+#define str_Share_Success @"分享成功"
+#define str_Share_Fail @"分享失败"
+#define str_Share_Cancel @"取消分享"
 
 #define str_Avatar @"kAvatar"
 #define str_TableName_Settings @"t_settings"
 #define str_TableName_Plan @"t_plan"
+#define str_Website_URL @"http://www.fengziyi.com"
 
 #endif
