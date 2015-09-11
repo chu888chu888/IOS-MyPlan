@@ -17,6 +17,7 @@
 #define png_Bg_Cell_White @"Bg_Cell_White"
 #define png_Bg_Input_Gray @"Bg_Input_Gray"
 #define png_Bg_Input_Blue @"Bg_Input_Blue"
+#define png_Bg_LaunchImage @"LaunchImage"
 
 #define png_Btn_SectionUp @"Btn_SectionUp"
 #define png_Btn_Plan_Doing @"Btn_Plan_Doing"
