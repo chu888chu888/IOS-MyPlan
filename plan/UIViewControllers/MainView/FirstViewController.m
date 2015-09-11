@@ -115,7 +115,7 @@ NSUInteger const kSecondsPerDay = 86400;
     [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     NSUInteger avatarBgSize = WIDTH_FULL_SCREEN / 3;
-    NSUInteger avatarSize = avatarBgSize - 8;
+    NSUInteger avatarSize = avatarBgSize - 6;
     xMiddle = WIDTH_FULL_SCREEN / 2;
     yOffset = iPhone4 ? HEIGHT_FULL_SCREEN / 28 : HEIGHT_FULL_SCREEN / 15;
     ySpace = HEIGHT_FULL_SCREEN / 25;
