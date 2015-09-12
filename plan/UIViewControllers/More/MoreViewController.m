@@ -12,129 +12,61 @@
 #import "AboutViewController.h"
 #import "SettingsViewController.h"
 
-NSUInteger const kMoreViewSectionShadowHeight = 1;
-NSUInteger const kMoreViewEdgeInset = 15;
-NSUInteger const kMoreViewCellHeight = 50;
-NSUInteger const kMoreViewSectionButtonTag = 1000;
 
-@interface MoreViewController()
+@implementation MoreViewController{
 
-@property (strong, nonatomic) UIView *layerView;
-
-@end
-
-@implementation MoreViewController
+    NSArray *rowTitles;
+}
 
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     
     self.title = str_More;
+    
+    UIView *footer = [[UIView alloc] init];
+    self.tableView.tableFooterView = footer;
+    
+    rowTitles = @[str_More_Settings, str_More_Help, str_More_Like, str_More_Share, str_More_About];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    if (!self.layerView) {
-        
-        [self loadCustomView];
-    }
-}
-
-- (void)loadCustomView{
-    self.layerView = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.layerView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.layerView];
-    
-    {
-        NSArray *sectionTitles = @[str_More_Settings, str_More_Help, str_More_Like, str_More_Share, str_More_About];
-        
-        UIView *view = [self createSectionViewWithTitles:sectionTitles buttonAction:@selector(sectionButtonAction:)];
-
-        [self.layerView addSubview:view];
-    }
-}
-
-- (UIView *)createSectionViewWithTitles:(NSArray *)sectionTitles buttonAction:(SEL)action{
-    UIView *sectionBackgroundView = [self createSectionBackgroundView];
-    
-    NSUInteger yOffset = kMoreViewSectionShadowHeight;
-    {
-        CGRect frame = CGRectZero;
-        frame.origin.x = 0;
-        frame.size.width = CGRectGetWidth(self.layerView.bounds);
-        frame.size.height = kMoreViewCellHeight;
-        
-        for (NSString *title in sectionTitles) {
-            
-            frame.origin.y = yOffset;
-            yOffset = CGRectGetMaxY(frame);
-            
-            NSUInteger index = [sectionTitles indexOfObject:title];
-            
-            UIButton *button = [self createButtonView];
-            button.frame = frame;
-            [button setAllTitle:title];
-            [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-            button.tag = kMoreViewSectionButtonTag + index;
-            
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width - 25, 12.5, 16, 25)];
-            [imageView setImage:[UIImage imageNamed:png_Icon_Arrow_Right]];
-            [button addSubview:imageView];
-            
-            [sectionBackgroundView addSubview:button];
-            if (index != sectionTitles.count - 1) {
-                [self addLineForView:button];
-            }
-        }
-    }
-    
-    CGRect frame = CGRectZero;
-    frame.size.width = CGRectGetWidth(self.layerView.bounds);
-    frame.size.height = yOffset + kMoreViewSectionShadowHeight;
-    sectionBackgroundView.frame = frame;
-    
-    return sectionBackgroundView;
-}
-
-- (UIView *)createSectionBackgroundView{
-    UIImage *image = [UIImage imageNamed:png_Bg_Cell_White];
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.backgroundColor = [UIColor clearColor];
-    imageView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    imageView.userInteractionEnabled = YES;
-    
-    return imageView;
-}
-
-- (UIButton *)createButtonView{
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.backgroundColor = [UIColor clearColor];
-    button.exclusiveTouch = YES;
-    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [button setAllTitleColor:color_GrayDark];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, kMoreViewEdgeInset, 0, 0)];
-    [button setBackgroundImage:[UIImage imageForSelectedBlue] forState:UIControlStateHighlighted];
-    
-    return button;
-}
-
-- (void)addLineForView:(UIView *)view{
-    CGRect frame = CGRectZero;
-    frame.origin.x = kMoreViewEdgeInset;
-    frame.origin.y = CGRectGetHeight(view.bounds) - 1;
-    frame.size.width = CGRectGetWidth(view.bounds) - kMoreViewEdgeInset;
-    frame.size.height = 1;
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:frame];
-    lineView.backgroundColor = color_GrayLight;
-    [view addSubview:lineView];
-}
-
-- (void)sectionButtonAction:(UIButton *)button
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    switch (button.tag - kMoreViewSectionButtonTag) {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50.f;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"UITableViewCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    if (indexPath.row >= rowTitles.count) {
+        return cell;
+    }
+    
+    cell.detailTextLabel.text = rowTitles[indexPath.row];
+    cell.detailTextLabel.textColor = color_GrayDark;
+    cell.detailTextLabel.font = font_Normal_18;
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
         case 0:
             [self toPersonSettingViewController];
             break;
@@ -148,16 +80,8 @@ NSUInteger const kMoreViewSectionButtonTag = 1000;
             [self toShareViewController];
             break;
         case 4:
-//            [self toFeedbackViewController];
-//            break;
-        case 5:
-//            [self toCheckUpdateViewController];
-//            break;
-        case 6:
             [self toAboutViewController];
             break;
-        case 7:
-//            [self toWelcomeViewController];
         default:
             break;
     }
@@ -188,21 +112,7 @@ NSUInteger const kMoreViewSectionButtonTag = 1000;
 
 - (void)toShareViewController
 {
-    [ShareCenter showShare:@"标题" content:@"我有计划" shareUrl:str_Website_URL sharedImageURL:@""];
-}
-
-- (void)toFeedbackViewController
-{
-//    SetupCenter_FeedbackViewController *viewController = [[SetupCenter_FeedbackViewController alloc]init];
-//    
-//    [self.navigationController pushViewController:viewController animated:YES];
-}
-
-- (void)toCheckUpdateViewController
-{
-    //    SetupCenter_ShareViewController *viewController = [[SetupCenter_ShareViewController alloc]init];
-    //
-    //    [self.navigationController pushViewController:viewController animated:YES];
+    [ShareCenter showShareActionSheet:self.view title:str_App_Title content:str_Share_Content shareUrl:str_Website_URL sharedImageURL:@""];
 }
 
 - (void)toAboutViewController
@@ -211,12 +121,5 @@ NSUInteger const kMoreViewSectionButtonTag = 1000;
     
     [self.navigationController pushViewController:controller animated:YES];
 }
-
-- (void)toWelcomeViewController
-{
-//    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    [appDelegate showWelcomeView];
-}
-
 
 @end

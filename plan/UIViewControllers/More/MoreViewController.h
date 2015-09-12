@@ -6,8 +6,6 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
-#import "FatherViewController.h"
-
-@interface MoreViewController : FatherViewController
+@interface MoreViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
