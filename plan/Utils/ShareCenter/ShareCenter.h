@@ -11,9 +11,15 @@
 #import "WeiboUser.h"
 #import <ShareSDK/ShareSDK.h>
 #import <Foundation/Foundation.h>
+#import <ShareSDK/ShareSDK+Base.h>
+#import <ShareSDKUI/ShareSDK+SSUI.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/QQApiInterface.h>
+#import <ShareSDKExtension/SSEShareHelper.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
+#import <ShareSDKUI/SSUIShareActionSheetStyle.h>
+#import <ShareSDKUI/SSUIShareActionSheetCustomItem.h>
+
 
 @interface ShareCenter : NSObject
 
@@ -21,30 +27,6 @@
 + (void)registerShareSDK;
 
 
-//分享一个容器
-//+(void) showSharedView:(UIView *)sender url:(NSString *)shareUrl title:(NSString*)title content:(NSString *)content img:(NSString *)sharedImageURL;
-
-//直接分享某一项内容
-+ (void)showShare:(NSString *)title content:(NSString*)content shareUrl:(NSString *)shareUrl sharedImageURL:(NSString *)sharedImageURL;
-
-//#if TencenQQ_Shared
-////QQ 登录
-//+(void) QQLogin:(SSGetUserInfoEventHandler) loginbk;
-//#endif
-////取消qq授权
-//+(void) cancelAuthWithQQ;
-//
-////qq是否授权
-//+ (BOOL)hasAuthorizedWithQQ;
-//
-//
-////新浪微博登录
-//+(void) SinzLogin:(SSGetUserInfoEventHandler) loginbk;
-//
-////取消新浪授权
-//+(void) cancelAuthWithSina;
-//
-////新浪是否授权
-//+ (BOOL)hasAuthorizedWithSina;
++ (void)showShareActionSheet:(UIView *)view title:(NSString *)title content:(NSString*)content shareUrl:(NSString *)shareUrl sharedImageURL:(NSString *)sharedImageURL;;
 
 @end

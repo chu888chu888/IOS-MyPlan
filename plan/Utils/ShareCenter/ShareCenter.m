@@ -47,40 +47,74 @@
 
 }
 
-+ (void)showShare:(NSString *)title content:(NSString *)content shareUrl:(NSString *)shareUrl sharedImageURL:(NSString *)sharedImageURL
+/**
+ *  显示分享菜单
+ *
+ *  @param view 容器视图
+ */
++ (void)showShareActionSheet:(UIView *)view title:(NSString *)title content:(NSString *)content shareUrl:(NSString *)shareUrl sharedImageURL:(NSString *)sharedImageURL
 {
-    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-
     if (!shareUrl || [shareUrl isEqualToString:@""]) {
         shareUrl = str_Website_URL;
     }
+    //1、创建分享参数
+    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+    NSArray* imageArray = @[[UIImage imageNamed:png_Icon_Logo_512]];
+    [shareParams SSDKSetupShareParamsByText:content
+                                     images:imageArray
+                                        url:[NSURL URLWithString:shareUrl]
+                                      title:title
+                                       type:SSDKContentTypeAuto];
     
-    UIImage *image = [UIImage imageNamed:png_Icon_Logo_512];
+    //1.2、自定义分享平台
+    NSMutableArray *activePlatforms = [NSMutableArray arrayWithArray:@[@(SSDKPlatformTypeSinaWeibo), @(SSDKPlatformSubTypeWechatSession), @(SSDKPlatformSubTypeWechatTimeline), @(SSDKPlatformSubTypeQQFriend), @(SSDKPlatformSubTypeQZone), @(SSDKPlatformTypeWechat), @(SSDKPlatformTypeQQ)]];
     
-    [shareParams SSDKSetupShareParamsByText:content images:image url:[NSURL URLWithString:shareUrl] title:title type:SSDKContentTypeImage];
-    
-    [ShareSDK share:SSDKPlatformTypeSinaWeibo parameters:shareParams onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
-        
-        switch (state) {
-            case SSDKResponseStateSuccess:
-                [AlertCenter alertToastMessage:str_Share_Success];
-                break;
-            case SSDKResponseStateFail:
-                [AlertCenter alertToastMessage:str_Share_Fail];
-                break;
-            case SSDKResponseStateCancel:
-                [AlertCenter alertToastMessage:str_Share_Cancel];
-                break;
-
-            default:
-                break;
-        }
-        
-    }];
-}
-
-+ (void)shareWithShareType:(SSDKPlatformType)shareType title:(NSString *)title
-{
+    //2、分享
+    [ShareSDK showShareActionSheet:view
+                             items:activePlatforms
+                       shareParams:shareParams
+               onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
+                   
+                   switch (state) {
+                           
+                       case SSDKResponseStateBegin:
+                       {
+                           break;
+                       }
+                       case SSDKResponseStateSuccess:
+                       {
+                           [AlertCenter alertToastMessage:str_Share_Success];
+                           break;
+                       }
+                       case SSDKResponseStateFail:
+                       {
+                           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str_Share_Fail
+                                                                           message:[NSString stringWithFormat:@"%@",error]
+                                                                          delegate:nil
+                                                                 cancelButtonTitle:str_OK
+                                                                 otherButtonTitles:nil, nil];
+                           [alert show];
+                           break;
+                       }
+                       case SSDKResponseStateCancel:
+                       {
+//                           UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str_Share_Cancel
+//                                                                               message:nil
+//                                                                              delegate:nil
+//                                                                     cancelButtonTitle:str_OK
+//                                                                     otherButtonTitles:nil];
+//                           [alertView show];
+                           break;
+                       }
+                       default:
+                           break;
+                   }
+                   
+                   if (state != SSDKResponseStateBegin)
+                   {
+                   }
+                   
+               }];
 }
 
 @end
