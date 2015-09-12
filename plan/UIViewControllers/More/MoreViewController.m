@@ -103,11 +103,7 @@
 
 - (void)toLike
 {
-    /*
-     *跳转到下载界面：http://itunes.apple.com/app/idxxxxxxxxx?mt=8
-     *跳转到评分界面：itms-apps://http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=xxxxxxxxx&type=Purple+Software
-    */
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=983206049&type=Purple+Software"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/app/id983206049?mt=8"]];
 }
 
 - (void)toShareViewController
