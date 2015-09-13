@@ -397,8 +397,10 @@ NSUInteger const kPlanCellDeleteTag = 9527;
                 cell.contentLabel.text = plan.content;
                 cell.isDone = plan.iscompleted;
                 if ([plan.iscompleted isEqualToString:@"1"]) {
+                    cell.moveContentView.backgroundColor = color_Green_Mint;
                     cell.backgroundColor = color_Green_Mint;
                 } else {
+                    cell.moveContentView.backgroundColor = [UIColor whiteColor];
                     cell.backgroundColor = [UIColor whiteColor];
                 }
                 
@@ -475,10 +477,10 @@ NSUInteger const kPlanCellDeleteTag = 9527;
             cell.contentLabel.text = plan.content;
             cell.isDone = plan.iscompleted;
             if ([plan.iscompleted isEqualToString:@"1"]) {
-
+                cell.moveContentView.backgroundColor = color_Green_Mint;
                 cell.backgroundColor = color_Green_Mint;
             } else {
-
+                cell.moveContentView.backgroundColor = [UIColor whiteColor];
                 cell.backgroundColor = [UIColor whiteColor];
             }
             cell.delegate = self;
@@ -738,7 +740,8 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
 }
 
--(void)setCanCustomEdit:(BOOL)canCustomEdit{
+-(void)setCanCustomEdit:(BOOL)canCustomEdit
+{
     if (_canCustomEdit != canCustomEdit) {
         _canCustomEdit = canCustomEdit;
         
@@ -759,7 +762,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
                 
                 self.planLifeTableView.scrollEnabled = NO;
             }
-        }else{
+        } else {
             
             planCell = nil;
             [hitView removeFromSuperview];
@@ -775,7 +778,8 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (planCell == [tableView cellForRowAtIndexPath:indexPath]) {
         [planCell hideMenuView:YES Animated:YES ];
         return NO;
@@ -783,7 +787,8 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     return YES;
 }
 
--(UIView *)hitViewHitTest:(CGPoint)point withEvent:(UIEvent *)event TouchView:(UIView *)aView{
+-(UIView *)hitViewHitTest:(CGPoint)point withEvent:(UIEvent *)event TouchView:(UIView *)aView
+{
     BOOL vCloudReceiveTouch = NO;
     
     CGRect vSlidedCellRect;
@@ -801,22 +806,26 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     return vCloudReceiveTouch ? [planCell hitTest:point withEvent:event] : aView;
 }
 
--(void)didCellWillShow:(id)aSender{
+-(void)didCellWillShow:(id)aSender
+{
     planCell = aSender;
     self.canCustomEdit = YES;
 }
 
--(void)didCellWillHide:(id)aSender{
+-(void)didCellWillHide:(id)aSender
+{
     planCell = nil;
     self.canCustomEdit = NO;
 }
 
--(void)didCellHided:(id)aSender{
+-(void)didCellHided:(id)aSender
+{
     planCell = nil;
     self.canCustomEdit = NO;
 }
 
--(void)didCellShowed:(id)aSender{
+-(void)didCellShowed:(id)aSender
+{
     planCell = aSender;
     self.canCustomEdit = YES;
 }

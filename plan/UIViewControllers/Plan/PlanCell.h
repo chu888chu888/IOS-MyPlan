@@ -29,15 +29,11 @@ extern NSUInteger const kPlanCellHeight;
     BOOL    hideMenuView;
 }
 
-@property (strong, nonatomic) IBOutlet UIView *moveContentView;
-
-@property (nonatomic,assign) id<PlanCellDelegate> delegate;
+@property (nonatomic, strong) IBOutlet UIView *moveContentView;
+@property (nonatomic, assign) id<PlanCellDelegate> delegate;
 @property (nonatomic, strong) UILabel *contentLabel;
 @property (nonatomic, strong) NSString *isDone; //1是 0否
-
-
 @property (nonatomic, strong) Plan *plan;
-
 
 -(void)hideMenuView:(BOOL)aHide Animated:(BOOL)aAnimate;
 -(void)addControl;

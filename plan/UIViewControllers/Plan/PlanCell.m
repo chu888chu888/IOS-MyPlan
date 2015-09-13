@@ -8,9 +8,9 @@
 
 #import "PlanCell.h"
 
-#define BOUNENCE 30
 
 NSUInteger const kPlanCellHeight = 60;
+NSUInteger const kBounceSpace = 20;
 
 @implementation PlanCell{
     
@@ -24,7 +24,7 @@ NSUInteger const kPlanCellHeight = 60;
         // Initialization code
         if (_moveContentView == nil) {
             _moveContentView = [[UIView alloc] init];
-            _moveContentView.backgroundColor = [UIColor clearColor];
+            _moveContentView.backgroundColor = [UIColor whiteColor];
         }
         [self.contentView addSubview:_moveContentView];
         [self setBackgroundColor:[UIColor whiteColor]];
@@ -44,7 +44,8 @@ NSUInteger const kPlanCellHeight = 60;
     [self addControl];
 }
 
--(void)addControl{
+-(void)addControl
+{
     
     UIView *menuContetnView = [[UIView alloc] init];
     menuContetnView.hidden = YES;
@@ -62,7 +63,7 @@ NSUInteger const kPlanCellHeight = 60;
     [vDeleteButton addTarget:self action:@selector(deleteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [vDeleteButton setTag:1002];
     
-    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, WIDTH_FULL_SCREEN - 24, 60)];
+    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, WIDTH_FULL_SCREEN - 24, kPlanCellHeight)];
     _contentLabel.textColor = color_GrayDark;
     [_contentLabel setFont:font_Normal_20];
     [_contentLabel setNumberOfLines:1];
@@ -83,9 +84,10 @@ NSUInteger const kPlanCellHeight = 60;
     
 }
 
-- (void)layoutSubviews{
+- (void)layoutSubviews
+{
     [super layoutSubviews];
-    NSLog(@"layoutSubviews:_moveContentView:%@",NSStringFromCGRect(self.contentView.frame));
+
     [_moveContentView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     UIView *vMenuView = [self.contentView viewWithTag:100];
     vMenuView.frame =CGRectMake(self.frame.size.width - kPlanCellHeight * 2, 0, kPlanCellHeight * 2, self.frame.size.height);
@@ -99,7 +101,6 @@ NSUInteger const kPlanCellHeight = 60;
 //此方法和下面的方法很重要,对ios 5SDK 设置不被Helighted
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    // Configure the view for the selected state
     UIView *vMenuView = [self.contentView viewWithTag:100];
     if (vMenuView.hidden == YES) {
         [super setSelected:selected animated:animated];
@@ -113,17 +114,20 @@ NSUInteger const kPlanCellHeight = 60;
     }
 }
 
--(void)prepareForReuse{
+-(void)prepareForReuse
+{
     self.contentView.clipsToBounds = YES;
     [self hideMenuView:YES Animated:NO];
 }
 
 
--(CGFloat)getMaxMenuWidth{
+-(CGFloat)getMaxMenuWidth
+{
     return kPlanCellHeight * 2;
 }
 
--(void)enableSubviewUserInteraction:(BOOL)aEnable{
+-(void)enableSubviewUserInteraction:(BOOL)aEnable
+{
     if (aEnable) {
         for (UIView *aSubView in self.contentView.subviews) {
             aSubView.userInteractionEnabled = YES;
@@ -138,7 +142,8 @@ NSUInteger const kPlanCellHeight = 60;
     }
 }
 
--(void)hideMenuView:(BOOL)aHide Animated:(BOOL)aAnimate{
+-(void)hideMenuView:(BOOL)aHide Animated:(BOOL)aAnimate
+{
     if (self.selected) {
         [self setSelected:NO animated:NO];
     }
@@ -170,7 +175,8 @@ NSUInteger const kPlanCellHeight = 60;
 }
 
 
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer{
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
+{
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         CGPoint vTranslationPoint = [gestureRecognizer translationInView:self.contentView];
         return fabs(vTranslationPoint.x) > fabs(vTranslationPoint.y);
@@ -178,7 +184,8 @@ NSUInteger const kPlanCellHeight = 60;
     return YES;
 }
 
--(void)handlePan:(UIPanGestureRecognizer *)sender{
+-(void)handlePan:(UIPanGestureRecognizer *)sender
+{
     
     if (sender.state == UIGestureRecognizerStateBegan) {
         startLocation = [sender locationInView:self.contentView].x;
@@ -198,13 +205,12 @@ NSUInteger const kPlanCellHeight = 60;
         startLocation = vCurrentLocation;
         
         CGRect vCurrentRect = _moveContentView.frame;
-        CGFloat vOriginX = MAX(-[self getMaxMenuWidth] - BOUNENCE, vCurrentRect.origin.x + vDistance);
-        vOriginX = MIN(0 + BOUNENCE, vOriginX);
+        CGFloat vOriginX = MAX(-[self getMaxMenuWidth] - kBounceSpace, vCurrentRect.origin.x + vDistance);
+        vOriginX = MIN(0 + kBounceSpace, vOriginX);
         _moveContentView.frame = CGRectMake(vOriginX, vCurrentRect.origin.y, vCurrentRect.size.width, vCurrentRect.size.height);
         
         CGFloat direction = [sender velocityInView:self.contentView].x;
-        NSLog(@"direction:%f",direction);
-        NSLog(@"vOriginX:%f",vOriginX);
+
         if (direction < - 30.0 || vOriginX <  - (0.5 * [self getMaxMenuWidth])) {
             hideMenuView = NO;
             UIView *vMenuView = [self.contentView viewWithTag:100];
@@ -226,19 +232,22 @@ NSUInteger const kPlanCellHeight = 60;
     }
 }
 
--(void)didContentClicked:(id)aSender{
+-(void)didContentClicked:(id)aSender
+{
     if ([_delegate respondsToSelector:@selector(didCellClicked:)]) {
         [_delegate didCellClicked:self];
     }
 }
 
--(void)deleteButtonClicked:(id)sender{
+-(void)deleteButtonClicked:(id)sender
+{
     if ([_delegate respondsToSelector:@selector(didCellClickedDeleteButton:)]) {
         [_delegate didCellClickedDeleteButton:self];
     }
 }
 
--(void)doneButtonClicked:(id)sender{
+-(void)doneButtonClicked:(id)sender
+{
     
     [self.superview sendSubviewToBack:self];
     if ([_delegate respondsToSelector:@selector(didCellClickedDoneButton:)]) {
