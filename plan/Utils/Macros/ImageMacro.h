@@ -21,7 +21,7 @@
 
 #define png_Btn_SectionUp @"Btn_SectionUp"
 #define png_Btn_Plan_Doing @"Btn_Plan_Doing"
-#define png_Btn_Plan_Completed @"Btn_Plan_Completed"
+#define png_Btn_Plan_Done @"Btn_Plan_Done"
 #define png_Btn_Plan_Delete @"Btn_Plan_Delete"
 #define png_Icon_Arrow_Right @"Icon_Arrow_Right"
 #define png_Icon_Logo_512 @"Icon_Logo_512"
