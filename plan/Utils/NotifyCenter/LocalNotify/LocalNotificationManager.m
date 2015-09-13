@@ -17,7 +17,7 @@ static LocalNotificationManager * instance = nil;
 {
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     //如果时间已到，则不继续添加通知
-    if ([fireDate compare:[NSDate date]] == NSOrderedAscending) {
+    if (!fireDate || [fireDate compare:[NSDate date]] == NSOrderedAscending) {
         return;
     }
     NSArray *arry = [LocalNotificationManager getAllLocalNotification];

@@ -448,6 +448,9 @@ static NSMutableDictionary * __contactsOnlineState;
 {
     //时间格式：yyyy-MM-dd HH:mm:ss
     NSDate *date = [CommonFunction NSStringDateToNSDate:plan.notifytime formatter:@"yyyy-MM-dd HH:mm"];
+    if (!date) {
+        return;
+    }
     NSMutableDictionary *destDic = [NSMutableDictionary dictionary];
     [destDic setObject:plan.planid forKey:@"tag"];
     [destDic setObject:@([date timeIntervalSince1970]) forKey:@"time"];
