@@ -42,6 +42,9 @@
 		133B08081BA25B720015E752 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B08071BA25B720015E752 /* MediaPlayer.framework */; };
 		133B080A1BA25B7A0015E752 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B08091BA25B7A0015E752 /* AssetsLibrary.framework */; };
 		133B080C1BA25B850015E752 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B080B1BA25B850015E752 /* AddressBook.framework */; };
+		133B083D1BA439560015E752 /* HitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 133B083C1BA439560015E752 /* HitView.m */; };
+		133B08431BA458610015E752 /* PlanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 133B08411BA458610015E752 /* PlanCell.m */; };
+		133B08441BA458610015E752 /* PlanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 133B08421BA458610015E752 /* PlanCell.xib */; };
 		135B21891B900394005CE84A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B21881B900394005CE84A /* main.m */; };
 		135B218C1B900394005CE84A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B218B1B900394005CE84A /* AppDelegate.m */; };
 		135B21971B900394005CE84A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 135B21961B900394005CE84A /* Images.xcassets */; };
@@ -64,8 +67,7 @@
 		135B221F1B92E74C005CE84A /* PromptMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B221E1B92E74C005CE84A /* PromptMessage.m */; };
 		135B22221B92E837005CE84A /* UILabel+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B22211B92E837005CE84A /* UILabel+Util.m */; };
 		135B22281B92F4C1005CE84A /* Btn_SectionUp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B22271B92F4C1005CE84A /* Btn_SectionUp@2x.png */; };
-		135B222B1B92FDEB005CE84A /* PlanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B222A1B92FDEB005CE84A /* PlanCell.m */; };
-		135B222F1B9301C9005CE84A /* Btn_Plan_Completed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B222C1B9301C9005CE84A /* Btn_Plan_Completed@2x.png */; };
+		135B222F1B9301C9005CE84A /* Btn_Plan_Done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B222C1B9301C9005CE84A /* Btn_Plan_Done@2x.png */; };
 		135B22301B9301C9005CE84A /* Btn_Plan_Delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B222D1B9301C9005CE84A /* Btn_Plan_Delete@2x.png */; };
 		135B22311B9301C9005CE84A /* Btn_Plan_Doing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B222E1B9301C9005CE84A /* Btn_Plan_Doing@2x.png */; };
 		135B22341B932A4F005CE84A /* AddPlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B22331B932A4F005CE84A /* AddPlanViewController.m */; };
@@ -155,6 +157,11 @@
 		133B08071BA25B720015E752 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		133B08091BA25B7A0015E752 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		133B080B1BA25B850015E752 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		133B083B1BA439560015E752 /* HitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HitView.h; sourceTree = "<group>"; };
+		133B083C1BA439560015E752 /* HitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HitView.m; sourceTree = "<group>"; };
+		133B08401BA458610015E752 /* PlanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlanCell.h; sourceTree = "<group>"; };
+		133B08411BA458610015E752 /* PlanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlanCell.m; sourceTree = "<group>"; };
+		133B08421BA458610015E752 /* PlanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlanCell.xib; sourceTree = "<group>"; };
 		135B21831B900394005CE84A /* plan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = plan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		135B21871B900394005CE84A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		135B21881B900394005CE84A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -208,9 +215,7 @@
 		135B22241B92EE1A005CE84A /* PlanSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlanSectionView.h; sourceTree = "<group>"; };
 		135B22251B92EE1A005CE84A /* PlanSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlanSectionView.m; sourceTree = "<group>"; };
 		135B22271B92F4C1005CE84A /* Btn_SectionUp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_SectionUp@2x.png"; sourceTree = "<group>"; };
-		135B22291B92FDEB005CE84A /* PlanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlanCell.h; sourceTree = "<group>"; };
-		135B222A1B92FDEB005CE84A /* PlanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlanCell.m; sourceTree = "<group>"; };
-		135B222C1B9301C9005CE84A /* Btn_Plan_Completed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Plan_Completed@2x.png"; sourceTree = "<group>"; };
+		135B222C1B9301C9005CE84A /* Btn_Plan_Done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Plan_Done@2x.png"; sourceTree = "<group>"; };
 		135B222D1B9301C9005CE84A /* Btn_Plan_Delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Plan_Delete@2x.png"; sourceTree = "<group>"; };
 		135B222E1B9301C9005CE84A /* Btn_Plan_Doing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Plan_Doing@2x.png"; sourceTree = "<group>"; };
 		135B22321B932A4F005CE84A /* AddPlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPlanViewController.h; sourceTree = "<group>"; };
@@ -321,13 +326,6 @@
 				133B07A11B9FBCA30015E752 /* HelpViewController.m */,
 			);
 			path = Help;
-			sourceTree = "<group>";
-		};
-		133B079D1B9FBC620015E752 /* Share */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Share;
 			sourceTree = "<group>";
 		};
 		133B07B51BA132B70015E752 /* SDK */ = {
@@ -523,6 +521,8 @@
 			children = (
 				135B21B11B900FFE005CE84A /* ThreeSubView.h */,
 				135B21B21B900FFE005CE84A /* ThreeSubView.m */,
+				133B083B1BA439560015E752 /* HitView.h */,
+				133B083C1BA439560015E752 /* HitView.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -620,7 +620,7 @@
 			isa = PBXGroup;
 			children = (
 				135B22351B932C45005CE84A /* Btn_Save@2x.png */,
-				135B222C1B9301C9005CE84A /* Btn_Plan_Completed@2x.png */,
+				135B222C1B9301C9005CE84A /* Btn_Plan_Done@2x.png */,
 				135B222D1B9301C9005CE84A /* Btn_Plan_Delete@2x.png */,
 				135B222E1B9301C9005CE84A /* Btn_Plan_Doing@2x.png */,
 				135B22271B92F4C1005CE84A /* Btn_SectionUp@2x.png */,
@@ -676,10 +676,11 @@
 			children = (
 				135B22241B92EE1A005CE84A /* PlanSectionView.h */,
 				135B22251B92EE1A005CE84A /* PlanSectionView.m */,
-				135B22291B92FDEB005CE84A /* PlanCell.h */,
-				135B222A1B92FDEB005CE84A /* PlanCell.m */,
 				135B22321B932A4F005CE84A /* AddPlanViewController.h */,
 				135B22331B932A4F005CE84A /* AddPlanViewController.m */,
+				133B08401BA458610015E752 /* PlanCell.h */,
+				133B08411BA458610015E752 /* PlanCell.m */,
+				133B08421BA458610015E752 /* PlanCell.xib */,
 			);
 			path = Plan;
 			sourceTree = "<group>";
@@ -692,7 +693,6 @@
 				137700D91B952EE5008C83FD /* MoreViewController.h */,
 				137700DA1B952EE5008C83FD /* MoreViewController.m */,
 				137700E21B953490008C83FD /* Settings */,
-				133B079D1B9FBC620015E752 /* Share */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -847,9 +847,10 @@
 				135B21CD1B909644005CE84A /* avatarBg@2x.png in Resources */,
 				133B07E21BA132B70015E752 /* WeiboSDK.bundle in Resources */,
 				135B22301B9301C9005CE84A /* Btn_Plan_Delete@2x.png in Resources */,
+				133B08441BA458610015E752 /* PlanCell.xib in Resources */,
 				135B22361B932C45005CE84A /* Btn_Save@2x.png in Resources */,
 				137701091B95DF67008C83FD /* Icon_Gender_M_Selected@2x.png in Resources */,
-				135B222F1B9301C9005CE84A /* Btn_Plan_Completed@2x.png in Resources */,
+				135B222F1B9301C9005CE84A /* Btn_Plan_Done@2x.png in Resources */,
 				133B07E91BA132B70015E752 /* ShareSDKUI.bundle in Resources */,
 				133B07DF1BA132B70015E752 /* RennSDK.bundle in Resources */,
 				137700DE1B953226008C83FD /* Icon_Arrow_Right@2x.png in Resources */,
@@ -923,6 +924,7 @@
 				137700BA1B93E290008C83FD /* PlanSectionView.m in Sources */,
 				137700E11B95335E008C83FD /* UIImage+Util.m in Sources */,
 				135B21E71B913EAF005CE84A /* ModelBase.m in Sources */,
+				133B083D1BA439560015E752 /* HitView.m in Sources */,
 				135B221F1B92E74C005CE84A /* PromptMessage.m in Sources */,
 				132263781B9825D400D21637 /* UIDevice+Util.m in Sources */,
 				133B07FA1BA138B90015E752 /* ShareCenter.m in Sources */,
@@ -933,6 +935,7 @@
 				135B21ED1B9142BE005CE84A /* Plan.m in Sources */,
 				135B21E41B913E46005CE84A /* Settings.m in Sources */,
 				135B218C1B900394005CE84A /* AppDelegate.m in Sources */,
+				133B08431BA458610015E752 /* PlanCell.m in Sources */,
 				137700E51B9534A4008C83FD /* SettingsViewController.m in Sources */,
 				1377010C1B967F31008C83FD /* SettingsSetTextViewController.m in Sources */,
 				135B21B31B900FFE005CE84A /* ThreeSubView.m in Sources */,
@@ -940,7 +943,6 @@
 				135B21DC1B90A145005CE84A /* UIButton+Util.m in Sources */,
 				135B221C1B92E72A005CE84A /* AlertCenter.m in Sources */,
 				135B22151B92C0D4005CE84A /* FatherViewController.m in Sources */,
-				135B222B1B92FDEB005CE84A /* PlanCell.m in Sources */,
 				135B21E01B9136A4005CE84A /* PlanCache.m in Sources */,
 				137700E91B953521008C83FD /* AboutViewController.m in Sources */,
 				132263A21B9C7DC200D21637 /* LocalNotificationManager.m in Sources */,

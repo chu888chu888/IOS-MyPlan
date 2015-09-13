@@ -2,37 +2,44 @@
 //  PlanCell.h
 //  plan
 //
-//  Created by Fengzy on 15/8/30.
+//  Created by Fengzy on 15/9/12.
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "Plan.h"
 #import <UIKit/UIKit.h>
-
-typedef enum {
-    kCellStateCenter,
-    kCellStateLeft,
-    kCellStateRight
-} CellState;
 
 extern NSUInteger const kPlanCellHeight;
 
-typedef void(^PlanCellDetailBlock)();
+@protocol PlanCellDelegate <NSObject>
 
-typedef void(^PlanCellCompleteBlock)();
+-(void)didCellWillHide:(id)aSender;
+-(void)didCellHided:(id)aSender;
+-(void)didCellWillShow:(id)aSender;
+-(void)didCellShowed:(id)aSender;
+-(void)didCellClicked:(id)aSender;
+-(void)didCellClickedDoneButton:(id)aSender;
+-(void)didCellClickedDeleteButton:(id)aSender;
 
-typedef void(^PlanCellDeleteBlock)();
+@end
 
-@interface PlanCell : UITableViewCell
+@interface PlanCell : UITableViewCell<UIGestureRecognizerDelegate>
+{
+    CGFloat startLocation;
+    BOOL    hideMenuView;
+}
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+@property (strong, nonatomic) IBOutlet UIView *moveContentView;
 
-@property (nonatomic, copy) PlanCellDetailBlock detailBlock;
-@property (nonatomic, copy) PlanCellCompleteBlock completeBlock;
-@property (nonatomic, copy) PlanCellDeleteBlock deleteBlock;
-
+@property (nonatomic,assign) id<PlanCellDelegate> delegate;
 @property (nonatomic, strong) UILabel *contentLabel;
-@property (nonatomic, strong) NSString *isCompleted; //1是 0否
-@property (nonatomic, strong, readwrite) UIButton *completedButton;
-@property (nonatomic, strong, readwrite) UIButton *deleteButton;
+@property (nonatomic, strong) NSString *isDone; //1是 0否
+
+
+@property (nonatomic, strong) Plan *plan;
+
+
+-(void)hideMenuView:(BOOL)aHide Animated:(BOOL)aAnimate;
+-(void)addControl;
 
 @end

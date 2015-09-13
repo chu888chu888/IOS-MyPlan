@@ -7,6 +7,7 @@
 //
 
 #import "Plan.h"
+#import "HitView.h"
 #import "PlanCell.h"
 #import "PlanCache.h"
 #import "ThreeSubView.h"
@@ -17,8 +18,13 @@
 NSUInteger const kPlan_MenuHeight = 44;
 NSUInteger const kPlan_MenuLineHeight = 3;
 NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
+NSUInteger const kPlanCellDeleteTag = 9527;
 
-@interface SecondViewController ()<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface SecondViewController ()<UITableViewDataSource, UITableViewDelegate, PlanCellDelegate, HitViewDelegate>
+{
+    PlanCell *planCell;
+    HitView *hitView;
+}
 
 @property (nonatomic, assign) PlanType planType;
 @property (nonatomic, weak) ThreeSubView *threeSubView;
@@ -30,6 +36,7 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
 @property (nonatomic, strong) NSDictionary *planEverydayDic;
 @property (nonatomic, strong) Plan *deletePlan;
 @property (nonatomic, assign) BOOL *flag;
+@property (nonatomic, assign) BOOL canCustomEdit;
 
 @end
 
@@ -37,7 +44,6 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
     self.title = str_ViewTitle_2;
     self.tabBarItem.title = str_ViewTitle_2;
@@ -59,7 +65,6 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)refreshTableData:(NSNotification*)notification
@@ -298,13 +303,16 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
     tableView.delegate = self;
     tableView.showsHorizontalScrollIndicator = NO;
     tableView.showsVerticalScrollIndicator = NO;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     tableView.rowHeight = kPlanCellHeight;
     {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 5)];
-        view.backgroundColor = [UIColor clearColor];
-        tableView.tableHeaderView = view;
+        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 5)];
+        header.backgroundColor = [UIColor clearColor];
+        tableView.tableHeaderView = header;
+    }
+    {
+        UIView *footer = [[UIView alloc] init];
+        tableView.tableFooterView = footer;
     }
     return tableView;
 }
@@ -385,35 +393,16 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
                 
                 Plan *plan = planArray[indexPath.row];
 
+                cell.plan = plan;
                 cell.contentLabel.text = plan.content;
-                cell.isCompleted = plan.iscompleted;
+                cell.isDone = plan.iscompleted;
                 if ([plan.iscompleted isEqualToString:@"1"]) {
                     cell.backgroundColor = color_Green_Mint;
                 } else {
                     cell.backgroundColor = [UIColor whiteColor];
                 }
                 
-                __weak typeof(self) weakSelf = self;
-                cell.detailBlock = ^{
-                    [weakSelf toPlanDetailWithPlan:plan];
-                };
-                
-                cell.deleteBlock = ^{
-                    self.deletePlan = plan;
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str_Delete_Plan
-                                                                    message:nil
-                                                                   delegate:self
-                                                          cancelButtonTitle:str_Cancel
-                                                          otherButtonTitles:str_OK,
-                                          nil];
-                    
-                    alert.tag = 9527;
-                    [alert show];
-                };
-                
-                cell.completeBlock = ^{
-                    [weakSelf changePlanCompleteStatus:plan];
-                };
+                cell.delegate = self;
                 
                 return cell;
                 
@@ -482,9 +471,9 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
             
             Plan *plan = self.planLifeArray[indexPath.row];
             
+            cell.plan = plan;
             cell.contentLabel.text = plan.content;
-            cell.isCompleted = plan.iscompleted;
-            
+            cell.isDone = plan.iscompleted;
             if ([plan.iscompleted isEqualToString:@"1"]) {
 
                 cell.backgroundColor = color_Green_Mint;
@@ -492,30 +481,7 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
 
                 cell.backgroundColor = [UIColor whiteColor];
             }
-            
-            __weak typeof(self) weakSelf = self;
-            cell.detailBlock = ^{
-                
-                [weakSelf toPlanDetailWithPlan:plan];
-                
-            };
-            
-            cell.deleteBlock = ^{
-                self.deletePlan = plan;
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str_Delete_Plan
-                                                                message:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:str_Cancel
-                                                      otherButtonTitles:str_OK,
-                                      nil];
-                
-                alert.tag = 9527;
-                [alert show];
-            };
-            
-            cell.completeBlock = ^{
-                [weakSelf changePlanCompleteStatus:plan];
-            };
+            cell.delegate = self;
             
             return cell;
             
@@ -695,9 +661,10 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 9527) {
+    if (alertView.tag == kPlanCellDeleteTag) {
         if (buttonIndex == 0) {
             self.deletePlan = nil;
+            [planCell hideMenuView:YES Animated:YES];
             return;
             
         } else {
@@ -736,7 +703,7 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
 - (void)changePlanCompleteStatus:(Plan *)plan
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm"];
     NSString *timeNow = [dateFormatter stringFromDate:[NSDate date]];
     
     //1完成 0未完成
@@ -769,5 +736,115 @@ NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
     [self alertToastMessage:str_Delete_Success];
     [self getPlanData];
     
+}
+
+-(void)setCanCustomEdit:(BOOL)canCustomEdit{
+    if (_canCustomEdit != canCustomEdit) {
+        _canCustomEdit = canCustomEdit;
+        
+        CGRect frame = self.planType == PlanEveryday ? self.planEverydayTableView.frame : self.planLifeTableView.frame;
+        if (_canCustomEdit) {
+            if (hitView == nil) {
+                hitView = [[HitView alloc] init];
+                hitView.delegate = self;
+                hitView.frame = frame;
+            }
+            hitView.frame = frame;
+            [self.view addSubview:hitView];
+            
+            if (self.planType == PlanEveryday) {
+                
+                self.planEverydayTableView.scrollEnabled = NO;
+            } else {
+                
+                self.planLifeTableView.scrollEnabled = NO;
+            }
+        }else{
+            
+            planCell = nil;
+            [hitView removeFromSuperview];
+            
+            if (self.planType == PlanEveryday) {
+                
+                self.planEverydayTableView.scrollEnabled = YES;
+            } else {
+                
+                self.planLifeTableView.scrollEnabled = YES;
+            }
+        }
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (planCell == [tableView cellForRowAtIndexPath:indexPath]) {
+        [planCell hideMenuView:YES Animated:YES ];
+        return NO;
+    }
+    return YES;
+}
+
+-(UIView *)hitViewHitTest:(CGPoint)point withEvent:(UIEvent *)event TouchView:(UIView *)aView{
+    BOOL vCloudReceiveTouch = NO;
+    
+    CGRect vSlidedCellRect;
+    if (self.planType == PlanEveryday) {
+        
+        vSlidedCellRect = [self.planEverydayTableView convertRect:planCell.frame fromView:self.planEverydayTableView];
+    } else {
+        
+        vSlidedCellRect = [self.planLifeTableView convertRect:planCell.frame fromView:self.planLifeTableView];
+    }
+    vCloudReceiveTouch = CGRectContainsPoint(vSlidedCellRect, point);
+    if (!vCloudReceiveTouch) {
+        [planCell hideMenuView:YES Animated:YES];
+    }
+    return vCloudReceiveTouch ? [planCell hitTest:point withEvent:event] : aView;
+}
+
+-(void)didCellWillShow:(id)aSender{
+    planCell = aSender;
+    self.canCustomEdit = YES;
+}
+
+-(void)didCellWillHide:(id)aSender{
+    planCell = nil;
+    self.canCustomEdit = NO;
+}
+
+-(void)didCellHided:(id)aSender{
+    planCell = nil;
+    self.canCustomEdit = NO;
+}
+
+-(void)didCellShowed:(id)aSender{
+    planCell = aSender;
+    self.canCustomEdit = YES;
+}
+
+- (void)didCellClicked:(id)aSender
+{
+    PlanCell *cell = (PlanCell *)aSender;
+    [self toPlanDetailWithPlan:cell.plan];
+}
+
+-(void)didCellClickedDoneButton:(id)aSender
+{
+    PlanCell *cell = (PlanCell *)aSender;
+    [self changePlanCompleteStatus:cell.plan];
+}
+
+-(void)didCellClickedDeleteButton:(id)aSender
+{
+    PlanCell *cell = (PlanCell *)aSender;
+    self.deletePlan = cell.plan;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str_Delete_Plan
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:str_Cancel
+                                          otherButtonTitles:str_OK,
+                          nil];
+    
+    alert.tag = kPlanCellDeleteTag;
+    [alert show];
 }
 @end
