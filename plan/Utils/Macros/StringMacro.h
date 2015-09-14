@@ -87,7 +87,8 @@
 #define str_Share_Success @"分享成功"
 #define str_Share_Fail @"分享失败"
 #define str_Share_Cancel @"取消分享"
-#define str_Share_Content @"推荐一个好玩的应用，你也安装试试啊~"
+#define str_Share_Content @"推荐一个好玩的应用，你也安装试试啊~可惜目前只有iOS版ToT"
+#define str_Share_URL @"http://www.fengziyi.com/andwho-plan/"
 
 #define str_Avatar @"kAvatar"
 #define str_TableName_Settings @"t_settings"

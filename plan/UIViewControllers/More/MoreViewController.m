@@ -108,7 +108,7 @@
 
 - (void)toShareViewController
 {
-    [ShareCenter showShareActionSheet:self.view title:str_App_Title content:str_Share_Content shareUrl:str_Website_URL sharedImageURL:@""];
+    [ShareCenter showShareActionSheet:self.view title:str_App_Title content:str_Share_Content shareUrl:str_Share_URL sharedImageURL:@""];
 }
 
 - (void)toAboutViewController
