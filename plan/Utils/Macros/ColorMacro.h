@@ -13,6 +13,7 @@
 #define color_Blue RGBColor(87, 164, 254, 1)
 #define color_Black RGBColor(0, 0, 0, 1)
 #define color_Red RGBColor(218, 28, 28, 1)
+#define color_Pink RGBColor(248, 88, 129, 1) //粉色
 #define color_Green_Mint RGBColor(189, 252, 201, 1) //薄荷绿
 #define color_Green_Emerald RGBColor(0, 201, 87, 1) //翠绿色
 #define color_GrayLight RGBColor(215, 215, 215, 1)
