@@ -6,7 +6,6 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
-#import "ShareCenter.h"
 #import "HelpViewController.h"
 #import "MoreViewController.h"
 #import "AboutViewController.h"
@@ -27,7 +26,7 @@
     UIView *footer = [[UIView alloc] init];
     self.tableView.tableFooterView = footer;
     
-    rowTitles = @[str_More_Settings, str_More_Help, str_More_Like, str_More_Share, str_More_About];
+    rowTitles = @[str_More_Settings, str_More_Help, str_More_Like, str_More_About];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -37,7 +36,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,9 +76,6 @@
             [self toLike];
             break;
         case 3:
-            [self toShareViewController];
-            break;
-        case 4:
             [self toAboutViewController];
             break;
         default:
@@ -104,11 +100,6 @@
 - (void)toLike
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/app/id983206049?mt=8"]];
-}
-
-- (void)toShareViewController
-{
-    [ShareCenter showShareActionSheet:self.view title:str_App_Title content:str_Share_Content shareUrl:str_Share_URL sharedImageURL:@""];
 }
 
 - (void)toAboutViewController

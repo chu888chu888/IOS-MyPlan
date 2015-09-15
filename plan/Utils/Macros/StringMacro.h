@@ -47,7 +47,6 @@
 #define str_More_Settings @"个人设置"
 #define str_More_Help @"常见问题"
 #define str_More_Like @"五星鼓励"
-#define str_More_Share @"推荐分享"
 #define str_More_Feedback @"建议反馈"
 #define str_More_About @"关于我们"
 #define str_More_Welcome @"去欢迎页"
@@ -82,13 +81,6 @@
 #define str_About_Copyright @"© 2015 Andwho Inc."
 #define str_About_Wechat @"微信公众号:Andwho"
 #define str_About_Content @"对于世界上大多数人，生命的长度最多不过30000来天。所以，时间对于每一个人都是奢侈品。人生苦短，时间有限，想要成功就得对自己狠一点，从坚持每天给自己定一些计划开始，然后逐个完成它们，让生活更有意义，让生命更有价值。乔布斯说过：活着就是为了改变世界！就算不能改变世界，理想还是要有的，只要坚持不懈，万一哪天就实现了呢？"
-
-
-#define str_Share_Success @"分享成功"
-#define str_Share_Fail @"分享失败"
-#define str_Share_Cancel @"取消分享"
-#define str_Share_Content @"推荐一个好玩的应用，你也安装试试啊~可惜目前只有iOS版ToT"
-#define str_Share_URL @"http://www.fengziyi.com/andwho-plan/"
 
 #define str_Avatar @"kAvatar"
 #define str_TableName_Settings @"t_settings"

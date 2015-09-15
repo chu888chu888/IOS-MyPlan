@@ -6,7 +6,6 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
-#import "ShareCenter.h"
 #import "AppDelegate.h"
 #import "LocalNotificationManager.h"
 
@@ -33,9 +32,6 @@
             [NotificationCenter postNotificationName:Notify_Push_LocalNotify object:nil userInfo:localNotify.userInfo];
         });
     }
-    
-    //ShareSDK
-    [ShareCenter registerShareSDK];
 
     return YES;
 }

@@ -403,7 +403,6 @@ NSUInteger const kPlanCellDeleteTag = 9527;
                     cell.moveContentView.backgroundColor = [UIColor whiteColor];
                     cell.backgroundColor = [UIColor whiteColor];
                 }
-                
                 cell.delegate = self;
                 
                 return cell;
