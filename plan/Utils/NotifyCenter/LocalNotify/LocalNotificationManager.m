@@ -40,6 +40,8 @@ static LocalNotificationManager * instance = nil;
     localNotif.alertAction = str_Show;
     localNotif.soundName = UILocalNotificationDefaultSoundName;
     localNotif.userInfo = userDic;
+//    localNotif.applicationIconBadgeNumber = 1;
+    localNotif.applicationIconBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
 }
 
