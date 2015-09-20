@@ -26,4 +26,6 @@
 + (NSString *)getPlanTotalCountByPlantype:(NSString *)plantype;
 
 + (NSString *)getPlanCompletedCountByPlantype:(NSString *)plantype;
+
++ (void)updateLocalNotification:(Plan *)plan;
 @end

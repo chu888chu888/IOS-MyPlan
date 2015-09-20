@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "Plan.h"
+#import "PlanCache.h"
 #import "AppDelegate.h"
 #import "LocalNotificationManager.h"
 
@@ -17,7 +19,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    
     //本地通知注册
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)])
     {
@@ -69,18 +71,11 @@
  *  接收本地推送
  */
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification*)notification{
-    //在此时设置解析notification，并展示提示视图
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
-    if (state == UIApplicationStateInactive) {
-        //程序在后台或者已关闭
-        [NotificationCenter postNotificationName:Notify_Push_LocalNotify object:nil userInfo:notification.userInfo];
-    }
-    else {
-        //程序正在运行
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:notification.alertTitle message:notification.alertBody delegate:self cancelButtonTitle:str_Cancel otherButtonTitles:str_Show, str_Notify_Later, nil];
-        [alert show];
-        lastNotification = notification;
-    }
+    
+    lastNotification = notification;
+    
+    //重置5天未新建计划提醒时间
+    [self checkFiveDayNotification];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -97,6 +92,45 @@
         //5分钟后提醒
         NSDate *date = [[NSDate date] dateByAddingTimeInterval:5 * 60];
         [LocalNotificationManager updateNotificationWithTag:lastNotification fireDate:date userInfo:lastNotification.userInfo alertBody:lastNotification.alertBody];
+    }
+}
+
+- (void)checkFiveDayNotification {
+    
+    NSDictionary *dict = lastNotification.userInfo;
+    Plan *plan = [[Plan alloc] init];
+    plan.planid = [dict objectForKey:@"tag"];
+    plan.createtime = [dict objectForKey:@"createtime"];
+    plan.content = [dict objectForKey:@"content"];
+    plan.plantype = [dict objectForKey:@"plantype"];
+    plan.iscompleted = [dict objectForKey:@"iscompleted"];
+    plan.completetime = [dict objectForKey:@"completetime"];
+    plan.isnotify = @"1";
+    plan.notifytime = [dict objectForKey:@"notifytime"];
+    
+    if ([plan.planid isEqualToString:Notify_FiveDay_Tag]) {
+        
+        //如果还是没有新建计划，每天提醒一次
+        NSString *formatterString = @"yyyy-MM-dd HH:mm";
+        NSDate *tomorrow = [[NSDate date] dateByAddingTimeInterval:24 * 3600];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat: formatterString];
+        NSString *fiveDayTomorrow = [dateFormatter stringFromDate:tomorrow];
+        plan.notifytime = fiveDayTomorrow;
+        
+        [PlanCache updateLocalNotification:plan];
+    } else {
+        
+        UIApplicationState state = [UIApplication sharedApplication].applicationState;
+        if (state == UIApplicationStateInactive) {
+            //程序在后台或者已关闭
+            [NotificationCenter postNotificationName:Notify_Push_LocalNotify object:nil userInfo:lastNotification.userInfo];
+        }
+        else {
+            //程序正在运行
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:lastNotification.alertTitle message:lastNotification.alertBody delegate:self cancelButtonTitle:str_Cancel otherButtonTitles:str_Show, str_Notify_Later, nil];
+            [alert show];
+        }
     }
 }
 

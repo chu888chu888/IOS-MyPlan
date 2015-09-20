@@ -64,8 +64,7 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 #pragma mark -重置当前用户本地数据库链接
-+ (void)resetCurrentLogin
-{
++ (void)resetCurrentLogin {
     
     [__db close];
     __db = nil;
@@ -84,8 +83,7 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 #pragma mark -打开当前用户本地数据库链接
-+ (void)openDBWithAccount:(NSString *)account
-{
++ (void)openDBWithAccount:(NSString *)account {
     
     [PlanCache resetCurrentLogin];
     
@@ -175,8 +173,7 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 #pragma mark -存储个人设置
-+ (void)storePersonalSettings:(Settings *)settings
-{
++ (void)storePersonalSettings:(Settings *)settings {
     
     @synchronized(__db) {
         
@@ -227,8 +224,7 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 #pragma mark -存储计划
-+ (void)storePlan:(Plan *)plan
-{
++ (void)storePlan:(Plan *)plan {
     
     @synchronized(__db) {
         
@@ -292,6 +288,9 @@ static NSMutableDictionary * __contactsOnlineState;
                 
                 [self addLocalNotification:plan];
             }
+            
+            //更新5天没有新建计划的提醒时间
+            [self setFiveDayNotification];
         }
         
         [NotificationCenter postNotificationName:Notify_Plan_Save object:nil];
@@ -299,8 +298,7 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 #pragma mark -删除计划
-+ (void)deletePlan:(Plan *)plan
-{
++ (void)deletePlan:(Plan *)plan {
     @synchronized(__db) {
         
         if (!__db.open)
@@ -340,8 +338,7 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 #pragma mark -获取个人设置
-+ (Settings *)getPersonalSettings
-{
++ (Settings *)getPersonalSettings {
     @synchronized(__db) {
         
         if (!__db.open)
@@ -372,8 +369,7 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 #pragma mark -获取计划
-+ (NSArray *)getPlanByPlantype:(NSString *)plantype
-{
++ (NSArray *)getPlanByPlantype:(NSString *)plantype {
     
     @synchronized(__db) {
         
@@ -411,8 +407,7 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 
-+ (NSString *)getPlanTotalCountByPlantype:(NSString *)plantype
-{
++ (NSString *)getPlanTotalCountByPlantype:(NSString *)plantype {
     
     @synchronized(__db) {
         
@@ -438,8 +433,7 @@ static NSMutableDictionary * __contactsOnlineState;
     }
 }
 
-+ (NSString *)getPlanCompletedCountByPlantype:(NSString *)plantype
-{
++ (NSString *)getPlanCompletedCountByPlantype:(NSString *)plantype {
     
     @synchronized(__db) {
         
@@ -466,9 +460,8 @@ static NSMutableDictionary * __contactsOnlineState;
 }
 
 
-+ (void)addLocalNotification:(Plan *)plan
-{
-    //时间格式：yyyy-MM-dd HH:mm:ss
++ (void)addLocalNotification:(Plan *)plan {
+    //时间格式：yyyy-MM-dd HH:mm
     NSDate *date = [CommonFunction NSStringDateToNSDate:plan.notifytime formatter:@"yyyy-MM-dd HH:mm"];
     if (!date) {
         return;
@@ -487,8 +480,7 @@ static NSMutableDictionary * __contactsOnlineState;
     [LocalNotificationManager createLocalNotification:date userInfo:destDic alertBody:plan.content];
 }
 
-+ (void)updateLocalNotification:(Plan *)plan
-{
++ (void)updateLocalNotification:(Plan *)plan {
     //首先取消该计划的本地所有通知
     [self cancelLocalNotification:plan.planid];
     
@@ -496,13 +488,51 @@ static NSMutableDictionary * __contactsOnlineState;
     [self addLocalNotification:plan];
 }
 
-+ (void)cancelLocalNotification:(NSString*)planid
-{
++ (void)cancelLocalNotification:(NSString*)planid {
     //取消该计划的本地所有通知
     NSArray *array = [LocalNotificationManager getNotificationWithTag:planid type:NotificationTypePlan];
     for (UILocalNotification *item in array) {
         [LocalNotificationManager cancelNotification:item];
     }
+}
+
++ (void)setFiveDayNotification {
+    
+    BOOL hasFiveDayNotification = NO;
+    
+    NSArray *arry = [LocalNotificationManager getAllLocalNotification];
+    //查询是否已经添加过5天未新建计划的提醒
+    for (UILocalNotification *item in arry) {
+        NSDictionary *sourceN = item.userInfo;
+        NSString *tag = [sourceN objectForKey:@"tag"];
+        if ([tag longLongValue] == [Notify_FiveDay_Tag longLongValue]) {
+            
+            hasFiveDayNotification = YES;
+            break;
+        }
+    }
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm"];
+    NSString *fiveDayLater = [dateFormatter stringFromDate:[[NSDate date] dateByAddingTimeInterval:5 * 24 * 3600]];
+    
+    Plan *fiveDayPlan = [[Plan alloc] init];
+    fiveDayPlan.planid = Notify_FiveDay_Tag;
+    fiveDayPlan.createtime = Notify_FiveDay_Time;
+    fiveDayPlan.plantype = @"2";
+    fiveDayPlan.iscompleted = @"0";
+    fiveDayPlan.completetime = Notify_FiveDay_Time;
+    fiveDayPlan.content = str_Notify_Tips2;
+    fiveDayPlan.notifytime = fiveDayLater;
+    
+    if (hasFiveDayNotification) {//更新提醒时间
+        
+        [self updateLocalNotification:fiveDayPlan];
+    } else {//新建提醒
+        
+        [self addLocalNotification:fiveDayPlan];
+    }
+    
 }
 
 @end

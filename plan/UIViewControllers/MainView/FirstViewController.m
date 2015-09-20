@@ -65,16 +65,13 @@ NSUInteger const kSecondsPerDay = 86400;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [NotificationCenter removeObserver:self];
 }
 
-- (void)toPlan:(NSNotification*)notification
-{
+- (void)toPlan:(NSNotification*)notification {
     NSDictionary *dict = notification.userInfo;
     Plan *plan = [[Plan alloc] init];
     plan.planid = [dict objectForKey:@"tag"];
@@ -86,6 +83,10 @@ NSUInteger const kSecondsPerDay = 86400;
     plan.isnotify = @"1";
     plan.notifytime = [dict objectForKey:@"notifytime"];
     
+    if ([plan.planid isEqualToString:Notify_FiveDay_Tag]) {
+        //5天未新建计划提醒，不需要跳转到计划详情
+        return;
+    }
     __weak typeof(self) weakSelf = self;
     AddPlanViewController *controller = [[AddPlanViewController alloc]init];
     controller.planType = [plan.plantype isEqualToString:@"1"] ? PlanEveryday : PlanLife;
@@ -99,19 +100,17 @@ NSUInteger const kSecondsPerDay = 86400;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)refreshView:(NSNotification*)notification
-{
+- (void)refreshView:(NSNotification*)notification {
     [self loadCustomView];
 }
 
-- (void)loadCustomView{
+- (void)loadCustomView {
     [self createAvatar];
     [self createLabelText];
     [self createStatisticsView];
 }
 
-- (void)createAvatar
-{
+- (void)createAvatar {
     [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     NSUInteger avatarBgSize = WIDTH_FULL_SCREEN / 3;
@@ -150,8 +149,7 @@ NSUInteger const kSecondsPerDay = 86400;
 }
 
 
-- (void)createLabelText
-{
+- (void)createLabelText {
     
     NSString *nickname = str_NickName;
     NSInteger lifetime = 100;
@@ -314,8 +312,7 @@ NSUInteger const kSecondsPerDay = 86400;
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(secondsCountdown) userInfo:nil repeats:YES];
 }
 
-- (void)createStatisticsView
-{
+- (void)createStatisticsView {
     BOOL isiPhone4oriPhone5 = iPhone4 || iPhone5;
     
     CGFloat xOffset = isiPhone4oriPhone5 ? WIDTH_FULL_SCREEN / 15 : WIDTH_FULL_SCREEN / 7;
@@ -451,32 +448,31 @@ NSUInteger const kSecondsPerDay = 86400;
 }
 
 
-- (void)addSeparatorForTop:(UIView *)view{
+- (void)addSeparatorForTop:(UIView *)view {
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(view.bounds) - 1, 1)];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
 }
 
-- (void)addSeparatorForBottom:(UIView *)view{
+- (void)addSeparatorForBottom:(UIView *)view {
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(view.bounds) - 1, CGRectGetWidth(view.bounds) - 1, 1)];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
 }
 
-- (void)addSeparatorForLeft:(UIView *)view{
+- (void)addSeparatorForLeft:(UIView *)view {
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGRectGetHeight(view.bounds))];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
 }
 
-- (void)addSeparatorForRight:(UIView *)view{
+- (void)addSeparatorForRight:(UIView *)view {
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(view.bounds) - 1, 0, 1, CGRectGetHeight(view.bounds))];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
 }
 
-- (void)secondsCountdown
-{
+- (void)secondsCountdown {
     NSDate *now = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSUInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
@@ -510,8 +506,7 @@ NSUInteger const kSecondsPerDay = 86400;
 }
 
 #pragma mark －进入更多
--(void)toMoreViewController
-{
+-(void)toMoreViewController {
     MoreViewController *controller = [[MoreViewController alloc]init];
     controller.hidesBottomBarWhenPushed = YES;
     

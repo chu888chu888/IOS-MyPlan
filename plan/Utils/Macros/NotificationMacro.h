@@ -16,4 +16,7 @@
 //推送通知
 #define Notify_Push_LocalNotify @"Notify_Push_LocalNotify"
 
+#define Notify_FiveDay_Tag @"20150912083000"
+#define Notify_FiveDay_Time @"2015-09-12 08:30:00"
+
 #endif

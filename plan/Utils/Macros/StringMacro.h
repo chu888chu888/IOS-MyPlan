@@ -76,6 +76,7 @@
 #define str_Set_Lifespan_Tips3 @"别闹，请填写正常人的寿命！"
 
 #define str_Notify_Tips1 @"提醒："
+#define str_Notify_Tips2 @"你已经5天没有新建计划了，要坚持哦~"
 
 #define str_About_Version @"当前版本："
 #define str_About_Copyright @"© 2015 Andwho Inc."
