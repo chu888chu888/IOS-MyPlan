@@ -20,8 +20,7 @@ NSUInteger const kPlan_MenuLineHeight = 3;
 NSUInteger const kPlan_TodayCellHeaderViewHeight = 30;
 NSUInteger const kPlanCellDeleteTag = 9527;
 
-@interface SecondViewController ()<UITableViewDataSource, UITableViewDelegate, PlanCellDelegate, HitViewDelegate>
-{
+@interface SecondViewController ()<UITableViewDataSource, UITableViewDelegate, PlanCellDelegate, HitViewDelegate> {
     PlanCell *planCell;
     HitView *hitView;
 }
@@ -53,8 +52,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     [self loadCustomView];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     if (self.planType == PlanEveryday)
@@ -67,13 +65,11 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     [super didReceiveMemoryWarning];
 }
 
-- (void)refreshTableData:(NSNotification*)notification
-{
+- (void)refreshTableData:(NSNotification*)notification {
     [self getPlanData];
 }
 
-- (void)getPlanData
-{
+- (void)getPlanData {
     self.planLifeArray = [NSArray arrayWithArray:[PlanCache getPlanByPlantype:@"0"]];
     NSArray *array = [NSArray arrayWithArray:[PlanCache getPlanByPlantype:@"1"]];
     
@@ -98,8 +94,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     [self reloadTableViewData];
 }
 
-- (void)reloadTableViewData
-{
+- (void)reloadTableViewData {
     if (self.planEverydayTableView && self.planType == PlanEveryday){
         
         [self.planEverydayTableView reloadData];
@@ -111,8 +106,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 #pragma mark -初始化自定义界面
-- (void)loadCustomView
-{
+- (void)loadCustomView {
     NSUInteger sections = self.planEverydayDic.count;
     self.flag = (BOOL *)malloc(sections * sizeof(BOOL));
     memset((void *)self.flag, NO, sections * sizeof(BOOL));
@@ -128,7 +122,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 #pragma mark -添加导航栏按钮
-- (void)showRightButtonView{
+- (void)showRightButtonView {
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
     {
         UIImage *image = [UIImage imageNamed:png_Btn_Add];
@@ -145,7 +139,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     self.rightBarButtonItems = rightBarButtonItems;
 }
 
-- (void)showMenuView{
+- (void)showMenuView {
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [[ThreeSubView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), kPlan_MenuHeight) leftButtonSelectBlock:^{
         
@@ -190,7 +184,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     self.threeSubView = threeSubView;
 }
 
-- (void)showUnderLineView{
+- (void)showUnderLineView {
     CGRect frame = [self.threeSubView.leftButton convertRect:self.threeSubView.leftButton.titleLabel.frame toView:self.threeSubView];
     frame.origin.y = self.threeSubView.frame.size.height - kPlan_MenuLineHeight;
     frame.size.height = kPlan_MenuLineHeight;
@@ -201,7 +195,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     self.underLineView = view;
 }
 
-- (void)showListView{
+- (void)showListView {
 
     NSUInteger yOffset = kPlan_MenuHeight;
     NSUInteger tableHeight = CGRectGetHeight(self.view.bounds) - yOffset -40;
@@ -228,7 +222,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (void)moveUnderLineViewToLeft{
+- (void)moveUnderLineViewToLeft {
     [self moveUnderLineViewToButton:self.threeSubView.leftButton];
     self.planLifeTableView.hidden = YES;
     self.planEverydayTableView.hidden = NO;
@@ -241,7 +235,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
 }
 
-- (void)moveUnderLineViewToRight{
+- (void)moveUnderLineViewToRight {
     [self moveUnderLineViewToButton:self.threeSubView.centerButton];
     self.planLifeTableView.hidden = NO;
     self.planEverydayTableView.hidden = YES;
@@ -253,7 +247,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (void)moveUnderLineViewToButton:(UIButton *)button{
+- (void)moveUnderLineViewToButton:(UIButton *)button {
     CGRect frame = [button convertRect:button.titleLabel.frame toView:button.superview];
     frame.origin.y = self.threeSubView.frame.size.height - kPlan_MenuLineHeight;
     frame.size.height = kPlan_MenuLineHeight;
@@ -274,7 +268,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 
-- (void)setPlanType:(PlanType)planType{
+- (void)setPlanType:(PlanType)planType {
     _planType = planType;
     
     switch (planType) {
@@ -294,8 +288,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     [self.planEverydayTableView reloadData];
 }
 
-- (UITableView *)createTableView
-{
+- (UITableView *)createTableView {
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     tableView.backgroundColor = [UIColor clearColor];
     tableView.backgroundView = nil;
@@ -319,8 +312,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     if (self.planType == PlanEveryday) {
         
@@ -340,8 +332,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.planType == PlanEveryday) {
         
         if (self.flag[section]) {
@@ -372,8 +363,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.planType == PlanEveryday) {
         
         if(indexPath.section < self.dateKeyArray.count){
@@ -520,8 +510,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if (self.planType == PlanEveryday) {
         
@@ -544,8 +533,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
  
     PlanSectionView *view;
     if (self.planType == PlanEveryday && self.dateKeyArray.count > 0) {
@@ -574,8 +562,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (self.planType == PlanLife && indexPath.row >= self.planLifeArray.count) {
@@ -602,8 +589,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
 }
 
-- (NSString *) isToday:(NSString *)date
-{
+- (NSString *) isToday:(NSString *)date {
     NSDate *today = [NSDate date];
     NSDate *yesterday = [today dateByAddingTimeInterval:-24 * 3600];
     NSString *todayString = [CommonFunction NSDateToNSString:today formatter:@"yyyy-MM-dd"];
@@ -623,7 +609,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 #pragma mark - action
-- (void)addAction:(UIButton *)button{
+- (void)addAction:(UIButton *)button {
     
     __weak typeof(self) weakSelf = self;
     AddPlanViewController *controller = [[AddPlanViewController alloc] init];
@@ -645,8 +631,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)sectionClickedAction:(UITapGestureRecognizer *)sender
-{
+- (void)sectionClickedAction:(UITapGestureRecognizer *)sender {
     PlanSectionView *view = (PlanSectionView *) sender.view;
     [view toggleArrow];
     
@@ -661,7 +646,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.tag == kPlanCellDeleteTag) {
         if (buttonIndex == 0) {
             self.deletePlan = nil;
@@ -677,7 +662,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (void)toPlanDetailWithPlan:(Plan *)plan{
+- (void)toPlanDetailWithPlan:(Plan *)plan {
     __weak typeof(self) weakSelf = self;
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] init];
     self.navigationItem.backBarButtonItem = backItem;
@@ -701,8 +686,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 #pragma mark -修改计划完成状态
-- (void)changePlanCompleteStatus:(Plan *)plan
-{
+- (void)changePlanCompleteStatus:(Plan *)plan {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm"];
     NSString *timeNow = [dateFormatter stringFromDate:[NSDate date]];
@@ -730,8 +714,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 #pragma mark -删除计划
-- (void)deletePlanWithPlan:(Plan *)plan
-{
+- (void)deletePlanWithPlan:(Plan *)plan {
     
     [PlanCache deletePlan:plan];
     [self alertToastMessage:str_Delete_Success];
@@ -739,8 +722,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
 }
 
--(void)setCanCustomEdit:(BOOL)canCustomEdit
-{
+-(void)setCanCustomEdit:(BOOL)canCustomEdit {
     if (_canCustomEdit != canCustomEdit) {
         _canCustomEdit = canCustomEdit;
         
@@ -777,8 +759,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     if (planCell == [tableView cellForRowAtIndexPath:indexPath]) {
         [planCell hideMenuView:YES Animated:YES ];
         return NO;
@@ -786,8 +767,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     return YES;
 }
 
--(UIView *)hitViewHitTest:(CGPoint)point withEvent:(UIEvent *)event TouchView:(UIView *)aView
-{
+-(UIView *)hitViewHitTest:(CGPoint)point withEvent:(UIEvent *)event TouchView:(UIView *)aView {
     BOOL vCloudReceiveTouch = NO;
     
     CGRect vSlidedCellRect;
@@ -805,44 +785,37 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     return vCloudReceiveTouch ? [planCell hitTest:point withEvent:event] : aView;
 }
 
--(void)didCellWillShow:(id)aSender
-{
+-(void)didCellWillShow:(id)aSender {
     planCell = aSender;
     self.canCustomEdit = YES;
 }
 
--(void)didCellWillHide:(id)aSender
-{
+-(void)didCellWillHide:(id)aSender {
     planCell = nil;
     self.canCustomEdit = NO;
 }
 
--(void)didCellHided:(id)aSender
-{
+-(void)didCellHided:(id)aSender {
     planCell = nil;
     self.canCustomEdit = NO;
 }
 
--(void)didCellShowed:(id)aSender
-{
+-(void)didCellShowed:(id)aSender {
     planCell = aSender;
     self.canCustomEdit = YES;
 }
 
-- (void)didCellClicked:(id)aSender
-{
+- (void)didCellClicked:(id)aSender {
     PlanCell *cell = (PlanCell *)aSender;
     [self toPlanDetailWithPlan:cell.plan];
 }
 
--(void)didCellClickedDoneButton:(id)aSender
-{
+-(void)didCellClickedDoneButton:(id)aSender {
     PlanCell *cell = (PlanCell *)aSender;
     [self changePlanCompleteStatus:cell.plan];
 }
 
--(void)didCellClickedDeleteButton:(id)aSender
-{
+-(void)didCellClickedDeleteButton:(id)aSender {
     PlanCell *cell = (PlanCell *)aSender;
     self.deletePlan = cell.plan;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str_Delete_Plan

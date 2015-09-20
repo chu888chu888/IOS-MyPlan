@@ -28,12 +28,10 @@ NSString *const kSettings_Password = @"password";
 @synthesize password = _password;
 
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     
-    if(self && [dict isKindOfClass:[NSDictionary class]])
-    {
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
         self.account = [dict objectOrNilForKey:kSettings_Account];
         self.nickname = [dict objectOrNilForKey:kSettings_NickName];
         self.birthday = [dict objectOrNilForKey:kSettings_Birthday];
@@ -49,8 +47,7 @@ NSString *const kSettings_Password = @"password";
 
 #pragma mark - NSCoding Methods
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     
     self.account = [aDecoder decodeObjectForKey:kSettings_Account];
@@ -64,8 +61,7 @@ NSString *const kSettings_Password = @"password";
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
+- (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_account forKey:kSettings_Account];
     [aCoder encodeObject:_nickname forKey:kSettings_NickName];
     [aCoder encodeObject:_birthday forKey:kSettings_Birthday];
@@ -75,8 +71,7 @@ NSString *const kSettings_Password = @"password";
     [aCoder encodeObject:_password forKey:kSettings_Password];
 }
 
-- (id)copyWithZone:(NSZone *)zone
-{
+- (id)copyWithZone:(NSZone *)zone {
     Settings *copy = [[Settings alloc] init];
     
     copy.account = [self.account copyWithZone:zone];

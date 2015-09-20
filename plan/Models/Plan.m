@@ -34,12 +34,10 @@ NSString *const kPlan_NotifyTime = @"notifytime";
 @synthesize notifytime = _notifytime;
 
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     
-    if(self && [dict isKindOfClass:[NSDictionary class]])
-    {
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
         self.planid = [dict objectOrNilForKey:kPlan_PlanId];
         self.account = [dict objectOrNilForKey:kPlan_Account];
         self.content = [dict objectOrNilForKey:kPlan_Content];
@@ -58,8 +56,7 @@ NSString *const kPlan_NotifyTime = @"notifytime";
 
 #pragma mark - NSCoding Methods
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     
     self.planid = [aDecoder decodeObjectForKey:kPlan_PlanId];
@@ -76,8 +73,7 @@ NSString *const kPlan_NotifyTime = @"notifytime";
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
+- (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_planid forKey:kPlan_PlanId];
     [aCoder encodeObject:_account forKey:kPlan_Account];
     [aCoder encodeObject:_content forKey:kPlan_Content];
@@ -90,8 +86,7 @@ NSString *const kPlan_NotifyTime = @"notifytime";
     [aCoder encodeObject:_notifytime forKey:kPlan_NotifyTime];
 }
 
-- (id)copyWithZone:(NSZone *)zone
-{
+- (id)copyWithZone:(NSZone *)zone {
     Plan *copy = [[Plan alloc] init];
     
     copy.planid = [self.planid copyWithZone:zone];
