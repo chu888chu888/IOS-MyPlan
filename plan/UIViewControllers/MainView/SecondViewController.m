@@ -95,12 +95,24 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 - (void)reloadTableViewData {
+    
+    if (self.dateKeyArray.count == 0) {
+        self.planEverydayTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    } else {
+        self.planEverydayTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
+    if (self.planLifeArray.count == 0) {
+        self.planLifeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    } else {
+        self.planLifeTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
+    
     if (self.planEverydayTableView && self.planType == PlanEveryday){
-        
+
         [self.planEverydayTableView reloadData];
         
     } else if (self.planLifeTableView && self.planType == PlanLife){
-
+        
         [self.planLifeTableView reloadData];
     }
 }
@@ -307,6 +319,8 @@ NSUInteger const kPlanCellDeleteTag = 9527;
         UIView *footer = [[UIView alloc] init];
         tableView.tableFooterView = footer;
     }
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     return tableView;
 }
 
