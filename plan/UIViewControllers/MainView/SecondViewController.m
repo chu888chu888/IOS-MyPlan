@@ -603,7 +603,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
 }
 
-- (NSString *) isToday:(NSString *)date {
+- (NSString *)isToday:(NSString *)date {
     NSDate *today = [NSDate date];
     NSDate *yesterday = [today dateByAddingTimeInterval:-24 * 3600];
     NSString *todayString = [CommonFunction NSDateToNSString:today formatter:@"yyyy-MM-dd"];
@@ -781,7 +781,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     return YES;
 }
 
--(UIView *)hitViewHitTest:(CGPoint)point withEvent:(UIEvent *)event TouchView:(UIView *)aView {
+- (UIView *)hitViewClicked:(CGPoint)point event:(UIEvent *)event touchView:(UIView *)touchView {
     BOOL vCloudReceiveTouch = NO;
     
     CGRect vSlidedCellRect;
@@ -796,25 +796,25 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     if (!vCloudReceiveTouch) {
         [planCell hideMenuView:YES Animated:YES];
     }
-    return vCloudReceiveTouch ? [planCell hitTest:point withEvent:event] : aView;
+    return vCloudReceiveTouch ? [planCell hitTest:point withEvent:event] : touchView;
 }
 
--(void)didCellWillShow:(id)aSender {
+- (void)didCellWillShow:(id)aSender {
     planCell = aSender;
     self.canCustomEdit = YES;
 }
 
--(void)didCellWillHide:(id)aSender {
+- (void)didCellWillHide:(id)aSender {
     planCell = nil;
     self.canCustomEdit = NO;
 }
 
--(void)didCellHided:(id)aSender {
+- (void)didCellHided:(id)aSender {
     planCell = nil;
     self.canCustomEdit = NO;
 }
 
--(void)didCellShowed:(id)aSender {
+- (void)didCellShowed:(id)aSender {
     planCell = aSender;
     self.canCustomEdit = YES;
 }
@@ -824,12 +824,12 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     [self toPlanDetailWithPlan:cell.plan];
 }
 
--(void)didCellClickedDoneButton:(id)aSender {
+- (void)didCellClickedDoneButton:(id)aSender {
     PlanCell *cell = (PlanCell *)aSender;
     [self changePlanCompleteStatus:cell.plan];
 }
 
--(void)didCellClickedDeleteButton:(id)aSender {
+- (void)didCellClickedDeleteButton:(id)aSender {
     PlanCell *cell = (PlanCell *)aSender;
     self.deletePlan = cell.plan;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str_Delete_Plan
@@ -842,4 +842,5 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     alert.tag = kPlanCellDeleteTag;
     [alert show];
 }
+
 @end

@@ -46,7 +46,6 @@ NSUInteger const kSecondsPerDay = 86400;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
     self.title = str_ViewTitle_1;
     self.tabBarItem.title = str_ViewTitle_1;

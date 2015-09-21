@@ -14,7 +14,7 @@ NSUInteger const kEdgeInset = 10;
 NSUInteger const kDatePickerHeight = 216;
 NSUInteger const kToolBarHeight = 44;
 
-@interface AddPlanViewController ()<UITextFieldDelegate, UITextViewDelegate>{
+@interface AddPlanViewController ()<UITextFieldDelegate, UITextViewDelegate> {
     
     NSUInteger yOffset;
     UIDatePicker *datePicker;
@@ -44,23 +44,22 @@ NSUInteger const kToolBarHeight = 44;
     [self.view setBackgroundColor:[UIColor whiteColor]];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self loadCustomView];
 }
 
-- (void)didReceiveMemoryWarning{
+- (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)showRightButtonView{
+- (void)showRightButtonView {
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
     {
         UIImage *image = [UIImage imageNamed:png_Btn_Save];
@@ -77,7 +76,7 @@ NSUInteger const kToolBarHeight = 44;
     self.rightBarButtonItems = rightBarButtonItems;
 }
 
-- (void)loadCustomView{
+- (void)loadCustomView {
     yOffset = kEdgeInset;
     {
         UITextView *detailTextView = [[UITextView alloc] initWithFrame:CGRectMake(kEdgeInset, yOffset, WIDTH_FULL_SCREEN - kEdgeInset * 2, HEIGHT_FULL_SCREEN / 3)];
@@ -140,8 +139,7 @@ NSUInteger const kToolBarHeight = 44;
     }
 }
 
-- (void)showDatePicker
-{
+- (void)showDatePicker {
     //收起键盘
     [self.textNoteDetail resignFirstResponder];
     
@@ -186,7 +184,7 @@ NSUInteger const kToolBarHeight = 44;
 }
 
 #pragma mark - action
-- (void)rightAction:(UIButton *)button{;
+- (void)rightAction:(UIButton *)button {
     NSString *title = [self.textNoteTitle.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *detail = [self.textNoteDetail.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (title.length == 0 && detail.length == 0) {
@@ -196,8 +194,7 @@ NSUInteger const kToolBarHeight = 44;
     [self savePlan];
 }
 
--(void)switchAction:(id)sender
-{
+- (void)switchAction:(id)sender {
     UISwitch *btnSwitch = (UISwitch*)sender;
     BOOL isButtonOn = [btnSwitch isOn];
     if (isButtonOn) {
@@ -211,15 +208,13 @@ NSUInteger const kToolBarHeight = 44;
     }
 }
 
--(void) labelTouchUpInside:(UITapGestureRecognizer *)recognizer
-{
+- (void)labelTouchUpInside:(UITapGestureRecognizer *)recognizer {
     if ([switchButton isOn]) {
         [self showDatePicker];
     }
 }
 
-- (void)onPickerCertainBtn
-{
+- (void)onPickerCertainBtn {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm"];
     labelNotifyTime.text = [dateFormatter stringFromDate:datePicker.date];
@@ -228,8 +223,7 @@ NSUInteger const kToolBarHeight = 44;
     
 }
 
-- (void)onPickerCancelBtn
-{
+- (void)onPickerCancelBtn {
     UIView *pickerView = [self.view viewWithTag:kDatePickerBgViewTag];
     [pickerView removeFromSuperview];
     
@@ -239,8 +233,7 @@ NSUInteger const kToolBarHeight = 44;
     }
 }
 
-- (void)savePlan
-{
+- (void)savePlan {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];

@@ -11,8 +11,9 @@
 @implementation HitView
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    if ([_delegate respondsToSelector:@selector(hitViewHitTest:withEvent:TouchView:)]) {
-        return  [_delegate hitViewHitTest:point withEvent:event TouchView:self];
+    
+    if ([_delegate respondsToSelector:@selector(hitViewClicked: event: touchView:)]) {
+        return  [_delegate hitViewClicked:point event:event touchView:self];
     }
     return nil;
 }

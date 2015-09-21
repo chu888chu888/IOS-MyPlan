@@ -10,7 +10,7 @@
 
 @protocol HitViewDelegate <NSObject>
 
--(UIView *)hitViewHitTest:(CGPoint)point withEvent:(UIEvent *)event TouchView:(UIView *)aView;
+- (UIView *)hitViewClicked:(CGPoint)point event:(UIEvent *)event touchView:(UIView *)touchView;
 
 @end
 

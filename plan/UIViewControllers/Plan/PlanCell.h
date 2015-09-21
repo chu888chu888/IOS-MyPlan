@@ -13,13 +13,13 @@ extern NSUInteger const kPlanCellHeight;
 
 @protocol PlanCellDelegate <NSObject>
 
--(void)didCellWillHide:(id)aSender;
--(void)didCellHided:(id)aSender;
--(void)didCellWillShow:(id)aSender;
--(void)didCellShowed:(id)aSender;
--(void)didCellClicked:(id)aSender;
--(void)didCellClickedDoneButton:(id)aSender;
--(void)didCellClickedDeleteButton:(id)aSender;
+- (void)didCellWillHide:(id)sender;
+- (void)didCellHided:(id)sender;
+- (void)didCellWillShow:(id)sender;
+- (void)didCellShowed:(id)sender;
+- (void)didCellClicked:(id)sender;
+- (void)didCellClickedDoneButton:(id)sender;
+- (void)didCellClickedDeleteButton:(id)sender;
 
 @end
 
@@ -35,7 +35,7 @@ extern NSUInteger const kPlanCellHeight;
 @property (nonatomic, strong) NSString *isDone; //1是 0否
 @property (nonatomic, strong) Plan *plan;
 
--(void)hideMenuView:(BOOL)aHide Animated:(BOOL)aAnimate;
--(void)addControl;
+- (void)hideMenuView:(BOOL)hidden Animated:(BOOL)animated;
+- (void)addControl;
 
 @end

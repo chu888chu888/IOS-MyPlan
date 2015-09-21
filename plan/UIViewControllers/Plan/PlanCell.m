@@ -12,13 +12,12 @@
 NSUInteger const kPlanCellHeight = 60;
 NSUInteger const kBounceSpace = 20;
 
-@implementation PlanCell{
+@implementation PlanCell {
     
     UIButton *doneButton;
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
@@ -34,18 +33,15 @@ NSUInteger const kBounceSpace = 20;
     return self;
 }
 
--(void)dealloc
-{
+- (void)dealloc {
     
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [self addControl];
 }
 
--(void)addControl
-{
+- (void)addControl {
     
     UIView *menuContetnView = [[UIView alloc] init];
     menuContetnView.hidden = YES;
@@ -84,8 +80,7 @@ NSUInteger const kBounceSpace = 20;
     
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [_moveContentView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
@@ -99,36 +94,33 @@ NSUInteger const kBounceSpace = 20;
 }
 
 //此方法和下面的方法很重要,对ios 5SDK 设置不被Helighted
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     UIView *vMenuView = [self.contentView viewWithTag:100];
     if (vMenuView.hidden == YES) {
         [super setSelected:selected animated:animated];
     }
 }
+
 //此方法和上面的方法很重要，对ios 5SDK 设置不被Helighted
--(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     UIView *vMenuView = [self.contentView viewWithTag:100];
     if (vMenuView.hidden == YES) {
         [super setHighlighted:highlighted animated:animated];
     }
 }
 
--(void)prepareForReuse
-{
+- (void)prepareForReuse {
     self.contentView.clipsToBounds = YES;
     [self hideMenuView:YES Animated:NO];
 }
 
 
--(CGFloat)getMaxMenuWidth
-{
+- (CGFloat)getMaxMenuWidth {
     return kPlanCellHeight * 2;
 }
 
--(void)enableSubviewUserInteraction:(BOOL)aEnable
-{
-    if (aEnable) {
+- (void)enableSubviewUserInteraction:(BOOL)enable {
+    if (enable) {
         for (UIView *aSubView in self.contentView.subviews) {
             aSubView.userInteractionEnabled = YES;
         }
@@ -142,13 +134,12 @@ NSUInteger const kBounceSpace = 20;
     }
 }
 
--(void)hideMenuView:(BOOL)aHide Animated:(BOOL)aAnimate
-{
+- (void)hideMenuView:(BOOL)hidden Animated:(BOOL)animated {
     if (self.selected) {
         [self setSelected:NO animated:NO];
     }
     CGRect vDestinaRect = CGRectZero;
-    if (aHide) {
+    if (hidden) {
         vDestinaRect = self.contentView.frame;
         [self enableSubviewUserInteraction:YES];
     }else{
@@ -156,11 +147,11 @@ NSUInteger const kBounceSpace = 20;
         [self enableSubviewUserInteraction:NO];
     }
     
-    CGFloat vDuration = aAnimate? 0.4 : 0.0;
+    CGFloat vDuration = animated ? 0.4 : 0.0;
     [UIView animateWithDuration:vDuration animations:^{
         _moveContentView.frame = vDestinaRect;
     } completion:^(BOOL finished) {
-        if (aHide) {
+        if (hidden) {
             if ([_delegate respondsToSelector:@selector(didCellHided:)]) {
                 [_delegate didCellHided:self];
             }
@@ -170,13 +161,12 @@ NSUInteger const kBounceSpace = 20;
             }
         }
         UIView *vMenuView = [self.contentView viewWithTag:100];
-        vMenuView.hidden = aHide;
+        vMenuView.hidden = hidden;
     }];
 }
 
 
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
-{
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         CGPoint vTranslationPoint = [gestureRecognizer translationInView:self.contentView];
         return fabs(vTranslationPoint.x) > fabs(vTranslationPoint.y);
@@ -184,8 +174,7 @@ NSUInteger const kBounceSpace = 20;
     return YES;
 }
 
--(void)handlePan:(UIPanGestureRecognizer *)sender
-{
+- (void)handlePan:(UIPanGestureRecognizer *)sender {
     
     if (sender.state == UIGestureRecognizerStateBegan) {
         startLocation = [sender locationInView:self.contentView].x;
@@ -199,7 +188,7 @@ NSUInteger const kBounceSpace = 20;
                 [_delegate didCellWillHide:self];
             }
         }
-    }else if (sender.state == UIGestureRecognizerStateChanged){
+    } else if (sender.state == UIGestureRecognizerStateChanged){
         CGFloat vCurrentLocation = [sender locationInView:self.contentView].x;
         CGFloat vDistance = vCurrentLocation - startLocation;
         startLocation = vCurrentLocation;
@@ -223,8 +212,7 @@ NSUInteger const kBounceSpace = 20;
     }
 }
 
-- (void)setIsDone:(NSString *)isDone
-{
+- (void)setIsDone:(NSString *)isDone {
     if ([isDone isEqualToString:@"1"]) {
         [doneButton setAllBackgroundImage:[UIImage imageNamed:png_Btn_Plan_Doing]];
     } else {
@@ -232,22 +220,19 @@ NSUInteger const kBounceSpace = 20;
     }
 }
 
--(void)didContentClicked:(id)aSender
-{
+- (void)didContentClicked:(id)sender {
     if ([_delegate respondsToSelector:@selector(didCellClicked:)]) {
         [_delegate didCellClicked:self];
     }
 }
 
--(void)deleteButtonClicked:(id)sender
-{
+- (void)deleteButtonClicked:(id)sender {
     if ([_delegate respondsToSelector:@selector(didCellClickedDeleteButton:)]) {
         [_delegate didCellClickedDeleteButton:self];
     }
 }
 
--(void)doneButtonClicked:(id)sender
-{
+- (void)doneButtonClicked:(id)sender {
     
     [self.superview sendSubviewToBack:self];
     if ([_delegate respondsToSelector:@selector(didCellClickedDoneButton:)]) {
