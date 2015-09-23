@@ -787,10 +787,10 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     CGRect vSlidedCellRect;
     if (self.planType == PlanEveryday) {
         
-        vSlidedCellRect = [self.planEverydayTableView convertRect:planCell.frame fromView:self.planEverydayTableView];
+        vSlidedCellRect = [hitView convertRect:planCell.frame fromView:self.planEverydayTableView];
     } else {
         
-        vSlidedCellRect = [self.planLifeTableView convertRect:planCell.frame fromView:self.planLifeTableView];
+        vSlidedCellRect = [hitView convertRect:planCell.frame fromView:self.planLifeTableView];
     }
     vCloudReceiveTouch = CGRectContainsPoint(vSlidedCellRect, point);
     if (!vCloudReceiveTouch) {
