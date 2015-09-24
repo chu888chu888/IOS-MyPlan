@@ -12,8 +12,7 @@ static Config * instance = nil;
 
 @implementation Config
 
-+(id)shareInstance
-{
++ (id)shareInstance {
     if(instance == nil)
     {
         instance = [[super allocWithZone:nil] init];
@@ -22,8 +21,7 @@ static Config * instance = nil;
 }
 
 #pragma mark -保存用户头像到本地缓存
-- (void)saveAvatar:(UIImage *)image
-{
+- (void)saveAvatar:(UIImage *)image {
     [[NSUserDefaults standardUserDefaults] setObject:UIImagePNGRepresentation(image) forKey:str_Avatar];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -31,8 +29,7 @@ static Config * instance = nil;
 }
 
 #pragma mark -从本地缓存获取用户头像
-- (UIImage *)getAvatar
-{
+- (UIImage *)getAvatar {
     NSData* imageData = [[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar];
     UIImage* image = [UIImage imageWithData:imageData];
     if (!image) {
@@ -43,7 +40,7 @@ static Config * instance = nil;
 }
 
 #pragma mark -App版本号
-- (NSString *)appVersion{
+- (NSString *)appVersion {
     return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 }
 
