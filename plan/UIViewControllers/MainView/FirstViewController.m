@@ -154,11 +154,11 @@ NSUInteger const kSecondsPerDay = 86400;
     NSInteger lifetime = 100;
     CGFloat labelHeight = HEIGHT_FULL_SCREEN / 62;
     CGFloat labelWidth = WIDTH_FULL_SCREEN / 3 > 125 ? WIDTH_FULL_SCREEN / 3 : 125;
-    
-    if ([Config shareInstance].settings.nickname) {
+
+    if (![CommonFunction isEmptyString:[Config shareInstance].settings.nickname]) {
         nickname = [Config shareInstance].settings.nickname;
     }
-    if ([Config shareInstance].settings.lifespan) {
+    if (![CommonFunction isEmptyString:[Config shareInstance].settings.lifespan]) {
         NSString *life = [Config shareInstance].settings.lifespan;
         lifetime = [life integerValue];
     }
@@ -207,7 +207,6 @@ NSUInteger const kSecondsPerDay = 86400;
     [liftetimeSubView.rightButton.titleLabel setFont:font_Normal_16];
     [liftetimeSubView.rightButton setAllTitleColor:color_Black];
     [liftetimeSubView.rightButton setAllTitle:str_FirstView_2];
-    
     [liftetimeSubView autoLayout];
     
     [self.view addSubview:liftetimeSubView];
@@ -224,7 +223,7 @@ NSUInteger const kSecondsPerDay = 86400;
     yOffset += liftetimeView.frame.size.height + ySpace;
     
     NSString *birthdayFormat = @"1987-03-05 00:00:00";
-    if ([Config shareInstance].settings.birthday) {
+    if (![CommonFunction isEmptyString:[Config shareInstance].settings.birthday]) {
         birthdayFormat = [NSString stringWithFormat:@"%@ 00:00:00", [Config shareInstance].settings.birthday];
     }
     
@@ -244,24 +243,19 @@ NSUInteger const kSecondsPerDay = 86400;
     }
     
     ThreeSubView *daysLeftSubView = [[ThreeSubView alloc] initWithFrame:CGRectMake(xMiddle, yOffset, labelWidth, labelHeight)leftButtonSelectBlock:nil centerButtonSelectBlock:nil rightButtonSelectBlock:nil];
-    
     [daysLeftSubView.leftButton.titleLabel setFont:font_Normal_16];
     [daysLeftSubView.leftButton setAllTitleColor:color_Black];
     [daysLeftSubView.leftButton setAllTitle:str_FirstView_3];
-    
     [daysLeftSubView.centerButton.titleLabel setFont:font_Normal_24];
     [daysLeftSubView.centerButton setAllTitleColor:color_Red];
-    if ([Config shareInstance].settings.birthday) {
+    if (![CommonFunction isEmptyString:[Config shareInstance].settings.birthday]) {
         [daysLeftSubView.centerButton setAllTitle:[NSString stringWithFormat:@"%zd",daysLeft]];
     } else {
         [daysLeftSubView.centerButton setAllTitle:@"X"];
     }
-    
-    
     [daysLeftSubView.rightButton.titleLabel setFont:font_Normal_16];
     [daysLeftSubView.rightButton setAllTitleColor:color_Black];
     [daysLeftSubView.rightButton setAllTitle:str_FirstView_4];
-    
     [daysLeftSubView autoLayout];
     
     [self.view addSubview:daysLeftSubView];
@@ -276,7 +270,6 @@ NSUInteger const kSecondsPerDay = 86400;
     
     daysLeftView.frame = daysFrame;
     yOffset += daysLeftView.frame.size.height + ySpace;
-    
     
     ThreeSubView *secondsLeftSubView = [[ThreeSubView alloc] initWithFrame:CGRectMake(xMiddle, yOffset, labelWidth, labelHeight)leftButtonSelectBlock:nil centerButtonSelectBlock:nil rightButtonSelectBlock:nil];
     
@@ -306,12 +299,11 @@ NSUInteger const kSecondsPerDay = 86400;
     
     secondsLeftView.frame = secondsFrame;
     
-    
-    
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(secondsCountdown) userInfo:nil repeats:YES];
 }
 
 - (void)createStatisticsView {
+    
     BOOL isiPhone4oriPhone5 = iPhone4 || iPhone5;
     
     CGFloat xOffset = isiPhone4oriPhone5 ? WIDTH_FULL_SCREEN / 15 : WIDTH_FULL_SCREEN / 7;
@@ -472,6 +464,7 @@ NSUInteger const kSecondsPerDay = 86400;
 }
 
 - (void)secondsCountdown {
+    
     NSDate *now = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSUInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
