@@ -14,6 +14,8 @@
 
 + (NSDateComponents *)getDateTime:(NSDate *)date;
 
++ (BOOL)isEmptyString:(NSString *)original;
+
 //NSString转换NSDate
 + (NSDate *)NSStringDateToNSDate:(NSString *)datetime formatter:(NSString *)format;
 

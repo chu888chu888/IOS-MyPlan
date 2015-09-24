@@ -12,12 +12,11 @@
 @implementation CommonFunction
 
 #pragma mark -获取设备型号 iPhone4、iPhone6 Plus
-+ (NSString *)getDeviceType
-{
++ (NSString *)getDeviceType {
     return [[UIDevice currentDevice] platformString];
 }
 
-+ (NSDateComponents *)getDateTime:(NSDate *)date{
++ (NSDateComponents *)getDateTime:(NSDate *)date {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
     NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
@@ -28,6 +27,12 @@
     NSDateComponents *comps = [calendar components:unitFlags fromDate:date];
     
     return comps;
+}
+
++ (BOOL)isEmptyString:(NSString *)original {
+    
+    return original == nil || [original isEqualToString:@""];
+    
 }
 
 //NSString转换NSDate
