@@ -290,6 +290,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 - (UITableView *)createTableView {
+
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     tableView.backgroundColor = [UIColor clearColor];
     tableView.backgroundView = nil;
