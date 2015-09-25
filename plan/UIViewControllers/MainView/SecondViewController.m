@@ -96,17 +96,6 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 
 - (void)reloadTableViewData {
     
-    if (self.dateKeyArray.count == 0) {
-        self.planEverydayTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    } else {
-        self.planEverydayTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    }
-    if (self.planLifeArray.count == 0) {
-        self.planLifeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    } else {
-        self.planLifeTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    }
-    
     if (self.planEverydayTableView && self.planType == PlanEveryday){
 
         [self.planEverydayTableView reloadData];
@@ -378,6 +367,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (self.planType == PlanEveryday) {
         
         if(indexPath.section < self.dateKeyArray.count){
@@ -387,6 +377,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
             
             if (indexPath.row < planArray.count) {
                 
+                self.planEverydayTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
                 static NSString *PlanTodayCellIdentifier = @"PlanTodayCellIdentifier";
                 
                 PlanCell *cell = [tableView dequeueReusableCellWithIdentifier:PlanTodayCellIdentifier];
@@ -411,33 +402,11 @@ NSUInteger const kPlanCellDeleteTag = 9527;
                 
                 return cell;
                 
-            } else {
-                
-                static NSString *noticeCellIdentifier = @"noTodayCellIdentifier";
-                
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:noticeCellIdentifier];
-                if (!cell) {
-                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:noticeCellIdentifier];
-                    cell.backgroundColor = [UIColor clearColor];
-                    cell.contentView.backgroundColor = [UIColor clearColor];
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    cell.textLabel.text = @"";
-                    cell.textLabel.frame = cell.contentView.bounds;
-                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-                    cell.textLabel.textColor = [UIColor lightGrayColor];
-                    cell.textLabel.font = font_Bold_16;
-                }
-                
-                if (indexPath.row == 2) {
-                    cell.textLabel.text = str_NoPlan_EveryDay;
-                } else {
-                    cell.textLabel.text = nil;
-                }
-                
-                return cell;
             }
             
         } else {
+            
+            self.planEverydayTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             static NSString *noticeCellIdentifier = @"noTodayCellIdentifier";
             
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:noticeCellIdentifier];
@@ -466,6 +435,8 @@ NSUInteger const kPlanCellDeleteTag = 9527;
         
         NSUInteger planCount = self.planLifeArray.count;
         if (indexPath.row < planCount) {
+            
+            self.planLifeTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
             static NSString *PlanLifeCellIdentifier = @"PlanLifeCellIdentifier";
             
             PlanCell *cell = [tableView dequeueReusableCellWithIdentifier:PlanLifeCellIdentifier];
@@ -492,6 +463,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
             
         } else {
             
+            self.planLifeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             static NSString *noticeCellIdentifier = @"noLifeCellIdentifier";
             
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:noticeCellIdentifier];
@@ -516,10 +488,11 @@ NSUInteger const kPlanCellDeleteTag = 9527;
             return cell;
         }
         
-    } else {
-        
-        return nil;
     }
+    
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    
+    return cell;
 }
 
 #pragma mark - UITableViewDelegate
