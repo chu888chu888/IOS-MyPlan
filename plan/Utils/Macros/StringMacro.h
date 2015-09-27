@@ -88,4 +88,7 @@
 #define str_TableName_Plan @"t_plan"
 #define str_Website_URL @"http://www.fengziyi.com"
 
+#define str_SinaWeibo_AppKey @"2763375435"
+#define str_SinaWeibo_RedirectURI @"http://www.fengziyi.com"
+
 #endif

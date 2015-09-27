@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "LogIn.h"
+#import "WeiboSDK.h"
 #import "PlanCache.h"
 #import "ThreeSubView.h"
 #import "SettingsViewController.h"
@@ -38,16 +40,13 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 @implementation SettingsViewController
 
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = str_More_Settings;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     if (!self.layerView) {
@@ -56,14 +55,26 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     }
 }
 
-- (void)loadCustomView
-{
+- (void)loadCustomView {
     self.layerView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.layerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.layerView];
     
-    NSUInteger yOffset = kSettingsViewEdgeInset;
+    CGFloat yOffset = kSettingsViewEdgeInset;
     
+    if([LogIn isLogin])
+    {
+        ThreeSubView *view = [self createAccountView];
+        [self.layerView addSubview:view];
+        [self configBorderForView:view];
+        
+        CGRect frame = view.frame;
+        frame.origin.x = kSettingsViewEdgeInset;
+        frame.origin.y = yOffset;
+        view.frame = frame;
+        
+        yOffset = CGRectGetMaxY(view.frame) + kSettingsViewCellHeight;
+    }
     {
         UIView *view = [self createSectionTwoView];
         [self.layerView addSubview:view];
@@ -72,12 +83,45 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         frame.origin.y = yOffset;
         view.frame = frame;
         
-        yOffset = CGRectGetMaxY(view.frame) + kSettingsViewEdgeInset;
+        yOffset = CGRectGetMaxY(view.frame) + kSettingsViewCellHeight;
+    }
+    
+    if([LogIn isLogin])
+    {
+        UIButton *button = [self createExitButton];
+        [self.layerView addSubview:button];
+        
+        CGRect frame = CGRectZero;
+        frame.origin.x = kSettingsViewEdgeInset;
+        frame.origin.y = yOffset;
+        frame.size.width = CGRectGetWidth(self.layerView.frame) - kSettingsViewEdgeInset * 2;
+        frame.size.height = kSettingsViewCellHeight;
+        button.frame = frame;
+        
+    } else {
+        
+        [self createLogInButton:yOffset];
     }
 }
 
-- (UIView *)createSectionTwoView
-{
+- (ThreeSubView *)createAccountView {
+    
+    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:nil rightBlock:nil];
+    //threeSubView.backgroundColor = kAnd_BlueColor;
+    [threeSubView.leftButton setAllTitle:[self addLeftWhiteSpaceForString:@"账号："]];
+    threeSubView.fixRightWidth = kSettingsViewRightEdgeInset;
+    threeSubView.fixCenterWidth = [self contentWidth] - threeSubView.fixLeftWidth - threeSubView.fixRightWidth;
+    NSString *phoneNumber = @""; // [PersionSettingOperate sharePersionSettingOperate].personSetting.account;
+    if (phoneNumber.length > 3) {
+        [threeSubView.centerButton setAllTitle:[NSString stringWithFormat:@"%@ ", [phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@"-"]]];
+    }
+    
+    [threeSubView autoLayout];
+    
+    return threeSubView;
+}
+
+- (UIView *)createSectionTwoView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(kSettingsViewEdgeInset, 0, [self contentWidth], 0)];
     view.backgroundColor = [UIColor whiteColor];
     
@@ -151,8 +195,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return view;
 }
 
-- (ThreeSubView *)createAvatarView
-{
+- (ThreeSubView *)createAvatarView {
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
         [weakSelf setAvatar];
@@ -196,8 +239,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return threeSubView;
 }
 
-- (ThreeSubView *)createNickNameView
-{
+- (ThreeSubView *)createNickNameView {
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
         [weakSelf toSetNickNameViewController];
@@ -219,8 +261,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return threeSubView;
 }
 
-- (ThreeSubView *)createGenderView
-{
+- (ThreeSubView *)createGenderView {
     __weak typeof(self) weakSelf = self;
     
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
@@ -264,8 +305,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return threeSubView;
 }
 
-- (ThreeSubView *)createBirthdayView
-{
+- (ThreeSubView *)createBirthdayView {
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
         [weakSelf setBirthday];
@@ -287,8 +327,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return threeSubView;
 }
 
-- (ThreeSubView *)createLifespanView
-{
+- (ThreeSubView *)createLifespanView {
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
         [weakSelf toSetLifeViewController];
@@ -310,8 +349,75 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return threeSubView;
 }
 
-- (ThreeSubView *)getThreeSubViewForCenterBlock:(ButtonSelectBlock)centerBlock rightBlock:(ButtonSelectBlock)rightBlock
-{
+- (UIButton *)createExitButton {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.backgroundColor = [UIColor redColor];
+    button.titleLabel.font = font_Bold_18;
+    button.layer.cornerRadius = 5;
+    button.clipsToBounds = YES;
+    [button setAllTitle:@"退出登录"];
+    [button addTarget:self action:@selector(exitAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    return button;
+}
+
+- (void)createLogInButton:(CGFloat)yOffset {
+    
+    yOffset = [self showLineView:yOffset];
+    
+    CGFloat buttonSize = WIDTH_FULL_SCREEN / 7;
+    
+    UIButton *btnSinaWeibo = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize, yOffset, buttonSize, buttonSize)];
+    [btnSinaWeibo setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_SinaWeibo] forState:UIControlStateNormal];
+    btnSinaWeibo.layer.cornerRadius = buttonSize / 2;
+    btnSinaWeibo.clipsToBounds = YES;
+    [btnSinaWeibo addTarget:self action:@selector(sinaWeiboLogin) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *btnQQ = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 3, yOffset, buttonSize, buttonSize)];
+    [btnQQ setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_QQ] forState:UIControlStateNormal];
+    btnQQ.layer.cornerRadius = buttonSize / 2;
+    btnQQ.clipsToBounds = YES;
+    [btnQQ addTarget:self action:@selector(qqLogIn) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *btnWechat = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 5, yOffset, buttonSize, buttonSize)];
+    [btnWechat setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_Wechat] forState:UIControlStateNormal];
+    btnWechat.layer.cornerRadius = buttonSize / 2;
+    btnWechat.clipsToBounds = YES;
+    [btnWechat addTarget:self action:@selector(wechatLogIn) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.layerView addSubview:btnSinaWeibo];
+    [self.layerView addSubview:btnQQ];
+    [self.layerView addSubview:btnWechat];
+
+}
+
+- (CGFloat)showLineView:(CGFloat)yOffset {
+    
+    CGFloat xEdgeInset = kSettingsViewEdgeInset * 2;
+    CGFloat labelWidth = 80;
+    CGFloat labelHeight = 25;
+    CGFloat lineWidth = (WIDTH_FULL_SCREEN - labelWidth - xEdgeInset * 4) / 2;
+    
+    UILabel *tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(xEdgeInset * 2 + lineWidth, yOffset, labelWidth, labelHeight)];
+    tipsLabel.font = font_Normal_16;
+    tipsLabel.text = @"第三方登录";
+    tipsLabel.textColor = color_GrayDark;
+    tipsLabel.textAlignment = NSTextAlignmentCenter;
+    
+    UIView *leftLine = [[UIView alloc] initWithFrame:CGRectMake(xEdgeInset, yOffset + labelHeight / 2, lineWidth, 1)];
+    leftLine.backgroundColor = color_GrayLight;
+    
+    UIView *rightLine = [[UIView alloc] initWithFrame:CGRectMake(xEdgeInset * 3 + lineWidth + labelWidth, yOffset + labelHeight / 2, lineWidth, 1)];
+    rightLine.backgroundColor = color_GrayLight;
+    
+    [self.layerView addSubview:leftLine];
+    [self.layerView addSubview:tipsLabel];
+    [self.layerView addSubview:rightLine];
+    
+    return yOffset + labelHeight * 2;
+}
+
+- (ThreeSubView *)getThreeSubViewForCenterBlock:(ButtonSelectBlock)centerBlock rightBlock:(ButtonSelectBlock)rightBlock {
     CGRect frame = CGRectZero;
     frame.size = [self cellSize];
     
@@ -335,22 +441,19 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return threeSubView;
 }
 
-- (void)configBorderForView:(UIView *)view
-{
+- (void)configBorderForView:(UIView *)view {
     view.layer.borderWidth = 1;
     view.layer.borderColor = [color_GrayLight CGColor];
     view.layer.cornerRadius = 2;
 }
 
-- (void)addSeparatorForView:(UIView *)view
-{
+- (void)addSeparatorForView:(UIView *)view {
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(view.bounds) - 1, CGRectGetWidth(view.bounds) - 1, 1)];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
 }
 
-- (NSUInteger)contentWidth
-{
+- (NSUInteger)contentWidth {
     static NSUInteger contentWidth = 0;
     if (contentWidth == 0) {
         contentWidth = CGRectGetWidth(self.layerView.bounds) - kSettingsViewEdgeInset * 2;
@@ -358,8 +461,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return contentWidth;
 }
 
-- (CGSize)cellSize
-{
+- (CGSize)cellSize {
     static CGSize cellSize = {0, 0};
     if (CGSizeEqualToSize(cellSize, CGSizeZero)) {
         cellSize = CGSizeMake([self contentWidth], kSettingsViewCellHeight);
@@ -367,13 +469,11 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     return cellSize;
 }
 
-- (NSString *)addLeftWhiteSpaceForString:(NSString *)string
-{
+- (NSString *)addLeftWhiteSpaceForString:(NSString *)string {
     return [NSString stringWithFormat:@"%@%@", kSettingsViewEdgeWhiteSpace, string];
 }
 
-- (void)setAvatar
-{
+- (void)setAvatar {
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:str_Settings_SetAvatar_Tips1
                                                                  delegate:self
@@ -393,8 +493,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     }
 }
 
-- (void)toSetNickNameViewController
-{
+- (void)toSetNickNameViewController {
     __weak typeof(self) weakSelf = self;
     SettingsSetTextViewController *controller = [[SettingsSetTextViewController alloc] init];
     controller.title = str_Set_Nickname;
@@ -424,8 +523,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)toSetLifeViewController
-{
+- (void)toSetLifeViewController {
     __weak typeof(self) weakSelf = self;
     SettingsSetTextViewController *controller = [[SettingsSetTextViewController alloc] init];
     controller.title = str_Set_Lifespan;
@@ -455,8 +553,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)setMale
-{
+- (void)setMale {
     self.sexThreeSubView.centerButton.selected = YES;
     self.sexThreeSubView.rightButton.selected = NO;
     
@@ -464,8 +561,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     
     [PlanCache storePersonalSettings:[Config shareInstance].settings];}
 
-- (void)setFemale
-{
+- (void)setFemale {
     self.sexThreeSubView.centerButton.selected = NO;
     self.sexThreeSubView.rightButton.selected = YES;
     
@@ -474,8 +570,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [PlanCache storePersonalSettings:[Config shareInstance].settings];
 }
 
-- (void)setBirthday
-{
+- (void)setBirthday {
     UIView *pickerView = [[UIView alloc] initWithFrame:self.view.bounds];
     pickerView.backgroundColor = [UIColor clearColor];
     
@@ -536,8 +631,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [self.view addSubview:pickerView];
 }
 
-- (void)onPickerCertainBtn
-{
+- (void)onPickerCertainBtn {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"yyyy-MM-dd"];
     NSString *birthday = [dateFormatter stringFromDate:self.datePicker.date];
@@ -557,14 +651,12 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [PlanCache storePersonalSettings:[Config shareInstance].settings];
 }
 
-- (void)onPickerCancelBtn
-{
+- (void)onPickerCancelBtn {
     UIView *pickerView = [self.view viewWithTag:kSettingsViewPickerBgViewTag];
     [pickerView removeFromSuperview];
 }
 
-- (void)saveAvatar:(UIImage *)icon
-{
+- (void)saveAvatar:(UIImage *)icon {
     if (icon == nil) {
         return;
     }
@@ -575,10 +667,27 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [[Config shareInstance] saveAvatar:icon];
 }
 
-#pragma mark - UIAlertViewDelegate
+- (void)exitAction {
+    
+    //[WeiboSDK logOutWithToken:<#(NSString *)#> delegate:<#(id<WBHttpRequestDelegate>)#> withTag:<#(NSString *)#>];
+}
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+- (void)sinaWeiboLogin {
+    
+    [LogIn weiboLogIn];
+    
+}
+
+- (void)qqLogIn {
+
+}
+
+- (void)wechatLogIn {
+
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == kSettingsViewAlertTagForSetNickName) {
         [self.navigationController popViewControllerAnimated:YES];
     } else if (alertView.tag == kSettingsViewAlertTagForSetLife){
@@ -586,11 +695,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     }
 }
 
-
 #pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==[actionSheet cancelButtonIndex]) {
         
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:str_Settings_SetAvatar_Camera]) {
@@ -605,7 +711,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
             [self presentViewController:imagePickerController animated:YES completion:nil];
         }
         
-    }else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:str_Settings_SetAvatar_Album]) {
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:str_Settings_SetAvatar_Album]) {
         //从相册选择
         if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
         {
@@ -619,17 +725,12 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     }
 }
 
-
 #pragma mark - UIImagePickerControllerDelegate
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
-{
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     [picker dismissViewControllerAnimated:YES completion:nil];
     [self saveAvatar:image];
 }

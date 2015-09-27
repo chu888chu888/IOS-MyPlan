@@ -30,4 +30,8 @@
 #define png_Icon_Gender_M_Normal @"Icon_Gender_M_Normal"
 #define png_Icon_Gender_M_Selected @"Icon_Gender_M_Selected"
 
+#define png_Btn_LogIn_QQ @"Btn_LogIn_QQ"
+#define png_Btn_LogIn_Wechat @"Btn_LogIn_Wechat"
+#define png_Btn_LogIn_SinaWeibo @"Btn_LogIn_SinaWeibo"
+
 #endif
