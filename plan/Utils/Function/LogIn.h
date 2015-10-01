@@ -6,12 +6,15 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import <BmobSDK/BmobUser.h>
 #import <Foundation/Foundation.h>
 
 @interface LogIn : NSObject
 
 + (BOOL)isLogin;
 
-+ (void)weiboLogIn;
++ (void)bmobLogIn:(BmobSNSPlatform)bmobSNSPlatform;
+
++ (void)bmobLogOut:(BmobSNSPlatform)bmobSNSPlatform;
 
 @end

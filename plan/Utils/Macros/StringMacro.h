@@ -65,6 +65,10 @@
 #define str_Settings_SetAvatar_Tips2 @"亲，请选择头像！"
 #define str_Settings_SetAvatar_Camera @"拍照"
 #define str_Settings_SetAvatar_Album @"从相册选择"
+#define str_Settings_LogIn @"第三方登录"
+#define str_Settings_LogOut @"注销登录"
+#define str_Settings_LogOut_Success @"注销成功"
+#define str_Settings_LogOut_Fail @"注销失败"
 
 #define str_Set_Nickname @"设置昵称"
 #define str_Set_Nickname_Tips1 @"请输入昵称"
@@ -88,7 +92,14 @@
 #define str_TableName_Plan @"t_plan"
 #define str_Website_URL @"http://www.fengziyi.com"
 
+#define str_Bmob_ApplicationID @"ed10fc9a05fd6fd5c37be211bc0726b2"
 #define str_SinaWeibo_AppKey @"2763375435"
+#define str_SinaWeibo_AppSecret @"c0f52655316236b558b22f6b90e2ba44"
 #define str_SinaWeibo_RedirectURI @"http://www.fengziyi.com"
+#define str_QQ_AppID @"1104873268"
+#define str_QQ_AppKey @"0HK3NGbEdP1sCMmr"
+#define str_Wechat_AppKey @"wx6bae95e549a33fb8"
+#define str_Wechat_AppSecret @"24dd0aaa317888920cd690ed55a98520"
+#define str_ShareSDK_AppKey @"a47e7a940fac"
 
 #endif

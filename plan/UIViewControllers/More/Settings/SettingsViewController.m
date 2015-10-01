@@ -10,6 +10,8 @@
 #import "WeiboSDK.h"
 #import "PlanCache.h"
 #import "ThreeSubView.h"
+#import <BmobSDK/BmobUser.h>
+#import <ShareSDK/ShareSDK.h>
 #import "SettingsViewController.h"
 #import "SettingsSetTextViewController.h"
 
@@ -42,8 +44,10 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = str_More_Settings;
+    
+    [NotificationCenter addObserver:self selector:@selector(loadCustomView) name:Notify_Settings_LogIn object:nil];
+    [NotificationCenter addObserver:self selector:@selector(loadCustomView) name:Notify_Settings_LogOut object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -55,6 +59,12 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     }
 }
 
+- (void)dealloc {
+    
+    [NotificationCenter removeObserver:self];
+    
+}
+
 - (void)loadCustomView {
     self.layerView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.layerView.backgroundColor = [UIColor whiteColor];
@@ -62,19 +72,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     
     CGFloat yOffset = kSettingsViewEdgeInset;
     
-    if([LogIn isLogin])
-    {
-        ThreeSubView *view = [self createAccountView];
-        [self.layerView addSubview:view];
-        [self configBorderForView:view];
-        
-        CGRect frame = view.frame;
-        frame.origin.x = kSettingsViewEdgeInset;
-        frame.origin.y = yOffset;
-        view.frame = frame;
-        
-        yOffset = CGRectGetMaxY(view.frame) + kSettingsViewCellHeight;
-    }
     {
         UIView *view = [self createSectionTwoView];
         [self.layerView addSubview:view];
@@ -86,8 +83,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         yOffset = CGRectGetMaxY(view.frame) + kSettingsViewCellHeight;
     }
     
-    if([LogIn isLogin])
-    {
+    if([LogIn isLogin]) {
         UIButton *button = [self createExitButton];
         [self.layerView addSubview:button];
         
@@ -102,23 +98,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         
         [self createLogInButton:yOffset];
     }
-}
-
-- (ThreeSubView *)createAccountView {
-    
-    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:nil rightBlock:nil];
-    //threeSubView.backgroundColor = kAnd_BlueColor;
-    [threeSubView.leftButton setAllTitle:[self addLeftWhiteSpaceForString:@"账号："]];
-    threeSubView.fixRightWidth = kSettingsViewRightEdgeInset;
-    threeSubView.fixCenterWidth = [self contentWidth] - threeSubView.fixLeftWidth - threeSubView.fixRightWidth;
-    NSString *phoneNumber = @""; // [PersionSettingOperate sharePersionSettingOperate].personSetting.account;
-    if (phoneNumber.length > 3) {
-        [threeSubView.centerButton setAllTitle:[NSString stringWithFormat:@"%@ ", [phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@"-"]]];
-    }
-    
-    [threeSubView autoLayout];
-    
-    return threeSubView;
 }
 
 - (UIView *)createSectionTwoView {
@@ -197,15 +176,12 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (ThreeSubView *)createAvatarView {
     __weak typeof(self) weakSelf = self;
-    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
+    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf setAvatar];
     } rightBlock:nil];
     [threeSubView.leftButton setAllTitle:[self addLeftWhiteSpaceForString:str_Settings_Avatar]];
-    
     threeSubView.fixCenterWidth = [self contentWidth] - threeSubView.fixLeftWidth;
-    
     [threeSubView autoLayout];
-    
     
     NSUInteger yDistance = 2;
     UIImage *bgImage = [UIImage imageNamed:png_AvatarBg];
@@ -231,7 +207,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [avatar addGestureRecognizer:singleTap];
     
     [avatarBg addSubview:avatar];
-    
     [threeSubView.centerButton addSubview:avatarBg];
     
     self.avatarView = avatar;
@@ -241,7 +216,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (ThreeSubView *)createNickNameView {
     __weak typeof(self) weakSelf = self;
-    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
+    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf toSetNickNameViewController];
     } rightBlock:nil];
     [threeSubView.leftButton setAllTitle:[self addLeftWhiteSpaceForString:str_Settings_Nickname]];
@@ -253,7 +228,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         userNickName = str_Settings_Nickname_Tips;
     }
     [threeSubView.centerButton setAllTitle:userNickName];
-    
     [threeSubView autoLayout];
     
     self.nickThreeSubView = threeSubView;
@@ -264,7 +238,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 - (ThreeSubView *)createGenderView {
     __weak typeof(self) weakSelf = self;
     
-    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
+    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf setMale];
     } rightBlock:^{
         [weakSelf setFemale];
@@ -297,17 +271,16 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
             threeSubView.centerButton.selected = YES;
         }
     }
+    [threeSubView autoLayout];
     
     self.sexThreeSubView = threeSubView;
-    
-    [threeSubView autoLayout];
     
     return threeSubView;
 }
 
 - (ThreeSubView *)createBirthdayView {
     __weak typeof(self) weakSelf = self;
-    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
+    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf setBirthday];
     } rightBlock:nil];
     [threeSubView.leftButton setAllTitle:[self addLeftWhiteSpaceForString:str_Settings_Birthday]];
@@ -319,17 +292,16 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         birthday = str_Settings_Birthday_Tips;
     }
     [threeSubView.centerButton setAllTitle:birthday];
+    [threeSubView autoLayout];
     
     self.birthThreeSubView = threeSubView;
-    
-    [threeSubView autoLayout];
     
     return threeSubView;
 }
 
 - (ThreeSubView *)createLifespanView {
     __weak typeof(self) weakSelf = self;
-    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock:^{
+    ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf toSetLifeViewController];
     } rightBlock:nil];
     [threeSubView.leftButton setAllTitle:[self addLeftWhiteSpaceForString:str_Settings_Lifespan]];
@@ -341,7 +313,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         lifetime = str_Settings_Lifespan_Tips;
     }
     [threeSubView.centerButton setAllTitle:lifetime];
-    
     [threeSubView autoLayout];
     
     self.lifeThreeSubView = threeSubView;
@@ -355,7 +326,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     button.titleLabel.font = font_Bold_18;
     button.layer.cornerRadius = 5;
     button.clipsToBounds = YES;
-    [button setAllTitle:@"退出登录"];
+    [button setAllTitle:str_Settings_LogOut];
     [button addTarget:self action:@selector(exitAction) forControlEvents:UIControlEventTouchUpInside];
     
     return button;
@@ -400,7 +371,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     
     UILabel *tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(xEdgeInset * 2 + lineWidth, yOffset, labelWidth, labelHeight)];
     tipsLabel.font = font_Normal_16;
-    tipsLabel.text = @"第三方登录";
+    tipsLabel.text = str_Settings_LogIn;
     tipsLabel.textColor = color_GrayDark;
     tipsLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -669,21 +640,65 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (void)exitAction {
     
-    //[WeiboSDK logOutWithToken:<#(NSString *)#> delegate:<#(id<WBHttpRequestDelegate>)#> withTag:<#(NSString *)#>];
+    if ([ShareSDK hasAuthorized:SSDKPlatformTypeSinaWeibo]) {
+        
+        [ShareSDK cancelAuthorize:SSDKPlatformTypeSinaWeibo];
+        
+        [LogIn bmobLogOut:BmobSNSPlatformSinaWeibo];
+        
+    } else if ([ShareSDK hasAuthorized:SSDKPlatformTypeQQ]) {
+        
+        [ShareSDK cancelAuthorize:SSDKPlatformTypeQQ];
+        
+        [LogIn bmobLogOut:BmobSNSPlatformQQ];
+        
+    } else if ([ShareSDK hasAuthorized:SSDKPlatformTypeWechat]) {
+        
+        [ShareSDK cancelAuthorize:SSDKPlatformTypeWechat];
+        
+        [LogIn bmobLogOut:BmobSNSPlatformWeiXin];
+        
+    } else {
+        
+        [BmobUser logout];
+        
+    }
 }
 
 - (void)sinaWeiboLogin {
     
-    [LogIn weiboLogIn];
+    [ShareSDK getUserInfo:SSDKPlatformTypeSinaWeibo onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+        
+        if (state == SSDKResponseStateSuccess) {
+            
+        }
+        
+    }];
     
 }
 
 - (void)qqLogIn {
 
+    [ShareSDK getUserInfo:SSDKPlatformTypeQQ onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+        
+        if (state == SSDKResponseStateSuccess) {
+            
+        }
+        
+    }];
+    
 }
 
 - (void)wechatLogIn {
 
+    [ShareSDK getUserInfo:SSDKPlatformTypeWechat onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+        
+        if (state == SSDKResponseStateSuccess) {
+            
+        }
+    
+    }];
+    
 }
 
 #pragma mark - UIAlertViewDelegate

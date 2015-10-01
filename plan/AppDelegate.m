@@ -7,7 +7,6 @@
 //
 
 #import "Plan.h"
-#import "BmobUser.h"
 #import "PlanCache.h"
 #import "RegisterSDK.h"
 #import "AppDelegate.h"
@@ -41,43 +40,6 @@
     [RegisterSDK registerSDK];
     
     return YES;
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [WeiboSDK handleOpenURL:url delegate:self];
-}
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return [WeiboSDK handleOpenURL:url delegate:self];
-}
-
-- (void)didReceiveWeiboRequest:(WBBaseRequest *)request {
-
-}
-
-- (void)didReceiveWeiboResponse:(WBBaseResponse *)response {
-    
-    NSString *accessToken = [(WBAuthorizeResponse *)response accessToken];
-    NSString *uid = [(WBAuthorizeResponse *)response userID];
-    NSDate *expiresDate = [(WBAuthorizeResponse *)response expirationDate];
-    NSLog(@"acessToken:%@",accessToken);
-    NSLog(@"UserId:%@",uid);
-    NSLog(@"expiresDate:%@",expiresDate);
-    NSDictionary *dic = @{@"access_token":accessToken, @"uid":uid, @"expirationDate":expiresDate};
-    
-    //通过授权信息注册登录
-    [BmobUser loginInBackgroundWithAuthorDictionary:dic platform:BmobSNSPlatformSinaWeibo block:^(BmobUser *user, NSError *error) {
-        if (error) {
-            NSLog(@"weibo login error:%@",error);
-        } else if (user){
-            NSLog(@"user objectid is :%@",user.objectId);
-            //跳转
-//            ShowUserMessageViewController *showUser = [[ShowUserMessageViewController alloc] init];
-//            showUser.title = @"用户信息";
-//            
-//            [self.navigationController pushViewController:showUser animated:YES];
-        }
-    }];
 }
 
 //禁止横向旋转屏幕

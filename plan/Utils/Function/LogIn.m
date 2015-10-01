@@ -9,7 +9,6 @@
 #import "LogIn.h"
 #import "WeiboSDK.h"
 #import "AlertCenter.h"
-#import <BmobSDK/BmobUser.h>
 
 
 @implementation LogIn
@@ -24,43 +23,50 @@
     }
 }
 
-
-+ (void)weiboLogIn {
-    if([WeiboSDK isWeiboAppInstalled]){
-        //向新浪发送请求
-        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-        request.redirectURI = str_SinaWeibo_RedirectURI;
-        request.scope = @"all";
-        [WeiboSDK sendRequest:request];
-    } else {
-        [AlertCenter alertButtonMessage:@"没有安装微博客户端"];
-    }
++ (void)bmobLogIn:(BmobSNSPlatform)bmobSNSPlatform {
+    
+    NSString *accessToken = @"";
+    NSString *uid = @"";
+    NSDate *expiresDate = [NSDate date];
+    NSLog(@"acessToken:%@",accessToken);
+    NSLog(@"UserId:%@",uid);
+    NSLog(@"expiresDate:%@",expiresDate);
+    NSDictionary *dic = @{@"access_token":accessToken, @"uid":uid, @"expirationDate":expiresDate};
+    
+    //通过授权信息注册登录
+    [BmobUser loginInBackgroundWithAuthorDictionary:dic platform:bmobSNSPlatform block:^(BmobUser *user, NSError *error) {
+        if (error) {
+            
+            NSLog(@"login error:%@",error);
+            
+        } else if (user){
+            
+            NSLog(@"user objectid is :%@",user.objectId);
+            
+            [NotificationCenter postNotificationName:Notify_Settings_LogIn object:nil];
+        }
+    }];
+    
 }
 
-//- (void)qqLogIn {
-//    if ([TencentOAuth iphoneQQInstalled]) {
-//        //注册
-//        _tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1104873268" andDelegate:self];
-//        //授权
-//        NSArray *permissions = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_INFO,nil];
-//        [_tencentOAuth authorize:permissions inSafari:NO];
-//        //获取用户信息
-//        [_tencentOAuth getUserInfo];
-//    } else {
-//        [AlertCenter alertButtonMessage:@"没有安装qq客户端"];
-//    }
-//    
-//}
++ (void)bmobLogOut:(BmobSNSPlatform)bmobSNSPlatform {
+    
+    BmobUser *user = [BmobUser getCurrentUser];
+    [user cancelLinkedInBackgroundWithPlatform:bmobSNSPlatform block:^(BOOL isSuccessful, NSError *error) {
+        
+        if (isSuccessful) {
+            
+            [BmobUser logout];
+            [NotificationCenter postNotificationName:Notify_Settings_LogOut object:nil];
+            [AlertCenter alertToastMessage:str_Settings_LogOut_Success];
 
-//- (void)weixinLogIn {
-//    if ([WXApi isWXAppInstalled]){
-//        SendAuthReq* req =[[SendAuthReq alloc ] init];
-//        req.scope = @"snsapi_userinfo,snsapi_base";
-//        req.state = @"0744" ;
-//        [WXApi sendReq:req];
-//    } else {
-//        [AlertCenter alertButtonMessage:@"没有安装微信客户端"];
-//    }
-//}
+        } else {
+            
+            [AlertCenter alertButtonMessage:str_Settings_LogOut_Fail];
+            
+        }
+    }];
+    
+}
 
 @end

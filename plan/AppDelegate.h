@@ -6,10 +6,9 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
-#import "WeiboSDK.h"
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate, WeiboSDKDelegate> {
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate> {
     
     UILocalNotification *lastNotification;
 }
