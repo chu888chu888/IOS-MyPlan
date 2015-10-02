@@ -23,11 +23,8 @@
     }
 }
 
-+ (void)bmobLogIn:(BmobSNSPlatform)bmobSNSPlatform {
++ (void)bmobLogIn:(BmobSNSPlatform)bmobSNSPlatform accessToken:(NSString *)accessToken uid:(NSString *)uid expiresDate:(NSDate *)expiresDate {
     
-    NSString *accessToken = @"";
-    NSString *uid = @"";
-    NSDate *expiresDate = [NSDate date];
     NSLog(@"acessToken:%@",accessToken);
     NSLog(@"UserId:%@",uid);
     NSLog(@"expiresDate:%@",expiresDate);

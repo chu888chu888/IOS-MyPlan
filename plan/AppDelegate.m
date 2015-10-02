@@ -7,6 +7,7 @@
 //
 
 #import "Plan.h"
+#import "LogIn.h"
 #import "PlanCache.h"
 #import "RegisterSDK.h"
 #import "AppDelegate.h"
@@ -80,6 +81,31 @@
     
     //重置5天未新建计划提醒时间
     [self checkFiveDayNotification];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    return [WeiboSDK handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    
+    return [WeiboSDK handleOpenURL:url delegate:self];
+}
+
+# pragma mark - 新浪回调
+//收到回复时的回调
+- (void)didReceiveWeiboResponse:(WBBaseResponse *)response {
+    
+    NSString *accessToken = [(WBAuthorizeResponse *)response accessToken];
+    NSString *uid = [(WBAuthorizeResponse *)response userID];
+    NSDate *expiresDate = [(WBAuthorizeResponse *)response expirationDate];
+    
+    [LogIn bmobLogIn:BmobSNSPlatformSinaWeibo accessToken:accessToken uid:uid expiresDate:expiresDate];
+}
+
+//发送请求时的回调
+-(void)didReceiveWeiboRequest:(WBBaseRequest *)request{
 }
 
 #pragma mark - UIAlertViewDelegate

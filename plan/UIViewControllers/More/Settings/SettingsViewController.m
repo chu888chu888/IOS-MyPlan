@@ -13,6 +13,7 @@
 #import <BmobSDK/BmobUser.h>
 #import <ShareSDK/ShareSDK.h>
 #import "SettingsViewController.h"
+#import <TencentOpenAPI/TencentOAuth.h>
 #import "SettingsSetTextViewController.h"
 
 NSUInteger const kSettingsViewAlertTagForSetNickName = 932;
@@ -27,7 +28,7 @@ NSUInteger const kSettingsViewRightEdgeInset = 8;
 NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 
-@interface SettingsViewController()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface SettingsViewController() <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, TencentSessionDelegate>
 
 @property (nonatomic, strong) UIView *layerView;
 @property (nonatomic, strong) UIImageView *avatarView;
@@ -37,6 +38,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 @property (nonatomic, strong) ThreeSubView *lifeThreeSubView;
 @property (nonatomic, strong) ThreeSubView *emailThreeSubView;
 @property (nonatomic, strong) UIDatePicker *datePicker;
+@property (nonatomic, retain) TencentOAuth *tencentOAuth;
 
 @end
 
@@ -338,27 +340,30 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     
     CGFloat buttonSize = WIDTH_FULL_SCREEN / 7;
     
-    UIButton *btnSinaWeibo = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize, yOffset, buttonSize, buttonSize)];
+//    UIButton *btnSinaWeibo = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize, yOffset, buttonSize, buttonSize)];
+    UIButton *btnSinaWeibo = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 2, yOffset, buttonSize, buttonSize)];
     [btnSinaWeibo setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_SinaWeibo] forState:UIControlStateNormal];
     btnSinaWeibo.layer.cornerRadius = buttonSize / 2;
     btnSinaWeibo.clipsToBounds = YES;
     [btnSinaWeibo addTarget:self action:@selector(sinaWeiboLogin) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *btnQQ = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 3, yOffset, buttonSize, buttonSize)];
+//    UIButton *btnQQ = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 3, yOffset, buttonSize, buttonSize)];
+    UIButton *btnQQ = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 4, yOffset, buttonSize, buttonSize)];
     [btnQQ setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_QQ] forState:UIControlStateNormal];
     btnQQ.layer.cornerRadius = buttonSize / 2;
     btnQQ.clipsToBounds = YES;
     [btnQQ addTarget:self action:@selector(qqLogIn) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *btnWechat = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 5, yOffset, buttonSize, buttonSize)];
-    [btnWechat setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_Wechat] forState:UIControlStateNormal];
-    btnWechat.layer.cornerRadius = buttonSize / 2;
-    btnWechat.clipsToBounds = YES;
-    [btnWechat addTarget:self action:@selector(wechatLogIn) forControlEvents:UIControlEventTouchUpInside];
+    //由于微信的第三方登录功能需要先花钱认证开发者资格才能申请开通，所以暂时不做了
+//    UIButton *btnWechat = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 5, yOffset, buttonSize, buttonSize)];
+//    [btnWechat setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_Wechat] forState:UIControlStateNormal];
+//    btnWechat.layer.cornerRadius = buttonSize / 2;
+//    btnWechat.clipsToBounds = YES;
+//    [btnWechat addTarget:self action:@selector(wechatLogIn) forControlEvents:UIControlEventTouchUpInside];
     
     [self.layerView addSubview:btnSinaWeibo];
     [self.layerView addSubview:btnQQ];
-    [self.layerView addSubview:btnWechat];
+//    [self.layerView addSubview:btnWechat];
 
 }
 
@@ -667,25 +672,34 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (void)sinaWeiboLogin {
     
-    [ShareSDK getUserInfo:SSDKPlatformTypeSinaWeibo onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+    if([WeiboSDK isWeiboAppInstalled]){
+        //向新浪发送请求
+        WBAuthorizeRequest *request = [WBAuthorizeRequest request];
+        request.redirectURI = str_SinaWeibo_RedirectURI;
+        request.scope = @"all";
+        [WeiboSDK sendRequest:request];
+    } else {
         
-        if (state == SSDKResponseStateSuccess) {
-            
-        }
-        
-    }];
+        [self alertButtonMessage:str_Settings_LogIn_SinaWeibo_Tips1];
+    }
     
 }
 
 - (void)qqLogIn {
 
-    [ShareSDK getUserInfo:SSDKPlatformTypeQQ onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+    if ([TencentOAuth iphoneQQInstalled]) {
+        //注册
+        _tencentOAuth = [[TencentOAuth alloc] initWithAppId:str_QQ_AppID andDelegate:self];
+        //授权
+        NSArray *permissions = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_INFO,nil];
+        [_tencentOAuth authorize:permissions inSafari:NO];
+        //获取用户信息
+        [_tencentOAuth getUserInfo];
         
-        if (state == SSDKResponseStateSuccess) {
-            
-        }
+    } else {
         
-    }];
+        [self alertButtonMessage:str_Settings_LogIn_QQ_Tips1];
+    }
     
 }
 
@@ -699,6 +713,25 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     
     }];
     
+}
+
+- (void)tencentDidLogin {
+    
+    if (_tencentOAuth.accessToken && 0 != [_tencentOAuth.accessToken length]) {
+
+        NSString *accessToken = _tencentOAuth.accessToken;
+        NSString *uid = _tencentOAuth.openId;
+        NSDate *expiresDate = _tencentOAuth.expirationDate;
+        
+        [LogIn bmobLogIn:BmobSNSPlatformQQ accessToken:accessToken uid:uid expiresDate:expiresDate];
+    }
+    
+}
+
+- (void)tencentDidNotLogin:(BOOL)cancelled {
+}
+
+- (void)tencentDidNotNetWork {
 }
 
 #pragma mark - UIAlertViewDelegate

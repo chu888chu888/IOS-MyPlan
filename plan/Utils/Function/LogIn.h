@@ -13,7 +13,7 @@
 
 + (BOOL)isLogin;
 
-+ (void)bmobLogIn:(BmobSNSPlatform)bmobSNSPlatform;
++ (void)bmobLogIn:(BmobSNSPlatform)bmobSNSPlatform accessToken:(NSString *)accessToken uid:(NSString *)uid expiresDate:(NSDate *)expiresDate;
 
 + (void)bmobLogOut:(BmobSNSPlatform)bmobSNSPlatform;
 

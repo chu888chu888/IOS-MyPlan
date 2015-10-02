@@ -66,6 +66,8 @@
 #define str_Settings_SetAvatar_Camera @"拍照"
 #define str_Settings_SetAvatar_Album @"从相册选择"
 #define str_Settings_LogIn @"第三方登录"
+#define str_Settings_LogIn_QQ_Tips1 @"没有安装QQ客户端"
+#define str_Settings_LogIn_SinaWeibo_Tips1 @"没有安装微博客户端"
 #define str_Settings_LogOut @"注销登录"
 #define str_Settings_LogOut_Success @"注销成功"
 #define str_Settings_LogOut_Fail @"注销失败"
