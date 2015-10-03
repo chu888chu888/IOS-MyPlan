@@ -14,7 +14,7 @@ NSUInteger const kEdgeInset = 10;
 NSUInteger const kDatePickerHeight = 216;
 NSUInteger const kToolBarHeight = 44;
 
-@interface AddPlanViewController ()<UITextFieldDelegate, UITextViewDelegate> {
+@interface AddPlanViewController () <UITextFieldDelegate, UITextViewDelegate> {
     
     NSUInteger yOffset;
     UIDatePicker *datePicker;
@@ -45,9 +45,10 @@ NSUInteger const kToolBarHeight = 44;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     
+    [super viewWillAppear:animated];
     [self loadCustomView];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,27 +57,34 @@ NSUInteger const kToolBarHeight = 44;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [NotificationCenter removeObserver:self];
+    
+}
+
+- (void)dealloc {
+    
+    [NotificationCenter removeObserver:self];
+    
 }
 
 - (void)showRightButtonView {
+    
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
-    {
-        UIImage *image = [UIImage imageNamed:png_Btn_Save];
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
-        [button setAllImage:image];
-        [button addTarget:self action:@selector(rightAction:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-        [rightBarButtonItems addObject:barButtonItem];
-    }
+    UIImage *image = [UIImage imageNamed:png_Btn_Save];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
+    [button setAllImage:image];
+    [button addTarget:self action:@selector(rightAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    [rightBarButtonItems addObject:barButtonItem];
     
     self.rightBarButtonItems = rightBarButtonItems;
 }
 
 - (void)loadCustomView {
+    
     yOffset = kEdgeInset;
     {
         UITextView *detailTextView = [[UITextView alloc] initWithFrame:CGRectMake(kEdgeInset, yOffset, WIDTH_FULL_SCREEN - kEdgeInset * 2, HEIGHT_FULL_SCREEN / 3)];
@@ -94,7 +102,6 @@ NSUInteger const kToolBarHeight = 44;
         
         self.textNoteDetail = detailTextView;
     }
-    
     {
         NSInteger labelWidth = 60;
         NSInteger labelHeight = 30;
@@ -152,7 +159,6 @@ NSUInteger const kToolBarHeight = 44;
         bgView.alpha = 0.3;
         [pickerView addSubview:bgView];
     }
-    
     {
         UIToolbar* toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, pickerView.frame.size.height - kDatePickerHeight - kToolBarHeight, CGRectGetWidth(pickerView.bounds), kToolBarHeight)];
         toolbar.barStyle = UIBarStyleBlack;
@@ -164,7 +170,6 @@ NSUInteger const kToolBarHeight = 44;
         [toolbar setItems:toolbarItems];
         [pickerView addSubview:toolbar];
     }
-    
     {
         UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, pickerView.frame.size.height - kDatePickerHeight, CGRectGetWidth(pickerView.bounds), kDatePickerHeight)];
         picker.backgroundColor = [UIColor whiteColor];
@@ -185,6 +190,7 @@ NSUInteger const kToolBarHeight = 44;
 
 #pragma mark - action
 - (void)rightAction:(UIButton *)button {
+    
     NSString *title = [self.textNoteTitle.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *detail = [self.textNoteDetail.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (title.length == 0 && detail.length == 0) {
@@ -195,13 +201,14 @@ NSUInteger const kToolBarHeight = 44;
 }
 
 - (void)switchAction:(id)sender {
+    
     UISwitch *btnSwitch = (UISwitch*)sender;
     BOOL isButtonOn = [btnSwitch isOn];
     if (isButtonOn) {
 
         [self showDatePicker];
         
-    }else {
+    } else {
 
         labelNotifyTime.text = @"";
         [self onPickerCancelBtn];

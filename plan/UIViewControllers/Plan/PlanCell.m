@@ -20,7 +20,7 @@ NSUInteger const kBounceSpace = 20;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        
         if (_moveContentView == nil) {
             _moveContentView = [[UIView alloc] init];
             _moveContentView.backgroundColor = [UIColor whiteColor];
@@ -81,6 +81,7 @@ NSUInteger const kBounceSpace = 20;
 }
 
 - (void)layoutSubviews {
+    
     [super layoutSubviews];
 
     [_moveContentView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
@@ -95,6 +96,7 @@ NSUInteger const kBounceSpace = 20;
 
 //此方法和下面的方法很重要,对ios 5SDK 设置不被Helighted
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
     UIView *vMenuView = [self.contentView viewWithTag:100];
     if (vMenuView.hidden == YES) {
         [super setSelected:selected animated:animated];
@@ -124,7 +126,7 @@ NSUInteger const kBounceSpace = 20;
         for (UIView *aSubView in self.contentView.subviews) {
             aSubView.userInteractionEnabled = YES;
         }
-    }else{
+    } else {
         for (UIView *aSubView in self.contentView.subviews) {
             UIView *vDoneButtonView = [self.contentView viewWithTag:100];
             if (aSubView != vDoneButtonView) {
@@ -142,20 +144,20 @@ NSUInteger const kBounceSpace = 20;
     if (hidden) {
         vDestinaRect = self.contentView.frame;
         [self enableSubviewUserInteraction:YES];
-    }else{
+    } else {
         vDestinaRect = CGRectMake(-[self getMaxMenuWidth], self.contentView.frame.origin.x, self.contentView.frame.size.width, self.contentView.frame.size.height);
         [self enableSubviewUserInteraction:NO];
     }
     
     CGFloat vDuration = animated ? 0.4 : 0.0;
-    [UIView animateWithDuration:vDuration animations:^{
+    [UIView animateWithDuration:vDuration animations: ^{
         _moveContentView.frame = vDestinaRect;
     } completion:^(BOOL finished) {
         if (hidden) {
             if ([_delegate respondsToSelector:@selector(didCellHided:)]) {
                 [_delegate didCellHided:self];
             }
-        }else{
+        } else {
             if ([_delegate respondsToSelector:@selector(didCellShowed:)]) {
                 [_delegate didCellShowed:self];
             }
@@ -183,12 +185,12 @@ NSUInteger const kBounceSpace = 20;
             if ([_delegate respondsToSelector:@selector(didCellWillShow:)]) {
                 [_delegate didCellWillShow:self];
             }
-        }else{
+        } else {
             if ([_delegate respondsToSelector:@selector(didCellWillHide:)]) {
                 [_delegate didCellWillHide:self];
             }
         }
-    } else if (sender.state == UIGestureRecognizerStateChanged){
+    } else if (sender.state == UIGestureRecognizerStateChanged) {
         CGFloat vCurrentLocation = [sender locationInView:self.contentView].x;
         CGFloat vDistance = vCurrentLocation - startLocation;
         startLocation = vCurrentLocation;
@@ -204,10 +206,10 @@ NSUInteger const kBounceSpace = 20;
             hideMenuView = NO;
             UIView *vMenuView = [self.contentView viewWithTag:100];
             vMenuView.hidden = hideMenuView;
-        }else if(direction > 20.0 || vOriginX >  - (0.5 * [self getMaxMenuWidth])){
+        } else if (direction > 20.0 || vOriginX >  - (0.5 * [self getMaxMenuWidth])) {
             hideMenuView = YES;
         }
-    }else if (sender.state == UIGestureRecognizerStateEnded){
+    } else if (sender.state == UIGestureRecognizerStateEnded) {
         [self hideMenuView:hideMenuView Animated:YES];
     }
 }

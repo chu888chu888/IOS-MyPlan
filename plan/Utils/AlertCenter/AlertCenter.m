@@ -11,14 +11,12 @@
 
 @implementation AlertCenter
 
-+ (void)alertButtonMessage:(NSString *)message
-{
++ (void)alertButtonMessage:(NSString *)message {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:str_Alert_GetIt otherButtonTitles:nil];
     [alertView show];
 }
 
-+ (void)alertToastMessage:(NSString *)message
-{
++ (void)alertToastMessage:(NSString *)message {
     PromptMessage *pbMessage = [[PromptMessage alloc] init];
     [pbMessage  showMessage:message];
     return;

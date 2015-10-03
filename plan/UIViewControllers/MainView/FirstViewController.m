@@ -236,7 +236,7 @@ NSUInteger const kSecondsPerDay = 86400;
     
     NSDate *now = [NSDate date];
     NSTimeInterval secondsBetweenDates= [deadDay timeIntervalSinceDate:now];
-    if(secondsBetweenDates < 0){
+    if(secondsBetweenDates < 0) {
         daysLeft = 0;
     } else {
         daysLeft = secondsBetweenDates/kSecondsPerDay;
@@ -482,7 +482,7 @@ NSUInteger const kSecondsPerDay = 86400;
     
     if (secondsLeft == kSecondsPerDay) {
         NSTimeInterval secondsBetweenDates= [deadDay timeIntervalSinceDate:now];
-        if(secondsBetweenDates < 0){
+        if(secondsBetweenDates < 0) {
             daysLeft = 0;
         } else {
             daysLeft = secondsBetweenDates/kSecondsPerDay;

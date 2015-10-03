@@ -10,11 +10,10 @@
 
 @implementation UIButton (Util)
 
-- (void)setAllTitle:(NSString *)title
-{
+- (void)setAllTitle:(NSString *)title {
     if(!title
        || ([title caseInsensitiveCompare:@"null"] == NSOrderedSame)
-       || ([title caseInsensitiveCompare:@"nil"] == NSOrderedSame)){
+       || ([title caseInsensitiveCompare:@"nil"] == NSOrderedSame)) {
         title = @"";
     }
     
@@ -24,24 +23,21 @@
     [self setTitle:title forState:UIControlStateHighlighted];
 }
 
-- (void)setAllTitleColor:(UIColor *)color
-{
+- (void)setAllTitleColor:(UIColor *)color {
     [self setTitleColor:color forState:UIControlStateNormal];
     [self setTitleColor:color forState:UIControlStateSelected];
     [self setTitleColor:color forState:UIControlStateDisabled];
     [self setTitleColor:color forState:UIControlStateHighlighted];
 }
 
-- (void)setAllImage:(UIImage *)image
-{
+- (void)setAllImage:(UIImage *)image {
     [self setImage:image forState:UIControlStateNormal];
     [self setImage:image forState:UIControlStateSelected];
     [self setImage:image forState:UIControlStateDisabled];
     [self setImage:image forState:UIControlStateHighlighted];
 }
 
-- (void)setAllBackgroundImage:(UIImage *)image
-{
+- (void)setAllBackgroundImage:(UIImage *)image {
     [self setBackgroundImage:image forState:UIControlStateNormal];
     [self setBackgroundImage:image forState:UIControlStateSelected];
     [self setBackgroundImage:image forState:UIControlStateDisabled];
@@ -49,28 +45,23 @@
 }
 
 
-- (void)setNormalTitleColor:(UIColor *)color
-{
+- (void)setNormalTitleColor:(UIColor *)color {
     [self setTitleColor:color forState:UIControlStateNormal];
 }
 
-- (void)setNormalTitle:(NSString *)title
-{
+- (void)setNormalTitle:(NSString *)title {
     [self setTitle:title forState:UIControlStateNormal];
 }
 
-- (void)setNormalImage:(UIImage *)image
-{
+- (void)setNormalImage:(UIImage *)image {
     [self setImage:image forState:UIControlStateNormal];
 }
 
-- (void)setNormalBackgroundImage:(UIImage *)image
-{
+- (void)setNormalBackgroundImage:(UIImage *)image {
     [self setBackgroundImage:image forState:UIControlStateNormal];
 }
 
-- (void)centerButtonAndImageWithSpacing:(CGFloat)spacing
-{
+- (void)centerButtonAndImageWithSpacing:(CGFloat)spacing {
     self.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, spacing);
     self.titleEdgeInsets = UIEdgeInsetsMake(0, spacing, 0, 0);
 }

@@ -18,13 +18,9 @@
 
 @implementation RegisterSDK
 
-+ (void)registerSDK
-{
++ (void)registerSDK {
 
     [Bmob registerWithAppKey:str_Bmob_ApplicationID];
-    
-//    [WeiboSDK enableDebugMode:YES];
-//    [WeiboSDK registerApp:str_SinaWeibo_AppKey];
     
     [ShareSDK registerApp:str_ShareSDK_AppKey activePlatforms:@[@(SSDKPlatformTypeSinaWeibo),@(SSDKPlatformTypeQQ),@(SSDKPlatformTypeWechat)] onImport:^(SSDKPlatformType platformType) {
         

@@ -12,13 +12,13 @@
 #import "SettingsViewController.h"
 
 
-@implementation MoreViewController{
+@implementation MoreViewController {
 
     NSArray *rowTitles;
 }
 
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = str_More;
@@ -29,23 +29,19 @@
     rowTitles = @[str_More_Settings, str_More_Help, str_More_Like, str_More_About];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 4;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50.f;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"UITableViewCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -63,8 +59,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:
             [self toPersonSettingViewController];
@@ -83,29 +78,26 @@
     }
 }
 
-- (void)toPersonSettingViewController
-{
+- (void)toPersonSettingViewController {
+    
     SettingsViewController *controller = [[SettingsViewController alloc] init];
-    
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)toHelpViewController
-{
+- (void)toHelpViewController {
+    
     HelpViewController *controller = [[HelpViewController alloc] init];
-    
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)toLike
-{
+- (void)toLike {
+    
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/app/id983206049?mt=8"]];
 }
 
-- (void)toAboutViewController
-{
-    AboutViewController *controller = [[AboutViewController alloc]init];
+- (void)toAboutViewController {
     
+    AboutViewController *controller = [[AboutViewController alloc]init];
     [self.navigationController pushViewController:controller animated:YES];
 }
 

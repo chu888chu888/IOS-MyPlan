@@ -11,8 +11,7 @@
 @implementation NSString (Util)
 
 //忽略大小写比较
-- (BOOL)sameToString:(NSString *)string
-{
+- (BOOL)sameToString:(NSString *)string {
     if (!string) {
         return NO;
     }

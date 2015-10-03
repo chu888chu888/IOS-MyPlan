@@ -44,6 +44,7 @@
     
     //通过授权信息注册登录
     [BmobUser loginInBackgroundWithAuthorDictionary:dic platform:bmobSNSPlatform block:^(BmobUser *user, NSError *error) {
+        
         if (error) {
             
             NSLog(@"login error:%@",error);
@@ -53,8 +54,9 @@
             NSLog(@"user objectid is :%@",user.objectId);
             
             [LogIn saveLogInPlatform:bmobSNSPlatform];
-            [NotificationCenter postNotificationName:Notify_Settings_LogIn object:nil];
         }
+        [NotificationCenter postNotificationName:Notify_Settings_LogIn object:nil];
+        
     }];
     
 }
@@ -67,7 +69,6 @@
         if (isSuccessful) {
             
             [BmobUser logout];
-            [NotificationCenter postNotificationName:Notify_Settings_LogOut object:nil];
             [AlertCenter alertToastMessage:str_Settings_LogOut_Success];
 
         } else {
@@ -75,6 +76,8 @@
             [AlertCenter alertButtonMessage:str_Settings_LogOut_Fail];
             
         }
+        [NotificationCenter postNotificationName:Notify_Settings_LogOut object:nil];
+        
     }];
     
 }

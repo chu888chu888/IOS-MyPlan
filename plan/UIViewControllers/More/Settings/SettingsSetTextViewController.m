@@ -20,29 +20,24 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
 @implementation SettingsSetTextViewController
 
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
-    {
-        UIImage *image = [UIImage imageNamed:png_Btn_Save];
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
-        [button setAllImage:image];
-        [button addTarget:self action:@selector(saveAction:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-        [rightBarButtonItems addObject:barButtonItem];
-    }
+    UIImage *image = [UIImage imageNamed:png_Btn_Save];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
+    [button setAllImage:image];
+    [button addTarget:self action:@selector(saveAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    [rightBarButtonItems addObject:barButtonItem];
     
     self.rightBarButtonItems = rightBarButtonItems;
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     if (!self.textField) {
@@ -51,21 +46,17 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [self.view endEditing:YES];
 }
 
-- (void)loadCustomView
-{
+- (void)loadCustomView {
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     NSUInteger yOffset = kSettingsSetTextViewEdgeInset + 5;
-    
     UIImage *image = [UIImage imageNamed:png_Bg_Input_Gray];
-    
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(kSettingsSetTextViewEdgeInset, yOffset, [self contentWidth], 37)];
     textField.background = [image resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
     textField.backgroundColor = [UIColor clearColor];
@@ -77,7 +68,7 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
     
     if (self.setType == SetLife) {
         textField.keyboardType = UIKeyboardTypeNumberPad;
-    } else if (self.setType == SetEmail){
+    } else if (self.setType == SetEmail) {
         textField.keyboardType = UIKeyboardTypeEmailAddress;
     }
     [textField becomeFirstResponder];
@@ -90,7 +81,7 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
 
 #pragma mark - funcs
 
-- (NSUInteger)contentWidth{
+- (NSUInteger)contentWidth {
     static NSUInteger contentWidth = 0;
     if (contentWidth == 0) {
         contentWidth = CGRectGetWidth(self.view.bounds) - kSettingsSetTextViewEdgeInset * 2;
@@ -100,19 +91,19 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
 
 
 #pragma mark - action
-- (void)saveAction:(UIButton *)button{
+- (void)saveAction:(UIButton *)button {
     if (self.finishedBlock) {
         self.finishedBlock(self.textField.text);
     }
 }
 
 #pragma mark - UITextFieldDelegate
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
     UIImage *image = [UIImage imageNamed:png_Bg_Input_Blue];
     textField.background = [image resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField{
+- (void)textFieldDidEndEditing:(UITextField *)textField {
     UIImage *image = [UIImage imageNamed:png_Bg_Input_Gray];
     textField.background = [image resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
 }

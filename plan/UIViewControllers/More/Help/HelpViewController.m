@@ -30,8 +30,7 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     if (!self.webView) {
@@ -39,8 +38,8 @@
     }
 }
 
-- (void)loadCustomView
-{
+- (void)loadCustomView {
+    
     UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     webView.backgroundColor = [UIColor whiteColor];
     webView.opaque = YES;

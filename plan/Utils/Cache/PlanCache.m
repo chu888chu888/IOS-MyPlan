@@ -101,7 +101,6 @@ static NSMutableDictionary * __contactsOnlineState;
         return;
     }
     
-    // kind of experimentalish.
     [__db setShouldCacheStatements:YES];
     
     // 个人设置
@@ -211,9 +210,9 @@ static NSMutableDictionary * __contactsOnlineState;
             BOOL b = [__db executeUpdate:@"UPDATE t_settings SET nickname=?, birthday=?, email=?, gender=?, lifespan=?" withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan]];
             
             FMDBQuickCheck(b, @"store(update) t_settings", __db);
-        }
-        else
-        {
+            
+        } else {
+            
             BOOL b = [__db executeUpdate:@"INSERT INTO t_settings(nickname, birthday, email, gender, lifespan) values(?, ?, ?, ?, ?)" withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan]];
 
             FMDBQuickCheck(b, @"store(insert) t_settings", __db);
@@ -228,14 +227,14 @@ static NSMutableDictionary * __contactsOnlineState;
     
     @synchronized(__db) {
         
-        if (!__db.open)
-        {
+        if (!__db.open) {
             if (![__db open]) {
                 return ;
             }
         }
         
-        if (!plan.planid || !plan.content || !plan.createtime) return;
+        if (!plan.planid || !plan.content || !plan.createtime)
+            return;
         if (!plan.completetime) {
             plan.completetime = @"";
         }
@@ -270,13 +269,13 @@ static NSMutableDictionary * __contactsOnlineState;
             if (b && [plan.isnotify isEqualToString:@"1"]) {
                 
                 [self updateLocalNotification:plan];
+                
             } else {
                 
                 [self cancelLocalNotification:plan.planid];
             }
-        }
-        else
-        {
+        } else {
+            
             sqlString = [NSString stringWithFormat:@"INSERT INTO %@(planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype, isdeleted) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", str_TableName_Plan];
             
             BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid, plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype, @"0"]];
@@ -301,8 +300,7 @@ static NSMutableDictionary * __contactsOnlineState;
 + (void)deletePlan:(Plan *)plan {
     @synchronized(__db) {
         
-        if (!__db.open)
-        {
+        if (!__db.open) {
             if (![__db open]) {
                 return ;
             }
@@ -315,10 +313,6 @@ static NSMutableDictionary * __contactsOnlineState;
         hasRec = [rs next];
         [rs close];
         if (hasRec) {
-            
-//            sqlString = [NSString stringWithFormat:@"DELETE FROM %@ WHERE planid=?", str_TableName_Plan];
-//            
-//            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid]];
 
             sqlString = [NSString stringWithFormat:@"UPDATE %@ SET isdeleted=1  WHERE planid=?", str_TableName_Plan];
             
@@ -341,8 +335,7 @@ static NSMutableDictionary * __contactsOnlineState;
 + (Settings *)getPersonalSettings {
     @synchronized(__db) {
         
-        if (!__db.open)
-        {
+        if (!__db.open) {
             if (![__db open]) {
                 return nil;
             }
@@ -373,8 +366,7 @@ static NSMutableDictionary * __contactsOnlineState;
     
     @synchronized(__db) {
         
-        if (!__db.open)
-        {
+        if (!__db.open) {
             if (![__db open]) {
                 return nil ;
             }
@@ -411,8 +403,7 @@ static NSMutableDictionary * __contactsOnlineState;
     
     @synchronized(__db) {
         
-        if (!__db.open)
-        {
+        if (!__db.open) {
             if (![__db open]) {
                 return nil ;
             }
@@ -437,8 +428,7 @@ static NSMutableDictionary * __contactsOnlineState;
     
     @synchronized(__db) {
         
-        if (!__db.open)
-        {
+        if (!__db.open) {
             if (![__db open]) {
                 return nil ;
             }
@@ -463,9 +453,9 @@ static NSMutableDictionary * __contactsOnlineState;
 + (void)addLocalNotification:(Plan *)plan {
     //时间格式：yyyy-MM-dd HH:mm
     NSDate *date = [CommonFunction NSStringDateToNSDate:plan.notifytime formatter:@"yyyy-MM-dd HH:mm"];
-    if (!date) {
-        return;
-    }
+    
+    if (!date) return;
+    
     NSMutableDictionary *destDic = [NSMutableDictionary dictionary];
     [destDic setObject:plan.planid forKey:@"tag"];
     [destDic setObject:@([date timeIntervalSince1970]) forKey:@"time"];

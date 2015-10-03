@@ -22,8 +22,7 @@
 
 @implementation ThreeSubView
 
-- (id)initWithFrame:(CGRect)frame leftButtonSelectBlock:(ButtonSelectBlock)leftButtonSelectBlock centerButtonSelectBlock:(ButtonSelectBlock)centerButtonSelectBlock  rightButtonSelectBlock:(ButtonSelectBlock)rightButtonSelectBlock
-{
+- (id)initWithFrame:(CGRect)frame leftButtonSelectBlock:(ButtonSelectBlock)leftButtonSelectBlock centerButtonSelectBlock:(ButtonSelectBlock)centerButtonSelectBlock  rightButtonSelectBlock:(ButtonSelectBlock)rightButtonSelectBlock {
     self = [super initWithFrame:frame];
     if (self) {
         [self setLeftButtonSelectBlock:leftButtonSelectBlock centerButtonSelectBlock:centerButtonSelectBlock rightButtonSelectBlock:rightButtonSelectBlock];
@@ -31,8 +30,7 @@
     return self;
 }
 
-- (CGFloat)widthForString:(NSString *)string font:(UIFont *)font
-{
+- (CGFloat)widthForString:(NSString *)string font:(UIFont *)font {
     CGFloat width = 0.0f;
     if (iOS7_LATER) {
         NSDictionary *attributes = [NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
@@ -43,11 +41,9 @@
     return width;
 }
 
-- (void)buttonAutoLayout:(UIButton *)button
-{
+- (void)buttonAutoLayout:(UIButton *)button {
     UIFont *titleFont = button.titleLabel.font;
     CGFloat imageWidth = 0, titleWidth = 0, backgroundImageWidth = 0;
-    
     
     imageWidth = [button imageForState:UIControlStateNormal].size.width;
     titleWidth = [self widthForString:[button titleForState:UIControlStateNormal] font:titleFont];
@@ -76,8 +72,7 @@
     button.frame = CGRectMake(0, 0, ceilf(MAX(imageWidth + titleWidth, backgroundImageWidth)) + 1, self.frame.size.height);
 }
 
-- (void)setLeftButtonSelectBlock:(ButtonSelectBlock)leftButtonSelectBlock centerButtonSelectBlock:(ButtonSelectBlock)centerButtonSelectBlock  rightButtonSelectBlock:(ButtonSelectBlock)rightButtonSelectBlock
-{
+- (void)setLeftButtonSelectBlock:(ButtonSelectBlock)leftButtonSelectBlock centerButtonSelectBlock:(ButtonSelectBlock)centerButtonSelectBlock  rightButtonSelectBlock:(ButtonSelectBlock)rightButtonSelectBlock {
     self.leftBlock = leftButtonSelectBlock;
     self.centerBlock = centerButtonSelectBlock;
     self.rightBlock = rightButtonSelectBlock;
@@ -108,8 +103,7 @@
     [self configEnableStatusForButton:self.rightButton withBlock:self.rightBlock];
 }
 
-- (void)configEnableStatusForButton:(UIButton *)button withBlock:(ButtonSelectBlock)block
-{
+- (void)configEnableStatusForButton:(UIButton *)button withBlock:(ButtonSelectBlock)block {
     if (!block) {
         button.userInteractionEnabled = NO;
     } else {
@@ -119,22 +113,19 @@
 
 #pragma mark - action
 
-- (void)leftAction:(UIButton *)button
-{
+- (void)leftAction:(UIButton *)button {
     if (self.leftBlock) {
         self.leftBlock();
     }
 }
 
-- (void)centerAction:(UIButton *)button
-{
+- (void)centerAction:(UIButton *)button {
     if (self.centerBlock) {
         self.centerBlock();
     }
 }
 
-- (void)rightAction:(UIButton *)button
-{
+- (void)rightAction:(UIButton *)button {
     if (self.rightBlock) {
         self.rightBlock();
     }
@@ -142,8 +133,7 @@
 
 #pragma mark - layout
 
-- (void)autoLayout
-{
+- (void)autoLayout {
     int xOffset = 0;
     CGRect rect = CGRectZero;
     
@@ -180,8 +170,7 @@
 }
 
 
-- (void)autoFit
-{
+- (void)autoFit {
     CGRect rect = self.frame;
     int buttonWidth = ceilf(CGRectGetWidth(rect)/3.0);
     int buttonHeight = ceilf(CGRectGetHeight(rect));
@@ -196,8 +185,7 @@
     self.rightButton.frame = buttonFrame;
 }
 
-- (void)LeftAndCenterButtonAutoFit
-{
+- (void)LeftAndCenterButtonAutoFit {
     CGRect rect = self.frame;
     int buttonWidth = ceilf(CGRectGetWidth(rect)/2.0);
     int buttonHeight = ceilf(CGRectGetHeight(rect));

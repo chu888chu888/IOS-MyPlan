@@ -9,14 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface PromptMessage : UIView
-{
+@interface PromptMessage : UIView {
     UIWindow * keyWindow;
 }
 
 @property(nonatomic,assign)NSInteger second;
 
--(void)showMessage:(NSString *)msg;
+- (void)showMessage:(NSString *)msg;
 
 - (void)showMessage1:(NSAttributedString *)msg;
 

@@ -28,8 +28,7 @@
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.isPush = YES;
@@ -37,8 +36,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     if (iOS7_LATER) {
@@ -63,27 +61,24 @@
     [self.navigationController.navigationBar setTitleTextAttributes:dict];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [self.view endEditing:YES];
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)dealloc {
     
-    NSLog(@"%@ dealloc", [self class]);
+    [NotificationCenter removeObserver:self];
+    
 }
 
--(UIBarButtonItem *)createBarButtonItemWithTitle:(NSString *)title titleColor:(UIColor *)color font:(UIFont *)font selector:(SEL)selector
-{
+-(UIBarButtonItem *)createBarButtonItemWithTitle:(NSString *)title titleColor:(UIColor *)color font:(UIFont *)font selector:(SEL)selector {
+    
     CGFloat btnWidth = 50,btnHeight = 44;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:title forState:UIControlStateNormal];
@@ -94,8 +89,8 @@
     return [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
--(UIBarButtonItem *)createBarButtonItemWithNormalImageName:(NSString *)normalImageName selectedImageName:(NSString*)selectedImageName selector:(SEL)selector
-{
+-(UIBarButtonItem *)createBarButtonItemWithNormalImageName:(NSString *)normalImageName selectedImageName:(NSString*)selectedImageName selector:(SEL)selector {
+    
     CGFloat width = 25;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, width, width);
@@ -107,19 +102,17 @@
     return [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
-- (void)willBack{}
+- (void)willBack {
+}
 
 - (void)backAction:(UIButton*)sender {
+    
     [self willBack];
-    if(isPush)
-    {
-        if (self.navigationController)
-        {
+    if(isPush) {
+        if (self.navigationController) {
             [self.navigationController popViewControllerAnimated:YES];
         }
-    }
-    else
-    {
+    } else {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -130,8 +123,7 @@
 
 @implementation FatherViewController (HUDControl)
 
-- (void)showHUD
-{
+- (void)showHUD {
     if (!self.hud) {
         MBProgressHUD *hud = [[MBProgressHUD alloc] initWithFrame:self.view.bounds];
         hud.backgroundColor = [UIColor colorWithWhite:1 alpha:0.4];
@@ -143,8 +135,7 @@
     [self.hud show:YES];
 }
 
-- (void)hideHUD
-{
+- (void)hideHUD {
     [self.hud hide:YES];
 }
 
@@ -155,13 +146,11 @@
 
 @implementation FatherViewController (alert)
 
-- (void)alertButtonMessage:(NSString *)message
-{
+- (void)alertButtonMessage:(NSString *)message {
     [AlertCenter alertButtonMessage:message];
 }
 
-- (void)alertToastMessage:(NSString *)message
-{
+- (void)alertToastMessage:(NSString *)message {
     [AlertCenter alertToastMessage:message];
 }
 

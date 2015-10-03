@@ -10,8 +10,7 @@
 
 @implementation UILabel (Util)
 
-- (CGSize)boundingRectWithSize:(CGSize)size
-{
+- (CGSize)boundingRectWithSize:(CGSize)size {
     NSDictionary *attribute = @{NSFontAttributeName:self.font};
     CGSize retSize;
     
@@ -24,7 +23,7 @@
                                        attributes:attribute
                                           context:nil].size;
         
-    }else{
+    } else {
         retSize = [self.text sizeWithFont:self.font constrainedToSize:CGSizeMake(size.width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
     }
     return retSize;

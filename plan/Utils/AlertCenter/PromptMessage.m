@@ -11,11 +11,11 @@
 @implementation PromptMessage
 
 @synthesize second;
-- (id)initWithFrame:(CGRect)frame
-{
+
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        
         self.layer.cornerRadius = 5;
         self.backgroundColor =[UIColor blackColor];
         self.alpha = 0.8;
@@ -23,8 +23,8 @@
     }
     return self;
 }
-- (void)showMessage:(NSString *)msg
-{
+
+- (void)showMessage:(NSString *)msg {
     keyWindow =[UIApplication sharedApplication].keyWindow;
     
     UIView * background = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -51,20 +51,14 @@
     self.frame =CGRectMake(WIDTH_FULL_SCREEN/2-130,HEIGHT_FULL_SCREEN/2-promptHeight/2, 260,promptHeight);
     [background addSubview:self];
     
-    //    [UIView animateWithDuration:2 animations:^{
-    //        self.alpha = 0;
-    //    } completion:^(BOOL finished) {
-    //        [background removeFromSuperview];
-    //    }];
-    
-    [UIView animateKeyframesWithDuration:0.3 delay:1 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+    [UIView animateKeyframesWithDuration:0.3 delay:1 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations: ^{
         self.alpha = 0;
     } completion:^(BOOL finished) {
         [background removeFromSuperview];
     }];
 }
-- (void)showMessage1:(NSAttributedString *)msg
-{
+
+- (void)showMessage1:(NSAttributedString *)msg {
     keyWindow =[UIApplication sharedApplication].keyWindow;
     
     UIView * background = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -80,7 +74,6 @@
     [promptMessage setFont:[UIFont systemFontOfSize:15.0f]];
     [promptMessage setAttributedText:msg];
     
-    //[promptMessage setTextColor:[UIColor whiteColor]];
     promptMessage.backgroundColor = [UIColor clearColor];
     CGSize size = [promptMessage boundingRectWithSize:CGSizeMake(140,0)];
     [promptMessage setFrame:CGRectMake(0,10, 140, size.height+10)];
@@ -91,13 +84,7 @@
     self.frame =CGRectMake(WIDTH_FULL_SCREEN/2-130+50,HEIGHT_FULL_SCREEN/2-promptHeight/2, 140,promptHeight);
     [background addSubview:self];
     
-    //    [UIView animateWithDuration:2 animations:^{
-    //        self.alpha = 0;
-    //    } completion:^(BOOL finished) {
-    //        [background removeFromSuperview];
-    //    }];
-    
-    [UIView animateKeyframesWithDuration:0.3 delay:1 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+    [UIView animateKeyframesWithDuration:0.3 delay:1 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations: ^{
         self.alpha = 0;
     } completion:^(BOOL finished) {
         [background removeFromSuperview];
@@ -105,8 +92,7 @@
 }
 
 
-- (void)showRewardMessage:(NSString *)msg
-{
+- (void)showRewardMessage:(NSString *)msg {
     keyWindow =[UIApplication sharedApplication].keyWindow;
     
     UIView * background = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -133,13 +119,7 @@
     self.frame =CGRectMake(WIDTH_FULL_SCREEN/2-130,HEIGHT_FULL_SCREEN/2-promptHeight/2, 260,promptHeight);
     [background addSubview:self];
     
-    //    [UIView animateWithDuration:2 animations:^{
-    //        self.alpha = 0;
-    //    } completion:^(BOOL finished) {
-    //        [background removeFromSuperview];
-    //    }];
-    
-    [UIView animateKeyframesWithDuration:0.3 delay:1 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+    [UIView animateKeyframesWithDuration:0.3 delay:1 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations: ^{
         self.alpha = 0;
     } completion:^(BOOL finished) {
         [background removeFromSuperview];

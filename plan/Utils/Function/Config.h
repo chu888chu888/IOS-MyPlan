@@ -9,8 +9,7 @@
 #import "Settings.h"
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, OperationType)
-{
+typedef NS_ENUM(NSUInteger, OperationType) {
     Add = 1,
     Edit,
     Delete,

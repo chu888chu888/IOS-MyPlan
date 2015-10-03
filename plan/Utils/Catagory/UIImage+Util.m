@@ -10,8 +10,7 @@
 
 @implementation UIImage (Util)
 
-+ (UIImage *)imageForSelectedBlue
-{
++ (UIImage *)imageForSelectedBlue {
     CGRect rect = CGRectMake(0, 0, 10, 10);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();

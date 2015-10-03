@@ -19,7 +19,6 @@
 NSUInteger const kSettingsViewAlertTagForSetNickName = 932;
 NSUInteger const kSettingsViewAlertTagForSetLife = 933;
 NSUInteger const kSettingsViewPickerBgViewTag = 20141228;
-
 NSUInteger const kSettingsViewEdgeInset = 10;
 NSUInteger const kSettingsViewCellHeight = 44;
 NSUInteger const kSettingsViewPickerHeight = 216;
@@ -244,7 +243,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf setMale];
-    } rightBlock:^{
+    } rightBlock: ^{
         [weakSelf setFemale];
     }];
     
@@ -459,25 +458,26 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
                                                    destructiveButtonTitle:nil
                                                         otherButtonTitles:str_Settings_SetAvatar_Camera, str_Settings_SetAvatar_Album, nil];
         [actionSheet showInView:self.view];
-    }else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:str_Settings_SetAvatar_Tips2
                                                                  delegate:self
                                                         cancelButtonTitle:str_Cancel
                                                    destructiveButtonTitle:nil
                                                         otherButtonTitles:str_Settings_SetAvatar_Album, nil];
         [actionSheet showInView:self.view];
-    }else {
+    } else {
         //不支持相片选取
     }
 }
 
 - (void)toSetNickNameViewController {
+    
     __weak typeof(self) weakSelf = self;
     SettingsSetTextViewController *controller = [[SettingsSetTextViewController alloc] init];
     controller.title = str_Set_Nickname;
     controller.textFieldPlaceholder = str_Set_Nickname_Tips1;
     controller.setType = SetNickName;
-    controller.finishedBlock = ^(NSString *text){
+    controller.finishedBlock = ^(NSString *text) {
         
         text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
@@ -499,15 +499,17 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         [weakSelf.navigationController popViewControllerAnimated:YES];
     };
     [self.navigationController pushViewController:controller animated:YES];
+    
 }
 
 - (void)toSetLifeViewController {
+    
     __weak typeof(self) weakSelf = self;
     SettingsSetTextViewController *controller = [[SettingsSetTextViewController alloc] init];
     controller.title = str_Set_Lifespan;
     controller.textFieldPlaceholder = str_Set_Lifespan_Tips1;
     controller.setType = SetLife;
-    controller.finishedBlock = ^(NSString *text){
+    controller.finishedBlock = ^(NSString *text) {
         
         text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
@@ -529,6 +531,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         [weakSelf.navigationController popViewControllerAnimated:YES];
     };
     [self.navigationController pushViewController:controller animated:YES];
+    
 }
 
 - (void)setMale {
@@ -537,7 +540,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     
     [Config shareInstance].settings.gender = @"1";
     
-    [PlanCache storePersonalSettings:[Config shareInstance].settings];}
+    [PlanCache storePersonalSettings:[Config shareInstance].settings];
+}
 
 - (void)setFemale {
     self.sexThreeSubView.centerButton.selected = NO;
@@ -549,6 +553,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 }
 
 - (void)setBirthday {
+    
     UIView *pickerView = [[UIView alloc] initWithFrame:self.view.bounds];
     pickerView.backgroundColor = [UIColor clearColor];
     
@@ -558,7 +563,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         bgView.alpha = 0.3;
         [pickerView addSubview:bgView];
     }
-    
     {
         UIToolbar* toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, pickerView.frame.size.height - kSettingsViewPickerHeight - kSettingsViewToolBarHeight, CGRectGetWidth(pickerView.bounds), kSettingsViewToolBarHeight)];
         toolbar.barStyle = UIBarStyleBlack;
@@ -570,7 +574,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         [toolbar setItems:toolbarItems];
         [pickerView addSubview:toolbar];
     }
-    
     {
         UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, pickerView.frame.size.height - kSettingsViewPickerHeight, CGRectGetWidth(pickerView.bounds), kSettingsViewPickerHeight)];
         picker.backgroundColor = [UIColor whiteColor];
@@ -688,12 +691,13 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (void)sinaWeiboLogin {
     
-    if([WeiboSDK isWeiboAppInstalled]){
+    if([WeiboSDK isWeiboAppInstalled]) {
         //向新浪发送请求
         WBAuthorizeRequest *request = [WBAuthorizeRequest request];
         request.redirectURI = str_SinaWeibo_RedirectURI;
         request.scope = @"all";
         [WeiboSDK sendRequest:request];
+        
     } else {
         
         [self alertButtonMessage:str_Settings_LogIn_SinaWeibo_Tips1];
@@ -742,6 +746,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         NSDate *expiresDate = _tencentOAuth.expirationDate;
         
         [LogIn bmobLogIn:BmobSNSPlatformQQ accessToken:accessToken uid:uid expiresDate:expiresDate];
+        
     } else {
         
         [self hideHUD];
@@ -760,8 +765,12 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [self hideHUD];
 }
 
+- (void)tencentDidLogout {
+}
+
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
     if (alertView.tag == kSettingsViewAlertTagForSetNickName) {
         [self.navigationController popViewControllerAnimated:YES];
     } else if (alertView.tag == kSettingsViewAlertTagForSetLife){
@@ -771,6 +780,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
     if (buttonIndex==[actionSheet cancelButtonIndex]) {
         
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:str_Settings_SetAvatar_Camera]) {
@@ -801,10 +811,12 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
     [self saveAvatar:image];
 }

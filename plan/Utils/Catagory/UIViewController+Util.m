@@ -14,8 +14,7 @@ NSInteger const kIOS7SmartRightMarginWidth = -14;
 @implementation UIViewController (Util)
 
 
-- (void)setLeftBarButtonItem:(UIBarButtonItem *)leftBarButtonItem
-{
+- (void)setLeftBarButtonItem:(UIBarButtonItem *)leftBarButtonItem {
     NSArray *leftBarButtonItems = nil;
     if (leftBarButtonItem) {
         leftBarButtonItems = @[leftBarButtonItem];
@@ -23,8 +22,7 @@ NSInteger const kIOS7SmartRightMarginWidth = -14;
     self.leftBarButtonItems = leftBarButtonItems;
 }
 
-- (void)setRightBarButtonItem:(UIBarButtonItem *)rightBarButtonItem
-{
+- (void)setRightBarButtonItem:(UIBarButtonItem *)rightBarButtonItem {
     NSArray *rightBarButtonItems = nil;
     if (rightBarButtonItem) {
         rightBarButtonItems = @[rightBarButtonItem];
@@ -32,8 +30,7 @@ NSInteger const kIOS7SmartRightMarginWidth = -14;
     self.rightBarButtonItems = rightBarButtonItems;
 }
 
-- (UIBarButtonItem *)getLeftBarButtonItem
-{
+- (UIBarButtonItem *)getLeftBarButtonItem {
     UIBarButtonItem *item = nil;
     NSArray *array = self.leftBarButtonItems;
     if (array.count > 0) {
@@ -42,8 +39,7 @@ NSInteger const kIOS7SmartRightMarginWidth = -14;
     return item;
 }
 
-- (UIBarButtonItem *)getRightBarButtonItem
-{
+- (UIBarButtonItem *)getRightBarButtonItem {
     UIBarButtonItem *item = nil;
     NSArray *array = self.rightBarButtonItems;
     if (array.count > 0) {
@@ -52,8 +48,7 @@ NSInteger const kIOS7SmartRightMarginWidth = -14;
     return item;
 }
 
-- (void)setLeftBarButtonItems:(NSArray *)items
-{
+- (void)setLeftBarButtonItems:(NSArray *)items {
     if (iOS7_LATER) {
         
         self.navigationItem.leftBarButtonItems = [self barButtonItems:items marginWidth:kIOS7SmartLeftMarginWidth];
@@ -64,8 +59,7 @@ NSInteger const kIOS7SmartRightMarginWidth = -14;
     }
 }
 
-- (void)setRightBarButtonItems:(NSArray *)items
-{
+- (void)setRightBarButtonItems:(NSArray *)items {
     if (iOS7_LATER) {
         
         self.navigationItem.rightBarButtonItems = [self barButtonItems:items marginWidth:kIOS7SmartRightMarginWidth];
@@ -76,20 +70,17 @@ NSInteger const kIOS7SmartRightMarginWidth = -14;
     }
 }
 
-- (NSArray *)getLeftBarButtonItems
-{
+- (NSArray *)getLeftBarButtonItems {
     return [self getBarButtonItemsForItems:self.navigationItem.leftBarButtonItems];
 }
 
 
-- (NSArray *)getRightBarButtonItems
-{
+- (NSArray *)getRightBarButtonItems {
     return [self getBarButtonItemsForItems:self.navigationItem.rightBarButtonItems];
 }
 
 
-- (NSArray *)getBarButtonItemsForItems:(NSArray *)items
-{
+- (NSArray *)getBarButtonItemsForItems:(NSArray *)items {
     NSArray *array = nil;
     if (iOS7_LATER && items.count > 0) {
         
@@ -106,8 +97,7 @@ NSInteger const kIOS7SmartRightMarginWidth = -14;
     return array;
 }
 
-- (NSArray *)barButtonItems:(NSArray *)items marginWidth:(NSInteger)marginWidth
-{
+- (NSArray *)barButtonItems:(NSArray *)items marginWidth:(NSInteger)marginWidth {
     NSArray *tmpItems = nil;
     
     if (items.count > 0) {

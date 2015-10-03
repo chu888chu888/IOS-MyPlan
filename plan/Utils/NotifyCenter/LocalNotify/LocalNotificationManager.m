@@ -13,8 +13,7 @@ static LocalNotificationManager * instance = nil;
 @implementation LocalNotificationManager
 
 
-+ (void)createLocalNotification:(NSDate*)fireDate userInfo:(NSDictionary*)userDic alertBody:(NSString*)body
-{
++ (void)createLocalNotification:(NSDate*)fireDate userInfo:(NSDictionary*)userDic alertBody:(NSString*)body {
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     //如果时间已到，则不继续添加通知
     if (!fireDate || [fireDate compare:[NSDate date]] == NSOrderedAscending) {
@@ -44,8 +43,7 @@ static LocalNotificationManager * instance = nil;
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
 }
 
-+ (BOOL)cancelNotificationWithTag:(NSString*)aTag time:(NSTimeInterval)aTime type:(NotificationType)aType
-{
++ (BOOL)cancelNotificationWithTag:(NSString*)aTag time:(NSTimeInterval)aTime type:(NotificationType)aType {
     UILocalNotification *localNotification = [LocalNotificationManager findNotification:aTag time:aTime type:aType];
     if (localNotification) {
         //如果找到对应的通知，则做更新处理
@@ -55,40 +53,35 @@ static LocalNotificationManager * instance = nil;
         [app cancelLocalNotification:localNotification];
         
         return YES;
-    }
-    else {
+    } else {
         return NO;
     }
 }
 
-+ (BOOL)updateNotificationWithTag:(NSString*)aTag time:(NSTimeInterval)aTime type:(NotificationType)aType fireDate:(NSDate*)fireDate userInfo:(NSDictionary*)userDic alertBody:(NSString*)body{
++ (BOOL)updateNotificationWithTag:(NSString*)aTag time:(NSTimeInterval)aTime type:(NotificationType)aType fireDate:(NSDate*)fireDate userInfo:(NSDictionary*)userDic alertBody:(NSString*)body {
     UILocalNotification *localNotification = [LocalNotificationManager findNotification:aTag time:aTime type:aType];
     if (localNotification) {
         [LocalNotificationManager cancelNotification:localNotification];
         [LocalNotificationManager createLocalNotification:fireDate userInfo:userDic alertBody:body];
         
         return YES;
-    }
-    else {
+    } else {
         return NO;
     }
 }
 
-+ (BOOL)updateNotificationWithTag:(UILocalNotification*)notification fireDate:(NSDate*)fireDate userInfo:(NSDictionary*)userDic alertBody:(NSString*)body
-{
++ (BOOL)updateNotificationWithTag:(UILocalNotification*)notification fireDate:(NSDate*)fireDate userInfo:(NSDictionary*)userDic alertBody:(NSString*)body {
     if (notification) {
         [LocalNotificationManager cancelNotification:notification];
         [LocalNotificationManager createLocalNotification:fireDate userInfo:userDic alertBody:body];
         
         return YES;
-    }
-    else {
+    } else {
         return NO;
     }
 }
 
-+ (UILocalNotification*)findNotification:(NSString*)aTag time:(NSTimeInterval)aTime type:(NotificationType)aType
-{
++ (UILocalNotification*)findNotification:(NSString*)aTag time:(NSTimeInterval)aTime type:(NotificationType)aType {
     // 获得 UIApplication
     UIApplication *app = [UIApplication sharedApplication];
     //获取本地推送数组
@@ -117,8 +110,7 @@ static LocalNotificationManager * instance = nil;
     [app cancelAllLocalNotifications];
 }
 
-+ (void)cancelNotification:(UILocalNotification*)notification
-{
++ (void)cancelNotification:(UILocalNotification*)notification {
     if (notification == nil) {
         return;
     }
@@ -127,8 +119,7 @@ static LocalNotificationManager * instance = nil;
     [app cancelLocalNotification:notification];
 }
 
-+ (NSArray *)getAllLocalNotification
-{
++ (NSArray *)getAllLocalNotification {
     // 获得 UIApplication
     UIApplication *app = [UIApplication sharedApplication];
     //获取本地推送数组
@@ -137,8 +128,7 @@ static LocalNotificationManager * instance = nil;
     return localArray;
 }
 
-+ (NSArray *)getNotificationWithTag:(NSString*)aTag type:(NotificationType)aType
-{
++ (NSArray *)getNotificationWithTag:(NSString*)aTag type:(NotificationType)aType {
     // 获得 UIApplication
     UIApplication *app = [UIApplication sharedApplication];
     //获取本地推送数组

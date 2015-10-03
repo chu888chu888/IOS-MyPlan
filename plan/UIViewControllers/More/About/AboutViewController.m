@@ -21,15 +21,13 @@
 @implementation AboutViewController
 
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = str_More_About;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     if (!self.bgImageView) {
@@ -38,8 +36,7 @@
     }
 }
 
-- (void)loadCustomView
-{
+- (void)loadCustomView {
     [self showLogo];
     
     {
@@ -80,8 +77,7 @@
     }
 }
 
-- (void)showLogo
-{
+- (void)showLogo {
     
     self.xMiddle = WIDTH_FULL_SCREEN / 2;
     

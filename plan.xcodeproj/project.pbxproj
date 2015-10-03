@@ -80,7 +80,6 @@
 		137701131B9683E3008C83FD /* CommonFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 137701121B9683E3008C83FD /* CommonFunction.m */; };
 		137C60771BBB6EA100725662 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C605C1BBB6EA100725662 /* TencentOpenAPI.framework */; };
 		137C60781BBB6EA100725662 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 137C605D1BBB6EA100725662 /* TencentOpenApi_IOS_Bundle.bundle */; };
-		137C60791BBB6EA100725662 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C605F1BBB6EA100725662 /* libWeiboSDK.a */; };
 		137C607A1BBB6EA100725662 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 137C60691BBB6EA100725662 /* WeiboSDK.bundle */; };
 		137C607B1BBB6EA100725662 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C606D1BBB6EA100725662 /* libWeChatSDK.a */; };
 		137C607C1BBB6EA100725662 /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C60701BBB6EA100725662 /* MOBFoundation.framework */; };
@@ -93,6 +92,8 @@
 		137C60831BBB6EEA00725662 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B07EB1BA133100015E752 /* libicucore.dylib */; };
 		137C60841BBB6F0B00725662 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B07EF1BA133480015E752 /* libstdc++.dylib */; };
 		137C60851BBB6F1300725662 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B07F11BA133590015E752 /* JavaScriptCore.framework */; };
+		137C60901BBFD3C800725662 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C605F1BBB6EA100725662 /* libWeiboSDK.a */; };
+		137C60921BBFD43200725662 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C60911BBFD43200725662 /* AdSupport.framework */; };
 		C8A17A0270E972C390BD1398 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C51BA1CAD16DA7E729CF56 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -256,6 +257,7 @@
 		137C60741BBB6EA100725662 /* ShareSDKExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKExtension.framework; sourceTree = "<group>"; };
 		137C60751BBB6EA100725662 /* ShareSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKUI.bundle; sourceTree = "<group>"; };
 		137C60761BBB6EA100725662 /* ShareSDKUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKUI.framework; sourceTree = "<group>"; };
+		137C60911BBFD43200725662 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		D20618BBE36BB6EEAA8583DB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E63B58B1DFA51CA8858183E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7C51BA1CAD16DA7E729CF56 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,14 +268,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				137C60921BBFD43200725662 /* AdSupport.framework in Frameworks */,
 				137C60851BBB6F1300725662 /* JavaScriptCore.framework in Frameworks */,
 				137C60841BBB6F0B00725662 /* libstdc++.dylib in Frameworks */,
 				1368F9761BB6287D00CC7E63 /* libz.dylib in Frameworks */,
 				137C60831BBB6EEA00725662 /* libicucore.dylib in Frameworks */,
 				1368F9751BB6286E00CC7E63 /* CoreGraphics.framework in Frameworks */,
+				137C60901BBFD3C800725662 /* libWeiboSDK.a in Frameworks */,
 				1368F9731BB6286500CC7E63 /* Foundation.framework in Frameworks */,
 				137C60801BBB6EA200725662 /* ShareSDKExtension.framework in Frameworks */,
-				137C60791BBB6EA100725662 /* libWeiboSDK.a in Frameworks */,
 				137C607E1BBB6EA200725662 /* ShareSDK.framework in Frameworks */,
 				1368F9711BB6285400CC7E63 /* UIKit.framework in Frameworks */,
 				137C60771BBB6EA100725662 /* TencentOpenAPI.framework in Frameworks */,
@@ -723,6 +726,7 @@
 		1A2B3F1372598EA1C2E0A8DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				137C60911BBFD43200725662 /* AdSupport.framework */,
 				1368F9741BB6286E00CC7E63 /* CoreGraphics.framework */,
 				1368F9721BB6286500CC7E63 /* Foundation.framework */,
 				1368F9701BB6285300CC7E63 /* UIKit.framework */,

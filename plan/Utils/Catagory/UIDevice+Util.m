@@ -16,24 +16,32 @@
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
 @interface NSDictionary(subscripts)
+
 - (id)objectForKeyedSubscript:(id)key;
+
 @end
 
 @interface NSMutableDictionary(subscripts)
+
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
+
 @end
 
 @interface NSArray(subscripts)
+
 - (id)objectAtIndexedSubscript:(NSUInteger)idx;
+
 @end
 
 @interface NSMutableArray(subscripts)
+
 - (void)setObject:(id)obj atIndexedSubscript:(NSUInteger)idx;
+
 @end
 
 @implementation NSDictionary(subscripts)
-- (id)objectForKeyedSubscript:(id)key;
-{
+
+- (id)objectForKeyedSubscript:(id)key {
     return [self objectForKey:key];
 }
 @end
@@ -43,8 +51,7 @@
 @implementation UIDevice (Util)
 
 #pragma mark sysctlbyname utils
-- (NSString *) getSysInfoByName:(char *)typeSpecifier
-{
+- (NSString *)getSysInfoByName:(char *)typeSpecifier {
     size_t size;
     sysctlbyname(typeSpecifier, NULL, &size, NULL, 0);
     
@@ -57,20 +64,17 @@
     return results;
 }
 
-- (NSString *) platform
-{
+- (NSString *)platform {
     return [self getSysInfoByName:"hw.machine"];
 }
 
 
-- (NSString *) hwmodel
-{
+- (NSString *)hwmodel {
     return [self getSysInfoByName:"hw.model"];
 }
 
 #pragma mark sysctl utils
-- (NSUInteger) getSysInfo: (uint) typeSpecifier
-{
+- (NSUInteger)getSysInfo:(uint) typeSpecifier {
     size_t size = sizeof(int);
     int results;
     int mib[2] = {CTL_HW, typeSpecifier};
@@ -78,50 +82,41 @@
     return (NSUInteger) results;
 }
 
-- (NSUInteger) cpuFrequency
-{
+- (NSUInteger)cpuFrequency {
     return [self getSysInfo:HW_CPU_FREQ];
 }
 
-- (NSUInteger) busFrequency
-{
+- (NSUInteger)busFrequency {
     return [self getSysInfo:HW_BUS_FREQ];
 }
 
-- (NSUInteger) cpuCount
-{
+- (NSUInteger)cpuCount {
     return [self getSysInfo:HW_NCPU];
 }
 
-- (NSUInteger) totalMemory
-{
+- (NSUInteger)totalMemory {
     return [self getSysInfo:HW_PHYSMEM];
 }
 
-- (NSUInteger) userMemory
-{
+- (NSUInteger)userMemory {
     return [self getSysInfo:HW_USERMEM];
 }
 
-- (NSUInteger) maxSocketBufferSize
-{
+- (NSUInteger)maxSocketBufferSize {
     return [self getSysInfo:KIPC_MAXSOCKBUF];
 }
 
-- (NSNumber *) totalDiskSpace
-{
+- (NSNumber *)totalDiskSpace {
     NSDictionary *fattributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return fattributes[NSFileSystemSize];
 }
 
-- (NSNumber *) freeDiskSpace
-{
+- (NSNumber *)freeDiskSpace {
     NSDictionary *fattributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return fattributes[NSFileSystemFreeSize];
 }
 
-+( NSInteger )getSubmodel:( NSString* )platform
-{
++( NSInteger )getSubmodel:( NSString* )platform {
     NSInteger submodel = -1;
     
     NSArray* components = [ platform componentsSeparatedByString:@"," ];
@@ -133,20 +128,17 @@
 }
 
 #pragma mark platform type and name utils
-- (NSUInteger) platformType
-{
+- (NSUInteger)platformType {
     NSLog(@"platform = %@" ,[self platform]);
     return [UIDevice platformTypeForString:[self platform]];
 }
 
 
-- (NSString *) platformString
-{
+- (NSString *)platformString {
     return [UIDevice platformStringForType:[self platformType]];
 }
 
-+ (NSUInteger) platformTypeForString:(NSString *)platform
-{
++ (NSUInteger)platformTypeForString:(NSString *)platform {
     
     // The ever mysterious iFPGA
     if ([platform isEqualToString:@"iFPGA"])        return UIDeviceIFPGA;
@@ -178,25 +170,19 @@
     
     // iPad
     if ([platform hasPrefix:@"iPad1"])              return UIDeviceiPad1;
-    if ([platform hasPrefix:@"iPad2"])
-    {
+    if ([platform hasPrefix:@"iPad2"]) {
         NSInteger submodel = [ UIDevice getSubmodel:platform ];
-        if ( submodel <= 4 )
-        {
+        if ( submodel <= 4 ) {
             return UIDeviceiPad2;
-        } else
-        {
+        } else {
             return UIDeviceiPadMini;
         }
     }
-    if ([platform hasPrefix:@"iPad3"])
-    {
+    if ([platform hasPrefix:@"iPad3"]) {
         NSInteger submodel = [ UIDevice getSubmodel:platform ];
-        if ( submodel <= 3 )
-        {
+        if ( submodel <= 3 ) {
             return UIDeviceTheNewiPad;
-        } else
-        {
+        } else {
             return UIDeviceiPad4G;
         }
     }
@@ -214,8 +200,7 @@
     if ([platform hasPrefix:@"AppleTV"])            return UIDeviceUnknownAppleTV;
     
     // Simulator thanks Jordan Breeding
-    if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"])
-    {
+    if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"]) {
         BOOL smallerScreen = [[UIScreen mainScreen] bounds].size.width < 768;
         return smallerScreen ? UIDeviceiPhoneSimulatoriPhone : UIDeviceiPhoneSimulatoriPad;
     }
@@ -223,10 +208,8 @@
     return UIDeviceUnknown;
 }
 
-+ (NSString *) platformStringForType:(NSUInteger)platformType
-{
-    switch (platformType)
-    {
++ (NSString *)platformStringForType:(NSUInteger)platformType {
+    switch (platformType) {
         case UIDeviceiPhone1:               return IPHONE_1_NAMESTRING;
         case UIDeviceiPhone3G:              return IPHONE_3G_NAMESTRING;
         case UIDeviceiPhone3GS:             return IPHONE_3GS_NAMESTRING;
@@ -280,34 +263,28 @@
     }
 }
 
-+ (NSString *) platformStringForPlatform:(NSString *)platform
-{
++ (NSString *)platformStringForPlatform:(NSString *)platform {
     NSUInteger platformType = [UIDevice platformTypeForString:platform];
     return [UIDevice platformStringForType:platformType];
 }
 
-+ (BOOL) hasRetinaDisplay
-{
++ (BOOL)hasRetinaDisplay {
     return ([UIScreen mainScreen].scale == 2.0f);
 }
 
-+ (NSString *) imageSuffixRetinaDisplay
-{
++ (NSString *)imageSuffixRetinaDisplay {
     return @"@2x";
 }
 
-+ (BOOL) has4InchDisplay
-{
++ (BOOL)has4InchDisplay {
     return ([UIScreen mainScreen].bounds.size.height == 568);
 }
 
-+ (NSString *) imageSuffix4InchDisplay
-{
++ (NSString *)imageSuffix4InchDisplay {
     return @"-568h";
 }
 
-- (UIDeviceFamily) deviceFamily
-{
+- (UIDeviceFamily)deviceFamily {
     NSString *platform = [self platform];
     if ([platform hasPrefix:@"iPhone"]) return UIDeviceFamilyiPhone;
     if ([platform hasPrefix:@"iPod"]) return UIDeviceFamilyiPod;
@@ -318,9 +295,7 @@
 }
 
 #pragma mark MAC addy
-
-- (NSString *) macaddress
-{
+- (NSString *)macaddress {
     int                 mib[6];
     size_t              len;
     char                *buf;

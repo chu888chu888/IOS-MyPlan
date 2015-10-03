@@ -12,23 +12,19 @@
 @implementation PlanSectionView {
     
     BOOL _toggle;
-    
     UILabel *titleLabel;
     UIImageView *toggleImageView;
+    
 }
 
-- (id)initWithTitle:(NSString *)title
-{
-    self = [super initWithFrame:CGRectMake(0, 0, WIDTH_FULL_SCREEN, kPlanSectionViewHeight)];
+- (id)initWithTitle:(NSString *)title {
     
+    self = [super initWithFrame:CGRectMake(0, 0, WIDTH_FULL_SCREEN, kPlanSectionViewHeight)];
     if (self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         self.backgroundColor = color_Blue;
-//        self.layer.borderWidth = 1;
-//        self.layer.borderColor = color_GrayDark;
         
         toggleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:png_Btn_SectionUp]];
-        
         titleLabel = [[UILabel alloc] init];
         titleLabel.textColor = [UIColor whiteColor];
         titleLabel.font = font_Normal_18;
@@ -56,8 +52,7 @@
     
     if (_toggle) {
         toggleImageView.transform = CGAffineTransformMakeRotation(fl * 4);
-    }
-    else {
+    } else {
         toggleImageView.transform = CGAffineTransformMakeRotation(fl);
     }
     _toggle = !_toggle;
