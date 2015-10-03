@@ -100,6 +100,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         
         [self createLogInButton:yOffset];
     }
+    
+    [self hideHUD];
 }
 
 - (UIView *)createSectionTwoView {
@@ -645,29 +647,43 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (void)exitAction {
     
-    if ([ShareSDK hasAuthorized:SSDKPlatformTypeSinaWeibo]) {
-        
-        [ShareSDK cancelAuthorize:SSDKPlatformTypeSinaWeibo];
-        
-        [LogIn bmobLogOut:BmobSNSPlatformSinaWeibo];
-        
-    } else if ([ShareSDK hasAuthorized:SSDKPlatformTypeQQ]) {
-        
-        [ShareSDK cancelAuthorize:SSDKPlatformTypeQQ];
+    if ([LogIn hasAuthorized:BmobSNSPlatformQQ]) {
         
         [LogIn bmobLogOut:BmobSNSPlatformQQ];
         
-    } else if ([ShareSDK hasAuthorized:SSDKPlatformTypeWechat]) {
+    } else if ([LogIn hasAuthorized:BmobSNSPlatformSinaWeibo]) {
         
-        [ShareSDK cancelAuthorize:SSDKPlatformTypeWechat];
-        
-        [LogIn bmobLogOut:BmobSNSPlatformWeiXin];
+        [LogIn bmobLogOut:BmobSNSPlatformSinaWeibo];
         
     } else {
         
         [BmobUser logout];
         
     }
+//    
+//    if ([ShareSDK hasAuthorized:SSDKPlatformTypeSinaWeibo]) {
+//        
+//        [ShareSDK cancelAuthorize:SSDKPlatformTypeSinaWeibo];
+//        
+//        [LogIn bmobLogOut:BmobSNSPlatformSinaWeibo];
+//        
+//    } else if ([ShareSDK hasAuthorized:SSDKPlatformTypeQQ]) {
+//        
+//        [ShareSDK cancelAuthorize:SSDKPlatformTypeQQ];
+//        
+//        [LogIn bmobLogOut:BmobSNSPlatformQQ];
+//        
+//    } else if ([ShareSDK hasAuthorized:SSDKPlatformTypeWechat]) {
+//        
+//        [ShareSDK cancelAuthorize:SSDKPlatformTypeWechat];
+//        
+//        [LogIn bmobLogOut:BmobSNSPlatformWeiXin];
+//        
+//    } else {
+//        
+//        [BmobUser logout];
+//        
+//    }
 }
 
 - (void)sinaWeiboLogin {
@@ -688,6 +704,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 - (void)qqLogIn {
 
     if ([TencentOAuth iphoneQQInstalled]) {
+        
+        [self showHUD];
         //注册
         _tencentOAuth = [[TencentOAuth alloc] initWithAppId:str_QQ_AppID andDelegate:self];
         //授权
@@ -724,14 +742,22 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         NSDate *expiresDate = _tencentOAuth.expirationDate;
         
         [LogIn bmobLogIn:BmobSNSPlatformQQ accessToken:accessToken uid:uid expiresDate:expiresDate];
+    } else {
+        
+        [self hideHUD];
+        
     }
     
 }
 
 - (void)tencentDidNotLogin:(BOOL)cancelled {
+    
+    [self hideHUD];
 }
 
 - (void)tencentDidNotNetWork {
+    
+    [self hideHUD];
 }
 
 #pragma mark - UIAlertViewDelegate

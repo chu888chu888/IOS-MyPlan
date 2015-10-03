@@ -23,6 +23,18 @@
     }
 }
 
++ (BOOL)hasAuthorized:(BmobSNSPlatform)bmobSNSPlatform {
+    
+    BmobSNSPlatform platform = [LogIn getLogInPlatform];
+    
+    if (platform == bmobSNSPlatform) {
+        return YES;
+    } else {
+        return NO;
+    }
+    
+}
+
 + (void)bmobLogIn:(BmobSNSPlatform)bmobSNSPlatform accessToken:(NSString *)accessToken uid:(NSString *)uid expiresDate:(NSDate *)expiresDate {
     
     NSLog(@"acessToken:%@",accessToken);
@@ -36,10 +48,11 @@
             
             NSLog(@"login error:%@",error);
             
-        } else if (user){
+        } else if (user) {
             
             NSLog(@"user objectid is :%@",user.objectId);
             
+            [LogIn saveLogInPlatform:bmobSNSPlatform];
             [NotificationCenter postNotificationName:Notify_Settings_LogIn object:nil];
         }
     }];
@@ -63,6 +76,27 @@
             
         }
     }];
+    
+}
+
++ (void)saveLogInPlatform:(BmobSNSPlatform)bmobSNSPlatform {
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@(bmobSNSPlatform) forKey:str_LogInPlatform];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
++ (BmobSNSPlatform)getLogInPlatform {
+    
+    id platform = [[NSUserDefaults standardUserDefaults] objectForKey:str_LogInPlatform];
+    NSInteger type = [platform integerValue];
+    if (type == 1) {
+        return BmobSNSPlatformSinaWeibo;
+    } else if (type == 2) {
+        return BmobSNSPlatformWeiXin;
+    } else {
+        return BmobSNSPlatformQQ;
+    }
     
 }
 

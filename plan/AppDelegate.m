@@ -12,6 +12,7 @@
 #import "RegisterSDK.h"
 #import "AppDelegate.h"
 #import "LocalNotificationManager.h"
+#import <TencentOpenAPI/TencentOAuth.h>
 
 @interface AppDelegate ()
 
@@ -85,12 +86,12 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
-    return [WeiboSDK handleOpenURL:url delegate:self];
+    return [TencentOAuth HandleOpenURL:url] ||[WeiboSDK handleOpenURL:url delegate:self];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     
-    return [WeiboSDK handleOpenURL:url delegate:self];
+    return [TencentOAuth HandleOpenURL:url] ||[WeiboSDK handleOpenURL:url delegate:self];
 }
 
 # pragma mark - 新浪回调
