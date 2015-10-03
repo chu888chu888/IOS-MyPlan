@@ -553,7 +553,10 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (self.planType == PlanLife && indexPath.row >= self.planLifeArray.count) {
+    if ((self.planType == PlanEveryday
+         && indexPath.section >= self.dateKeyArray.count)
+        || (self.planType == PlanLife
+            && indexPath.row >= self.planLifeArray.count)) {
         return;
     }
     
