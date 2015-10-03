@@ -6,27 +6,15 @@ PODS:
   - FMDB/standard (2.5):
     - FMDB/common
   - MBProgressHUD (0.9.1)
-  - WeiboSDK (3.1.3)
 
 DEPENDENCIES:
   - BmobSDK
   - FMDB
   - MBProgressHUD
-  - WeiboSDK (from `https://github.com/sinaweibosdk/weibo_ios_sdk.git`)
-
-EXTERNAL SOURCES:
-  WeiboSDK:
-    :git: https://github.com/sinaweibosdk/weibo_ios_sdk.git
-
-CHECKOUT OPTIONS:
-  WeiboSDK:
-    :commit: 4b228c28402e7cf34363e59f05856249f4421ca4
-    :git: https://github.com/sinaweibosdk/weibo_ios_sdk.git
 
 SPEC CHECKSUMS:
   BmobSDK: 50aad04eae8c81ccdea6d6125c97e8cec49d8869
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  WeiboSDK: 5f2a707c4569a64f4641f4171acd712016f24342
 
 COCOAPODS: 0.38.2
