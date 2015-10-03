@@ -27,6 +27,14 @@
 @end
 
 
+@interface FatherViewController (HUDControl)
+
+- (void)showHUD;
+- (void)hideHUD;
+
+@end
+
+
 @interface FatherViewController (alert)
 
 #pragma mark -显示带有“知道了”按钮的提示框

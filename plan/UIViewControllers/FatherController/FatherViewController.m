@@ -6,11 +6,13 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "MBProgressHUD.h"
 #import "FatherViewController.h"
 
 @interface FatherViewController ()
 
 @property (nonatomic, strong, readwrite) UIButton *backButton;
+@property (nonatomic, weak) MBProgressHUD *hud;
 
 @end
 
@@ -122,6 +124,29 @@
     }
 }
 
+
+@end
+
+
+@implementation FatherViewController (HUDControl)
+
+- (void)showHUD
+{
+    if (!self.hud) {
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithFrame:self.view.bounds];
+        hud.backgroundColor = [UIColor colorWithWhite:1 alpha:0.4];
+        [self.view addSubview:hud];
+        self.hud = hud;
+    }
+    self.hud.frame = self.view.bounds;
+    [self.view bringSubviewToFront:self.hud];
+    [self.hud show:YES];
+}
+
+- (void)hideHUD
+{
+    [self.hud hide:YES];
+}
 
 @end
 
