@@ -228,7 +228,7 @@ NSUInteger const kSecondsPerDay = 86400;
     }
     
     NSDateFormatter* formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [formater setDateFormat:str_DateFormatter_yyyy_MM_dd_HHmmss];
     NSDate* birthday = [formater dateFromString:birthdayFormat];
     
     NSTimeInterval secondsLifetime = kSecondsPerDay * 365 * lifetime;

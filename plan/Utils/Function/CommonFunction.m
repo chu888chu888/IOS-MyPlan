@@ -16,6 +16,15 @@
     return [[UIDevice currentDevice] platformString];
 }
 
++ (NSString *)getTimeNowString {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd_HHmmss];
+    NSString *timeNow = [dateFormatter stringFromDate:[NSDate date]];
+    
+    return timeNow;
+}
+
 + (NSDateComponents *)getDateTime:(NSDate *)date {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |

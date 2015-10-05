@@ -95,6 +95,10 @@
 #define str_TableName_Plan @"t_plan"
 #define str_Website_URL @"http://www.fengziyi.com"
 
+#define str_DateFormatter_yyyy_MM_dd_HHmmss @"yyyy-MM-dd HH:mm:ss"
+#define str_DateFormatter_yyyyMMddHHmmss @"yyyyMMddHHmmss"
+#define str_DateFormatter_yyyy_MM_dd_HHmm @"yyyy-MM-dd HH:mm"
+
 #define str_Bmob_ApplicationID @"ed10fc9a05fd6fd5c37be211bc0726b2"
 #define str_SinaWeibo_AppKey @"2763375435"
 #define str_SinaWeibo_AppSecret @"c0f52655316236b558b22f6b90e2ba44"

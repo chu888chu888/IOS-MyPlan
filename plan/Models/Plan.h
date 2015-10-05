@@ -28,5 +28,6 @@ typedef NS_ENUM(NSUInteger, PlanType) {
 @property (nonatomic, strong) NSString *isnotify; //是否提醒: 1是 0否
 @property (nonatomic, strong) NSString *notifytime;
 @property (nonatomic, strong) NSString *plantype; //计划类型 1每日计划 0长远计划
+@property (nonatomic, strong) NSString *isdeleted; //是否已删除 1是 0否
 
 @end

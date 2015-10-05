@@ -12,6 +12,8 @@
 
 + (NSString *)getDeviceType;
 
++ (NSString *)getTimeNowString;
+
 + (NSDateComponents *)getDateTime:(NSDate *)date;
 
 + (BOOL)isEmptyString:(NSString *)original;

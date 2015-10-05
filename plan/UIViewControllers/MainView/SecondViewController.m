@@ -693,7 +693,7 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 - (void)changePlanCompleteStatus:(Plan *)plan {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm"];
+    [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd_HHmm];
     NSString *timeNow = [dateFormatter stringFromDate:[NSDate date]];
     
     //1完成 0未完成

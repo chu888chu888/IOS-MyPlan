@@ -149,10 +149,9 @@
     if ([plan.planid isEqualToString:Notify_FiveDay_Tag]) {
         
         //如果还是没有新建计划，每天提醒一次
-        NSString *formatterString = @"yyyy-MM-dd HH:mm";
         NSDate *tomorrow = [[NSDate date] dateByAddingTimeInterval:24 * 3600];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat: formatterString];
+        [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd_HHmm];
         NSString *fiveDayTomorrow = [dateFormatter stringFromDate:tomorrow];
         plan.notifytime = fiveDayTomorrow;
         

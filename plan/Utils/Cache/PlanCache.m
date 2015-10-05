@@ -6,10 +6,12 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "LogIn.h"
 #import "PlanCache.h"
 #import "FMDatabase.h"
 #import "FMDatabasePool.h"
 #import "FMDatabaseQueue.h"
+#import <BmobSDK/BmobUser.h>
 #import "FMDatabaseAdditions.h"
 #import "LocalNotificationManager.h"
 
@@ -106,17 +108,41 @@ static NSMutableDictionary * __contactsOnlineState;
     // 个人设置
     if (![__db tableExists:str_TableName_Settings]) {
         
-        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (nickname TEXT, birthday TEXT, email TEXT, gender TEXT, lifespan TEXT)", str_TableName_Settings];
+        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (account TEXT, nickname TEXT, birthday TEXT, email TEXT, gender TEXT, lifespan TEXT, syntime TEXT)", str_TableName_Settings];
         
         BOOL b = [__db executeUpdate:sqlString];
         
         FMDBQuickCheck(b, sqlString, __db);
+        
+    } else {//新增字段
+        
+        //新增账号字段2015-10-03
+        NSString *account = @"account";
+        if (![__db columnExists:account inTableWithName:str_TableName_Settings]) {
+            
+            NSString *sqlString = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",str_TableName_Settings, account];
+            
+            BOOL b = [__db executeUpdate:sqlString];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+            
+        }
+        //新增同步时间字段2015-10-03
+        NSString *syntime = @"syntime";
+        if (![__db columnExists:syntime inTableWithName:str_TableName_Settings]) {
+            
+            NSString *sqlString = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",str_TableName_Settings, syntime];
+            
+            BOOL b = [__db executeUpdate:sqlString];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+        }
     }
     
     // 计划
     if (![__db tableExists:str_TableName_Plan]) {
         
-        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (planid TEXT, content TEXT, createtime TEXT, completetime TEXT, updatetime TEXT, iscompleted TEXT, isnotify TEXT, notifytime TEXT, plantype TEXT, isdeleted TEXT)", str_TableName_Plan];
+        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (account TEXT, planid TEXT, content TEXT, createtime TEXT, completetime TEXT, updatetime TEXT, iscompleted TEXT, isnotify TEXT, notifytime TEXT, plantype TEXT, isdeleted TEXT)", str_TableName_Plan];
         
         BOOL b = [__db executeUpdate:sqlString];
         
@@ -167,6 +193,17 @@ static NSMutableDictionary * __contactsOnlineState;
             
             FMDBQuickCheck(b, sqlString, __db);
         }
+        //新增账号字段2015-10-03
+        NSString *account = @"account";
+        if (![__db columnExists:account inTableWithName:str_TableName_Plan]) {
+            
+            NSString *sqlString = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",str_TableName_Plan, account];
+            
+            BOOL b = [__db executeUpdate:sqlString];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+            
+        }
     }
 
 }
@@ -176,13 +213,18 @@ static NSMutableDictionary * __contactsOnlineState;
     
     @synchronized(__db) {
         
-        if (!__db.open)
-        {
+        if (!__db.open) {
             if (![__db open]) {
                 return ;
             }
         }
         
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            settings.account = user.objectId;
+        } else {
+            settings.account = @"";
+        }
         if (!settings.nickname) {
             settings.nickname = @"";
         }
@@ -201,21 +243,30 @@ static NSMutableDictionary * __contactsOnlineState;
         if (!settings.password) {
             settings.password = @"";
         }
+        if (!settings.syntime) {
+            settings.syntime = @"";
+        }
         
         BOOL hasRec = NO;
-        FMResultSet * rs = [__db executeQuery:@"SELECT * FROM t_settings"];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE account=?", str_TableName_Settings];
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[settings.account]];
         hasRec = [rs next];
         [rs close];
         if (hasRec) {
-            BOOL b = [__db executeUpdate:@"UPDATE t_settings SET nickname=?, birthday=?, email=?, gender=?, lifespan=?" withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan]];
             
-            FMDBQuickCheck(b, @"store(update) t_settings", __db);
+            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET nickname=?, birthday=?, email=?, gender=?, lifespan=?, syntime=? WHERE account=?", str_TableName_Settings];
+            
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan, settings.syntime, settings.account]];
+            
+            FMDBQuickCheck(b, sqlString, __db);
             
         } else {
             
-            BOOL b = [__db executeUpdate:@"INSERT INTO t_settings(nickname, birthday, email, gender, lifespan) values(?, ?, ?, ?, ?)" withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan]];
+            sqlString = [NSString stringWithFormat:@"INSERT INTO %@(account, nickname, birthday, email, gender, lifespan, syntime) values(?, ?, ?, ?, ?, ?, ?)", str_TableName_Settings];
+            
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[settings.account, settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan, settings.syntime]];
 
-            FMDBQuickCheck(b, @"store(insert) t_settings", __db);
+            FMDBQuickCheck(b, sqlString, __db);
         }
         
         [NotificationCenter postNotificationName:Notify_Settings_Changed object:nil];
@@ -235,6 +286,13 @@ static NSMutableDictionary * __contactsOnlineState;
         
         if (!plan.planid || !plan.content || !plan.createtime)
             return;
+        
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            plan.account = user.objectId;
+        } else {
+            plan.account = @"";
+        }
         if (!plan.completetime) {
             plan.completetime = @"";
         }
@@ -252,16 +310,16 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         BOOL hasRec = NO;
-        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE planid=?", str_TableName_Plan];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE planid=? AND account=?", str_TableName_Plan];
         
-        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plan.planid]];
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plan.planid, plan.account]];
         hasRec = [rs next];
         [rs close];
         if (hasRec) {
             
-            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET content=?, createtime=?, completetime=?, updatetime=?, iscompleted=?, isnotify=?, notifytime=?, plantype=? WHERE planid=?", str_TableName_Plan];
+            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET content=?, createtime=?, completetime=?, updatetime=?, iscompleted=?, isnotify=?, notifytime=?, plantype=? WHERE planid=? AND account=?", str_TableName_Plan];
             
-            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype, plan.planid]];
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype, plan.planid, plan.account]];
             
             FMDBQuickCheck(b, sqlString, __db);
             
@@ -276,9 +334,9 @@ static NSMutableDictionary * __contactsOnlineState;
             }
         } else {
             
-            sqlString = [NSString stringWithFormat:@"INSERT INTO %@(planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype, isdeleted) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", str_TableName_Plan];
+            sqlString = [NSString stringWithFormat:@"INSERT INTO %@(account, planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype, isdeleted) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", str_TableName_Plan];
             
-            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid, plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype, @"0"]];
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.account, plan.planid, plan.content, plan.createtime, plan.completetime, plan.updatetime, plan.iscompleted, plan.isnotify, plan.notifytime, plan.plantype, @"0"]];
             
             FMDBQuickCheck(b, sqlString, __db);
             
@@ -340,12 +398,18 @@ static NSMutableDictionary * __contactsOnlineState;
                 return nil;
             }
         }
-        
+
         Settings *settings = [[Settings alloc] init];
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            settings.account = user.objectId;
+        } else {
+            settings.account = @"";
+        }
         
-        NSString *sqlString = @"select nickname, birthday, email, gender, lifespan from t_settings";
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT nickname, birthday, email, gender, lifespan, syntime FROM %@ WHERE account=?", str_TableName_Settings];
         
-        FMResultSet * rs = [__db executeQuery:sqlString];
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[settings.account]];
         while ([rs next]) {
             
             settings.nickname = [rs stringForColumn:@"nickname"];
@@ -353,6 +417,7 @@ static NSMutableDictionary * __contactsOnlineState;
             settings.email = [rs stringForColumn:@"email"];
             settings.gender = [rs stringForColumn:@"gender"];
             settings.lifespan = [rs stringForColumn:@"lifespan"];
+            settings.syntime = [rs stringForColumn:@"syntime"];
         }
         [rs close];
         
@@ -372,10 +437,16 @@ static NSMutableDictionary * __contactsOnlineState;
             }
         }
         
-        NSMutableArray *array = [NSMutableArray array];
-        NSString *sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype FROM %@ WHERE plantype=? AND isdeleted=0 ORDER BY createtime DESC", str_TableName_Plan];
+        NSString *account = @"";
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            account = user.objectId;
+        }
         
-        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype]];
+        NSMutableArray *array = [NSMutableArray array];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype FROM %@ WHERE plantype=? AND account=? AND isdeleted=0 ORDER BY createtime DESC", str_TableName_Plan];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype, account]];
         
         while ([rs next]) {
             
@@ -398,7 +469,6 @@ static NSMutableDictionary * __contactsOnlineState;
     }
 }
 
-
 + (NSString *)getPlanTotalCountByPlantype:(NSString *)plantype {
     
     @synchronized(__db) {
@@ -409,10 +479,16 @@ static NSMutableDictionary * __contactsOnlineState;
             }
         }
         
-        NSString *total = @"0";
-        NSString *sqlString = [NSString stringWithFormat:@"SELECT COUNT(*) as total FROM %@ WHERE plantype=? AND isdeleted=0", str_TableName_Plan];
+        NSString *account = @"";
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            account = user.objectId;
+        }
         
-        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype]];
+        NSString *total = @"0";
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT COUNT(*) as total FROM %@ WHERE plantype=? AND account=? AND isdeleted=0", str_TableName_Plan];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype, account]];
         
         if([rs next]) {
             
@@ -434,10 +510,16 @@ static NSMutableDictionary * __contactsOnlineState;
             }
         }
         
-        NSString *completed = @"0";
-        NSString *sqlString = [NSString stringWithFormat:@"SELECT COUNT(*) as completed FROM %@ WHERE plantype=? AND iscompleted=1 AND isdeleted=0", str_TableName_Plan];
+        NSString *account = @"";
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            account = user.objectId;
+        }
         
-        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype]];
+        NSString *completed = @"0";
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT COUNT(*) as completed FROM %@ WHERE plantype=? AND account=? AND iscompleted=1 AND isdeleted=0", str_TableName_Plan];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype, account]];
         
         if([rs next]) {
             
@@ -449,10 +531,9 @@ static NSMutableDictionary * __contactsOnlineState;
     }
 }
 
-
 + (void)addLocalNotification:(Plan *)plan {
     //时间格式：yyyy-MM-dd HH:mm
-    NSDate *date = [CommonFunction NSStringDateToNSDate:plan.notifytime formatter:@"yyyy-MM-dd HH:mm"];
+    NSDate *date = [CommonFunction NSStringDateToNSDate:plan.notifytime formatter:str_DateFormatter_yyyy_MM_dd_HHmm];
     
     if (!date) return;
     
@@ -503,7 +584,7 @@ static NSMutableDictionary * __contactsOnlineState;
     }
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm"];
+    [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd_HHmm];
     NSString *fiveDayLater = [dateFormatter stringFromDate:[[NSDate date] dateByAddingTimeInterval:5 * 24 * 3600]];
     
     Plan *fiveDayPlan = [[Plan alloc] init];
@@ -523,6 +604,128 @@ static NSMutableDictionary * __contactsOnlineState;
         [self addLocalNotification:fiveDayPlan];
     }
     
+}
+
++ (void)linkedLocalDataToAccount {
+    
+    BmobUser *user = [BmobUser getCurrentUser];
+    
+    BOOL hasRec = NO;
+    NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE account=?", str_TableName_Settings];
+    FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[@""]];
+    hasRec = [rs next];
+    [rs close];
+    if (hasRec) {
+        
+        NSString *sqlString = [NSString stringWithFormat:@"UPDATE %@ SET account=? WHERE account=?", str_TableName_Settings];
+        
+        BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[user.objectId, @""]];
+     
+        FMDBQuickCheck(b, sqlString, __db);
+    }
+    
+    hasRec = NO;
+    sqlString = [NSString stringWithFormat:@"SELECT planid FROM %@ WHERE account=?", str_TableName_Plan];
+    
+    rs = [__db executeQuery:sqlString withArgumentsInArray:@[@""]];
+    hasRec = [rs next];
+    [rs close];
+    if (hasRec) {
+        
+        sqlString = [NSString stringWithFormat:@"UPDATE %@ SET account=? WHERE account=?", str_TableName_Plan];
+        
+        BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[user.objectId, @""]];
+        
+        FMDBQuickCheck(b, sqlString, __db);
+    }
+}
+
++ (NSArray *)getPlanForSync:(NSString *)syntime {
+    
+    @synchronized(__db) {
+        
+        if (!__db.open) {
+            if (![__db open]) {
+                return nil ;
+            }
+        }
+        
+        NSMutableArray *array = [NSMutableArray array];
+        
+        NSString *account = @"";
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            account = user.objectId;
+        } else {
+            
+            return array;
+            
+        }
+        
+        NSString *sqlString = @"";
+        if (syntime) {
+            sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype, isdeleted FROM %@ WHERE account=? AND updatetime >=?", str_TableName_Plan];
+        } else {
+            sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype, isdeleted FROM %@ WHERE account=?", str_TableName_Plan];
+        }
+        
+        FMResultSet * rs = syntime == nil ? [__db executeQuery:sqlString withArgumentsInArray:@[account]] : [__db executeQuery:sqlString withArgumentsInArray:@[account, syntime]];
+        
+        while ([rs next]) {
+            
+            Plan *plan = [[Plan alloc] init];
+            plan.planid = [rs stringForColumn:@"planid"];
+            plan.content = [rs stringForColumn:@"content"];
+            plan.createtime = [rs stringForColumn:@"createtime"];
+            plan.completetime = [rs stringForColumn:@"completetime"];
+            plan.updatetime = [rs stringForColumn:@"updatetime"];
+            plan.iscompleted = [rs stringForColumn:@"iscompleted"];
+            plan.isnotify = [rs stringForColumn:@"isnotify"];
+            plan.notifytime = [rs stringForColumn:@"notifytime"];
+            plan.plantype = [rs stringForColumn:@"plantype"];
+            plan.isdeleted = [rs stringForColumn:@"isdeleted"];
+            
+            [array addObject:plan];
+        }
+        [rs close];
+        
+        return array;
+    }
+}
+
++ (Plan *)findPlan:(NSString *)account planid:(NSString *)planid {
+    @synchronized(__db) {
+        
+        if (!__db.open) {
+            if (![__db open]) {
+                return nil ;
+            }
+        }
+        
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype, isdeleted FROM %@ WHERE account=? AND planid =?", str_TableName_Plan];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[account, planid]];
+        
+        Plan *plan = [[Plan alloc] init];
+        while ([rs next]) {
+            
+            plan.account = account;
+            plan.planid = [rs stringForColumn:@"planid"];
+            plan.content = [rs stringForColumn:@"content"];
+            plan.createtime = [rs stringForColumn:@"createtime"];
+            plan.completetime = [rs stringForColumn:@"completetime"];
+            plan.updatetime = [rs stringForColumn:@"updatetime"];
+            plan.iscompleted = [rs stringForColumn:@"iscompleted"];
+            plan.isnotify = [rs stringForColumn:@"isnotify"];
+            plan.notifytime = [rs stringForColumn:@"notifytime"];
+            plan.plantype = [rs stringForColumn:@"plantype"];
+            plan.isdeleted = [rs stringForColumn:@"isdeleted"];
+            
+        }
+        [rs close];
+        
+        return plan;
+    }
 }
 
 @end

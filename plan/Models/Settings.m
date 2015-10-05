@@ -15,6 +15,7 @@ NSString *const kSettings_Email = @"email";
 NSString *const kSettings_Gender = @"gender";
 NSString *const kSettings_Lifespan = @"lifespan";
 NSString *const kSettings_Password = @"password";
+NSString *const kSettings_Syntime = @"syntime";
 
 
 @implementation Settings
@@ -26,6 +27,7 @@ NSString *const kSettings_Password = @"password";
 @synthesize gender = _gender;
 @synthesize lifespan = _lifespan;
 @synthesize password = _password;
+@synthesize syntime = _syntime;
 
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
@@ -39,6 +41,7 @@ NSString *const kSettings_Password = @"password";
         self.gender = [dict objectOrNilForKey:kSettings_Gender];
         self.lifespan = [dict objectOrNilForKey:kSettings_Lifespan];
         self.password = [dict objectOrNilForKey:kSettings_Password];
+        self.syntime = [dict objectOrNilForKey:kSettings_Syntime];
     }
     
     return self;
@@ -57,6 +60,7 @@ NSString *const kSettings_Password = @"password";
     self.gender = [aDecoder decodeObjectForKey:kSettings_Gender];
     self.lifespan = [aDecoder decodeObjectForKey:kSettings_Lifespan];
     self.password = [aDecoder decodeObjectForKey:kSettings_Password];
+    self.syntime = [aDecoder decodeObjectForKey:kSettings_Syntime];
     
     return self;
 }
@@ -69,6 +73,7 @@ NSString *const kSettings_Password = @"password";
     [aCoder encodeObject:_gender forKey:kSettings_Gender];
     [aCoder encodeObject:_lifespan forKey:kSettings_Lifespan];
     [aCoder encodeObject:_password forKey:kSettings_Password];
+    [aCoder encodeObject:_syntime forKey:kSettings_Syntime];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -81,6 +86,7 @@ NSString *const kSettings_Password = @"password";
     copy.gender = [self.gender copyWithZone:zone];
     copy.lifespan = [self.lifespan copyWithZone:zone];
     copy.password = [self.password copyWithZone:zone];
+    copy.syntime = [self.syntime copyWithZone:zone];
     
     return copy;
 }

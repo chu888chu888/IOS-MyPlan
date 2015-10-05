@@ -223,7 +223,7 @@ NSUInteger const kToolBarHeight = 44;
 
 - (void)onPickerCertainBtn {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm"];
+    [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd_HHmm];
     labelNotifyTime.text = [dateFormatter stringFromDate:datePicker.date];
     
     [self onPickerCancelBtn];
@@ -242,12 +242,10 @@ NSUInteger const kToolBarHeight = 44;
 
 - (void)savePlan {
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
-    NSString *timeNow = [dateFormatter stringFromDate:[NSDate date]];
+    NSString *timeNow = [CommonFunction getTimeNowString];
     
     NSDateFormatter*idFormatter = [[NSDateFormatter alloc]init];//格式化
-    [idFormatter setDateFormat:@"yyyyMMddHHmmss"];
+    [idFormatter setDateFormat:str_DateFormatter_yyyyMMddHHmmss];
     NSString* planid = [idFormatter stringFromDate:[NSDate date]];
     
     if (self.operationType == Add) {

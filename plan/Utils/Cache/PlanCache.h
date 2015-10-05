@@ -29,4 +29,10 @@
 
 + (void)updateLocalNotification:(Plan *)plan;
 
++ (void)linkedLocalDataToAccount;
+
++ (NSArray *)getPlanForSync:(NSString *)syntime;
+
++ (Plan *)findPlan:(NSString *)account planid:(NSString *)planid;
+
 @end

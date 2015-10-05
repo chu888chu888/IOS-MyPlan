@@ -94,6 +94,7 @@
 		137C60851BBB6F1300725662 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B07F11BA133590015E752 /* JavaScriptCore.framework */; };
 		137C60901BBFD3C800725662 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C605F1BBB6EA100725662 /* libWeiboSDK.a */; };
 		137C60921BBFD43200725662 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C60911BBFD43200725662 /* AdSupport.framework */; };
+		13A6AC8D1BBFDDD6005A02F9 /* DataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */; };
 		C8A17A0270E972C390BD1398 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C51BA1CAD16DA7E729CF56 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -258,6 +259,8 @@
 		137C60751BBB6EA100725662 /* ShareSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKUI.bundle; sourceTree = "<group>"; };
 		137C60761BBB6EA100725662 /* ShareSDKUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKUI.framework; sourceTree = "<group>"; };
 		137C60911BBFD43200725662 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		13A6AC8B1BBFDDD6005A02F9 /* DataCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataCenter.h; sourceTree = "<group>"; };
+		13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataCenter.m; sourceTree = "<group>"; };
 		D20618BBE36BB6EEAA8583DB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E63B58B1DFA51CA8858183E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7C51BA1CAD16DA7E729CF56 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -411,14 +414,15 @@
 		135B21AF1B900F86005CE84A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				1368F9601BB617D800CC7E63 /* SDKCenter */,
-				1322639E1B9C7C7C00D21637 /* NotifyCenter */,
 				135B22191B92E72A005CE84A /* AlertCenter */,
 				135B21DD1B91368B005CE84A /* Cache */,
 				135B21D91B90A111005CE84A /* Catagory */,
+				135B21B01B900FD9005CE84A /* Component */,
+				13A6AC8A1BBFDD9D005A02F9 /* DataCenter */,
 				135B21CF1B90991E005CE84A /* Function */,
 				135B21B41B90111A005CE84A /* Macros */,
-				135B21B01B900FD9005CE84A /* Component */,
+				1322639E1B9C7C7C00D21637 /* NotifyCenter */,
+				1368F9601BB617D800CC7E63 /* SDKCenter */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -723,6 +727,15 @@
 			path = WeChatSDK;
 			sourceTree = "<group>";
 		};
+		13A6AC8A1BBFDD9D005A02F9 /* DataCenter */ = {
+			isa = PBXGroup;
+			children = (
+				13A6AC8B1BBFDDD6005A02F9 /* DataCenter.h */,
+				13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */,
+			);
+			path = DataCenter;
+			sourceTree = "<group>";
+		};
 		1A2B3F1372598EA1C2E0A8DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -948,6 +961,7 @@
 				135B21E01B9136A4005CE84A /* PlanCache.m in Sources */,
 				137700E91B953521008C83FD /* AboutViewController.m in Sources */,
 				132263A21B9C7DC200D21637 /* LocalNotificationManager.m in Sources */,
+				13A6AC8D1BBFDDD6005A02F9 /* DataCenter.m in Sources */,
 				135B21891B900394005CE84A /* main.m in Sources */,
 				135B22341B932A4F005CE84A /* AddPlanViewController.m in Sources */,
 				1368F9791BB6498300CC7E63 /* LogIn.m in Sources */,
