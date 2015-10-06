@@ -95,6 +95,8 @@
 		137C60901BBFD3C800725662 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C605F1BBB6EA100725662 /* libWeiboSDK.a */; };
 		137C60921BBFD43200725662 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C60911BBFD43200725662 /* AdSupport.framework */; };
 		13A6AC8D1BBFDDD6005A02F9 /* DataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */; };
+		13A6AC901BC3439E005A02F9 /* ThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC8F1BC3439E005A02F9 /* ThreeViewController.m */; };
+		13A6AC931BC344A2005A02F9 /* FatherTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC921BC344A2005A02F9 /* FatherTableViewController.m */; };
 		C8A17A0270E972C390BD1398 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C51BA1CAD16DA7E729CF56 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -261,6 +263,10 @@
 		137C60911BBFD43200725662 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		13A6AC8B1BBFDDD6005A02F9 /* DataCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataCenter.h; sourceTree = "<group>"; };
 		13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataCenter.m; sourceTree = "<group>"; };
+		13A6AC8E1BC3439E005A02F9 /* ThreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeViewController.h; sourceTree = "<group>"; };
+		13A6AC8F1BC3439E005A02F9 /* ThreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeViewController.m; sourceTree = "<group>"; };
+		13A6AC911BC344A2005A02F9 /* FatherTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FatherTableViewController.h; sourceTree = "<group>"; };
+		13A6AC921BC344A2005A02F9 /* FatherTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FatherTableViewController.m; sourceTree = "<group>"; };
 		D20618BBE36BB6EEAA8583DB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E63B58B1DFA51CA8858183E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7C51BA1CAD16DA7E729CF56 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -332,6 +338,8 @@
 				132263A51B9C809400D21637 /* FirstViewController.m */,
 				132263A61B9C809400D21637 /* SecondViewController.h */,
 				132263A71B9C809400D21637 /* SecondViewController.m */,
+				13A6AC8E1BC3439E005A02F9 /* ThreeViewController.h */,
+				13A6AC8F1BC3439E005A02F9 /* ThreeViewController.m */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -572,6 +580,8 @@
 			children = (
 				135B22131B92C0D4005CE84A /* FatherViewController.h */,
 				135B22141B92C0D4005CE84A /* FatherViewController.m */,
+				13A6AC911BC344A2005A02F9 /* FatherTableViewController.h */,
+				13A6AC921BC344A2005A02F9 /* FatherTableViewController.m */,
 			);
 			path = FatherController;
 			sourceTree = "<group>";
@@ -961,8 +971,10 @@
 				135B21E01B9136A4005CE84A /* PlanCache.m in Sources */,
 				137700E91B953521008C83FD /* AboutViewController.m in Sources */,
 				132263A21B9C7DC200D21637 /* LocalNotificationManager.m in Sources */,
+				13A6AC931BC344A2005A02F9 /* FatherTableViewController.m in Sources */,
 				13A6AC8D1BBFDDD6005A02F9 /* DataCenter.m in Sources */,
 				135B21891B900394005CE84A /* main.m in Sources */,
+				13A6AC901BC3439E005A02F9 /* ThreeViewController.m in Sources */,
 				135B22341B932A4F005CE84A /* AddPlanViewController.m in Sources */,
 				1368F9791BB6498300CC7E63 /* LogIn.m in Sources */,
 				137700DB1B952EE5008C83FD /* MoreViewController.m in Sources */,

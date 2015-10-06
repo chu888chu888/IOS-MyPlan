@@ -1,14 +1,14 @@
 //
-//  FatherViewController.h
+//  FatherTableViewController.h
 //  plan
 //
-//  Created by Fengzy on 15/8/30.
+//  Created by Fengzy on 15/10/6.
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface FatherViewController : UIViewController
+@interface FatherTableViewController : UITableViewController
 
 @property (nonatomic, strong, readonly) UIButton *backButton;
 @property (nonatomic, assign) BOOL isPush;//是否是push进来的
@@ -26,7 +26,7 @@
 @end
 
 
-@interface FatherViewController (HUDControl)
+@interface FatherTableViewController (HUDControl)
 
 - (void)showHUD;
 - (void)hideHUD;
@@ -34,7 +34,7 @@
 @end
 
 
-@interface FatherViewController (alert)
+@interface FatherTableViewController (alert)
 
 #pragma mark -显示带有“知道了”按钮的提示框
 - (void)alertButtonMessage:(NSString *)message;

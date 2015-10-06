@@ -1,22 +1,22 @@
 //
-//  FatherViewController.m
+//  FatherTableViewController.m
 //  plan
 //
-//  Created by Fengzy on 15/8/30.
+//  Created by Fengzy on 15/10/6.
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
 #import "MBProgressHUD.h"
-#import "FatherViewController.h"
+#import "FatherTableViewController.h"
 
-@interface FatherViewController ()
+@interface FatherTableViewController ()
 
 @property (nonatomic, strong, readwrite) UIButton *backButton;
 @property (nonatomic, weak) MBProgressHUD *hud;
 
 @end
 
-@implementation FatherViewController
+@implementation FatherTableViewController
 
 @synthesize isPush;
 
@@ -46,7 +46,7 @@
         [self setNeedsStatusBarAppearanceUpdate];
     }
     self.view.backgroundColor = color_Background;
-
+    
     UIImage *navigationBarBg = [UIImage imageNamed:@"Bg_NavigationBar"];
     [self.navigationController.navigationBar setBackgroundImage:navigationBarBg forBarMetrics:UIBarMetricsDefault];
     //设置返回按钮文字颜色
@@ -120,7 +120,7 @@
 @end
 
 
-@implementation FatherViewController (HUDControl)
+@implementation FatherTableViewController (HUDControl)
 
 - (void)showHUD {
     if (!self.hud) {
@@ -143,7 +143,7 @@
 
 #import "AlertCenter.h"
 
-@implementation FatherViewController (alert)
+@implementation FatherTableViewController (alert)
 
 - (void)alertButtonMessage:(NSString *)message {
     [AlertCenter alertButtonMessage:message];
