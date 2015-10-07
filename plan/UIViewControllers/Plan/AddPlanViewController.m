@@ -103,24 +103,21 @@ NSUInteger const kToolBarHeight = 44;
         self.textNoteDetail = detailTextView;
     }
     {
-        NSInteger labelWidth = 60;
-        NSInteger labelHeight = 30;
+        NSInteger alarmSize = 30;
         NSInteger switchWidth = 20;
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kEdgeInset, yOffset, labelWidth, labelHeight)];
-        label.text = str_Notify_Tips1;
-        label.textColor = color_Black;
-        label.font = font_Normal_18;
+        UIImageView *alarm = [[UIImageView alloc] initWithFrame:CGRectMake(kEdgeInset, yOffset, alarmSize, alarmSize)];
+        alarm.image = [UIImage imageNamed:png_Icon_Alarm];
         
-        UISwitch *btnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(kEdgeInset + labelWidth, yOffset, switchWidth, labelHeight)];
+        UISwitch *btnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(kEdgeInset + alarmSize, yOffset, switchWidth, alarmSize)];
         [btnSwitch setOn:NO];
         [btnSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
         
         switchButton = btnSwitch;
-        [self.view addSubview:label];
+        [self.view addSubview:alarm];
         [self.view addSubview:btnSwitch];
         
-        UILabel *labelTime = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btnSwitch.frame) + kEdgeInset, yOffset, WIDTH_FULL_SCREEN - kEdgeInset * 3 - labelWidth - switchWidth, labelHeight)];
+        UILabel *labelTime = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btnSwitch.frame) + kEdgeInset, yOffset, WIDTH_FULL_SCREEN - kEdgeInset * 3 - alarmSize - switchWidth, alarmSize)];
         labelTime.textColor = color_Black;
         labelTime.font = font_Normal_18;
         labelTime.userInteractionEnabled = YES;
