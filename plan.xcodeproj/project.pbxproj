@@ -103,6 +103,8 @@
 		13A6ACA21BC3AAA3005A02F9 /* AddPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACA01BC3AAA3005A02F9 /* AddPhotoViewController.xib */; };
 		13A6ACA51BC3E282005A02F9 /* PageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACA41BC3E282005A02F9 /* PageScrollView.m */; };
 		13A6ACA81BC3FBF1005A02F9 /* PagedFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACA71BC3FBF1005A02F9 /* PagedFlowView.m */; };
+		13A6ACAD1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACAC1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png */; };
+		13A6ACAF1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACAE1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG */; };
 		C8A17A0270E972C390BD1398 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C51BA1CAD16DA7E729CF56 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -284,6 +286,8 @@
 		13A6ACA41BC3E282005A02F9 /* PageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageScrollView.m; sourceTree = "<group>"; };
 		13A6ACA61BC3FBF1005A02F9 /* PagedFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagedFlowView.h; sourceTree = "<group>"; };
 		13A6ACA71BC3FBF1005A02F9 /* PagedFlowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagedFlowView.m; sourceTree = "<group>"; };
+		13A6ACAC1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Photo_Delete@2x.png"; sourceTree = "<group>"; };
+		13A6ACAE1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon_Alarm@2x.PNG"; sourceTree = "<group>"; };
 		D20618BBE36BB6EEAA8583DB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E63B58B1DFA51CA8858183E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7C51BA1CAD16DA7E729CF56 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -563,6 +567,7 @@
 		135B220B1B92B2B5005CE84A /* Button */ = {
 			isa = PBXGroup;
 			children = (
+				13A6ACAC1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png */,
 				1368F97A1BB6538F00CC7E63 /* Btn_LogIn_QQ@2x.png */,
 				1368F97B1BB6538F00CC7E63 /* Btn_LogIn_SinaWeibo@2x.png */,
 				1368F97C1BB6538F00CC7E63 /* Btn_LogIn_Wechat@2x.png */,
@@ -659,6 +664,7 @@
 		137700DC1B953226008C83FD /* Icon */ = {
 			isa = PBXGroup;
 			children = (
+				13A6ACAE1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG */,
 				137701021B95DF67008C83FD /* Icon_Gender_F_Normal@2x.png */,
 				137701031B95DF67008C83FD /* Icon_Gender_F_Selected@2x.png */,
 				137701041B95DF67008C83FD /* Icon_Gender_M_Normal@2x.png */,
@@ -920,8 +926,10 @@
 				137701101B9680AC008C83FD /* Bg_Input_Gray@2x.png in Resources */,
 				137C607D1BBB6EA200725662 /* ShareSDK.bundle in Resources */,
 				137700C31B9429FD008C83FD /* LaunchImage@2x.png in Resources */,
+				13A6ACAF1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG in Resources */,
 				135B21971B900394005CE84A /* Images.xcassets in Resources */,
 				1368F97F1BB6538F00CC7E63 /* Btn_LogIn_Wechat@2x.png in Resources */,
+				13A6ACAD1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png in Resources */,
 				135B21CE1B909644005CE84A /* avatarDefault@2x.png in Resources */,
 				1377010F1B9680AC008C83FD /* Bg_Input_Blue@2x.png in Resources */,
 				135B22281B92F4C1005CE84A /* Btn_SectionUp@2x.png in Resources */,
