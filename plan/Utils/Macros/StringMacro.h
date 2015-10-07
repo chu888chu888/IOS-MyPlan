@@ -49,6 +49,7 @@
 #define str_Photo_Add_Tips1 @"写点什么..."
 #define str_Photo_Add_Tips2 @"请选择添加照片的方式"
 #define str_Photo_Add_Tips3 @"请选择照片"
+#define str_Photo_Add_Tips4 @"可选9张照片"
 #define str_Photo_Tips1 @"暂无影像内容"
 
 #define str_More @"更多"

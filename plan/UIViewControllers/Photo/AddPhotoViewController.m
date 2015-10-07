@@ -9,6 +9,8 @@
 #import "PageScrollView.h"
 #import "AddPhotoViewController.h"
 
+NSUInteger const pageHeight = 148;
+NSUInteger const pageWidth = 110;
 NSUInteger const kAddPhotoViewPickerHeight = 216;
 NSUInteger const kAddPhotoViewToolBarHeight = 44;
 NSUInteger const kAddPhotoViewPickerBgViewTag = 20151006;
@@ -44,6 +46,13 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    NSUInteger addIndex = self.photoArray.count - 1;
+    [self.pageScrollView scrollToPage:addIndex animated:YES];
+    
+}
+
 - (void)showRightButtonView {
     
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
@@ -64,6 +73,10 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     UIImage *addImage = [UIImage imageNamed:@"LaunchImage"];
     
     [self.photoArray addObject:addImage];
+    [self.photoArray addObject:addImage];
+    [self.photoArray addObject:addImage];
+    [self.photoArray addObject:addImage];
+    [self.photoArray addObject:addImage];
     
     self.textViewContent.textColor = color_8f8f8f;
     self.textViewContent.text = str_Photo_Add_Tips1;
@@ -72,11 +85,11 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     [self.textFieldTime addTarget:self action:@selector(setPhotoTime) forControlEvents:UIControlEventTouchDown];
     self.textFieldLocation.inputAccessoryView = [self getInputAccessoryView];
 
-    CGFloat yEdgeInset = 5;
+    
     CGFloat tipsHeight = 30;
-    CGFloat photoViewHeight = HEIGHT_FULL_SCREEN / 2;//self.viewPhoto.frame.size.height;
-    CGFloat pageHeight = photoViewHeight - yEdgeInset * 3 - tipsHeight;
-    CGFloat pageWidth = pageHeight * 0.382;
+    CGFloat photoViewHeight = HEIGHT_FULL_SCREEN / 2;
+    CGFloat yEdgeInset = (photoViewHeight - pageHeight - tipsHeight - 44) / 2;
+    
     PageScrollView *pageScrollView = [[PageScrollView alloc] initWithFrame:CGRectMake(0, yEdgeInset, WIDTH_FULL_SCREEN, pageHeight) pageWidth:pageWidth pageDistance:10];
     pageScrollView.holdPageCount = 5;
     pageScrollView.dataSource = self;
@@ -84,15 +97,16 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     [self.viewPhoto addSubview:pageScrollView];
     self.pageScrollView = pageScrollView;
     
-    CGFloat labelYOffset = CGRectGetMaxY(pageScrollView.frame);// + yEdgeInset;
+    CGFloat labelYOffset = CGRectGetMaxY(pageScrollView.frame);
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, labelYOffset, WIDTH_FULL_SCREEN, tipsHeight)];
     label.backgroundColor = [UIColor clearColor];
     label.font = font_Normal_16;
-    label.textColor = [UIColor blackColor];
+    label.textColor = color_8f8f8f;
     label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"还可以选择9张";
+    label.text = str_Photo_Add_Tips4;
     [self.viewPhoto addSubview:label];
     self.tipsLabel = label;
+    
 }
 
 - (void)setPhotoTime {
@@ -158,6 +172,7 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 }
 
 - (void)onPickerCertainBtn {
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd];
     NSString *photoTime = [dateFormatter stringFromDate:self.datePicker.date];
@@ -166,11 +181,14 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 
     UIView *pickerView = [self.view viewWithTag:kAddPhotoViewPickerBgViewTag];
     [pickerView removeFromSuperview];
+    
 }
 
 - (void)onPickerCancelBtn {
+    
     UIView *pickerView = [self.view viewWithTag:kAddPhotoViewPickerBgViewTag];
     [pickerView removeFromSuperview];
+    
 }
 
 #pragma mark - action
@@ -244,9 +262,10 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     }
     
     if (index == self.photoArray.count - 1) {
+        
         [self addPhoto];
+        
     }
-    
 }
 
 - (NSUInteger)numberOfPagesInPageScrollView:(PageScrollView *)pageScrollView {
@@ -268,11 +287,35 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     [imageView addGestureRecognizer:tapGestureRecognizer];
     
+    if (index != (self.photoArray.count - 1)) {
+        
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        btn.backgroundColor = color_8f8f8f_08;
+        btn.frame = CGRectMake((pageWidth - 30) / 2, pageHeight - 30 - 5, 30, 30);
+        btn.layer.cornerRadius = 15;
+        btn.tag = index;
+        [btn setBackgroundImage:[UIImage imageNamed:png_Btn_Photo_Delete] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
+        [imageView addSubview:btn];
+
+    }
+    
     return imageView;
 }
 
 - (void)pageScrollView:(PageScrollView *)pageScrollView didScrollToPage:(NSInteger)pageNumber {
 
+    if (self.photoArray.count == 1) {
+        
+        self.tipsLabel.text = str_Photo_Add_Tips4;
+        
+    } else if (self.photoArray.count > 1) {
+    
+        long selectedCount = self.photoArray.count - 1;
+        self.tipsLabel.text = [NSString stringWithFormat:@"%ld / 9", selectedCount];
+        
+    }
+    
 }
 
 - (void)addPhoto {
@@ -291,6 +334,14 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
         //不支持相片选取，请去设置里面赋予权限
         
     }
+}
+
+- (void)deletePhoto:(id)sender {
+    
+    UIButton *btn = (UIButton *)sender;
+    NSInteger index = btn.tag;
+    [self.photoArray removeObjectAtIndex:index];
+    
 }
 
 #pragma mark - UIImagePickerControllerDelegate
