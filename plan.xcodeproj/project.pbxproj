@@ -97,6 +97,12 @@
 		13A6AC8D1BBFDDD6005A02F9 /* DataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */; };
 		13A6AC901BC3439E005A02F9 /* ThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC8F1BC3439E005A02F9 /* ThreeViewController.m */; };
 		13A6AC931BC344A2005A02F9 /* FatherTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC921BC344A2005A02F9 /* FatherTableViewController.m */; };
+		13A6AC9A1BC347D6005A02F9 /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC991BC347D6005A02F9 /* PhotoCell.m */; };
+		13A6AC9D1BC38849005A02F9 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC9C1BC38849005A02F9 /* Photo.m */; };
+		13A6ACA11BC3AAA3005A02F9 /* AddPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC9F1BC3AAA3005A02F9 /* AddPhotoViewController.m */; };
+		13A6ACA21BC3AAA3005A02F9 /* AddPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACA01BC3AAA3005A02F9 /* AddPhotoViewController.xib */; };
+		13A6ACA51BC3E282005A02F9 /* PageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACA41BC3E282005A02F9 /* PageScrollView.m */; };
+		13A6ACA81BC3FBF1005A02F9 /* PagedFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACA71BC3FBF1005A02F9 /* PagedFlowView.m */; };
 		C8A17A0270E972C390BD1398 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C51BA1CAD16DA7E729CF56 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -267,6 +273,17 @@
 		13A6AC8F1BC3439E005A02F9 /* ThreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeViewController.m; sourceTree = "<group>"; };
 		13A6AC911BC344A2005A02F9 /* FatherTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FatherTableViewController.h; sourceTree = "<group>"; };
 		13A6AC921BC344A2005A02F9 /* FatherTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FatherTableViewController.m; sourceTree = "<group>"; };
+		13A6AC981BC347D6005A02F9 /* PhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCell.h; sourceTree = "<group>"; };
+		13A6AC991BC347D6005A02F9 /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
+		13A6AC9B1BC38849005A02F9 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		13A6AC9C1BC38849005A02F9 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		13A6AC9E1BC3AAA3005A02F9 /* AddPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPhotoViewController.h; sourceTree = "<group>"; };
+		13A6AC9F1BC3AAA3005A02F9 /* AddPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPhotoViewController.m; sourceTree = "<group>"; };
+		13A6ACA01BC3AAA3005A02F9 /* AddPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddPhotoViewController.xib; sourceTree = "<group>"; };
+		13A6ACA31BC3E282005A02F9 /* PageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageScrollView.h; sourceTree = "<group>"; };
+		13A6ACA41BC3E282005A02F9 /* PageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageScrollView.m; sourceTree = "<group>"; };
+		13A6ACA61BC3FBF1005A02F9 /* PagedFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagedFlowView.h; sourceTree = "<group>"; };
+		13A6ACA71BC3FBF1005A02F9 /* PagedFlowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagedFlowView.m; sourceTree = "<group>"; };
 		D20618BBE36BB6EEAA8583DB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E63B58B1DFA51CA8858183E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7C51BA1CAD16DA7E729CF56 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -442,6 +459,10 @@
 				135B21B21B900FFE005CE84A /* ThreeSubView.m */,
 				133B083B1BA439560015E752 /* HitView.h */,
 				133B083C1BA439560015E752 /* HitView.m */,
+				13A6ACA31BC3E282005A02F9 /* PageScrollView.h */,
+				13A6ACA41BC3E282005A02F9 /* PageScrollView.m */,
+				13A6ACA61BC3FBF1005A02F9 /* PagedFlowView.h */,
+				13A6ACA71BC3FBF1005A02F9 /* PagedFlowView.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -533,6 +554,8 @@
 				135B21E31B913E46005CE84A /* Settings.m */,
 				135B21EB1B9142BE005CE84A /* Plan.h */,
 				135B21EC1B9142BE005CE84A /* Plan.m */,
+				13A6AC9B1BC38849005A02F9 /* Photo.h */,
+				13A6AC9C1BC38849005A02F9 /* Photo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -567,6 +590,7 @@
 		135B22111B92C070005CE84A /* UIViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				13A6AC941BC3473E005A02F9 /* Photo */,
 				132263A31B9C805700D21637 /* MainView */,
 				137700D81B952DA1008C83FD /* More */,
 				135B22121B92C0AC005CE84A /* FatherController */,
@@ -600,13 +624,13 @@
 		135B22231B92EC69005CE84A /* Plan */ = {
 			isa = PBXGroup;
 			children = (
-				135B22241B92EE1A005CE84A /* PlanSectionView.h */,
-				135B22251B92EE1A005CE84A /* PlanSectionView.m */,
 				135B22321B932A4F005CE84A /* AddPlanViewController.h */,
 				135B22331B932A4F005CE84A /* AddPlanViewController.m */,
 				133B08401BA458610015E752 /* PlanCell.h */,
 				133B08411BA458610015E752 /* PlanCell.m */,
 				133B08421BA458610015E752 /* PlanCell.xib */,
+				135B22241B92EE1A005CE84A /* PlanSectionView.h */,
+				135B22251B92EE1A005CE84A /* PlanSectionView.m */,
 			);
 			path = Plan;
 			sourceTree = "<group>";
@@ -744,6 +768,18 @@
 				13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */,
 			);
 			path = DataCenter;
+			sourceTree = "<group>";
+		};
+		13A6AC941BC3473E005A02F9 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				13A6AC981BC347D6005A02F9 /* PhotoCell.h */,
+				13A6AC991BC347D6005A02F9 /* PhotoCell.m */,
+				13A6AC9E1BC3AAA3005A02F9 /* AddPhotoViewController.h */,
+				13A6AC9F1BC3AAA3005A02F9 /* AddPhotoViewController.m */,
+				13A6ACA01BC3AAA3005A02F9 /* AddPhotoViewController.xib */,
+			);
+			path = Photo;
 			sourceTree = "<group>";
 		};
 		1A2B3F1372598EA1C2E0A8DB /* Frameworks */ = {
@@ -894,6 +930,7 @@
 				135B22101B92B417005CE84A /* Bg_Cell_White@2x.png in Resources */,
 				137701081B95DF67008C83FD /* Icon_Gender_M_Normal@2x.png in Resources */,
 				137701071B95DF67008C83FD /* Icon_Gender_F_Selected@2x.png in Resources */,
+				13A6ACA21BC3AAA3005A02F9 /* AddPhotoViewController.xib in Resources */,
 				135B22311B9301C9005CE84A /* Btn_Plan_Doing@2x.png in Resources */,
 				133B07AD1B9FC46A0015E752 /* Questions in Resources */,
 			);
@@ -959,6 +996,8 @@
 				135B21EA1B913F77005CE84A /* NSString+Util.m in Sources */,
 				135B21ED1B9142BE005CE84A /* Plan.m in Sources */,
 				135B21E41B913E46005CE84A /* Settings.m in Sources */,
+				13A6ACA11BC3AAA3005A02F9 /* AddPhotoViewController.m in Sources */,
+				13A6ACA51BC3E282005A02F9 /* PageScrollView.m in Sources */,
 				135B218C1B900394005CE84A /* AppDelegate.m in Sources */,
 				133B08431BA458610015E752 /* PlanCell.m in Sources */,
 				137700E51B9534A4008C83FD /* SettingsViewController.m in Sources */,
@@ -966,7 +1005,10 @@
 				135B21B31B900FFE005CE84A /* ThreeSubView.m in Sources */,
 				137701131B9683E3008C83FD /* CommonFunction.m in Sources */,
 				135B21DC1B90A145005CE84A /* UIButton+Util.m in Sources */,
+				13A6ACA81BC3FBF1005A02F9 /* PagedFlowView.m in Sources */,
 				135B221C1B92E72A005CE84A /* AlertCenter.m in Sources */,
+				13A6AC9A1BC347D6005A02F9 /* PhotoCell.m in Sources */,
+				13A6AC9D1BC38849005A02F9 /* Photo.m in Sources */,
 				135B22151B92C0D4005CE84A /* FatherViewController.m in Sources */,
 				135B21E01B9136A4005CE84A /* PlanCache.m in Sources */,
 				137700E91B953521008C83FD /* AboutViewController.m in Sources */,

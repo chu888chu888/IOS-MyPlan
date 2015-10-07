@@ -13,7 +13,7 @@
 
 #define str_ViewTitle_1 @"我的"
 #define str_ViewTitle_2 @"计划"
-#define str_ViewTitle_3 @"相册"
+#define str_ViewTitle_3 @"影像"
 #define str_NickName @"昵称"
 #define str_FirstView_1 @"假如你可以活到"
 #define str_FirstView_2 @"岁"
@@ -43,6 +43,13 @@
 #define str_Plan_NoContent @"至少写点什么吧"
 #define str_Plan_Today @"今天"
 #define str_Plan_Yesterday @"昨天"
+
+#define str_Photo_Add @"新增影像"
+#define str_Photo_Edit @"编辑影像"
+#define str_Photo_Add_Tips1 @"写点什么..."
+#define str_Photo_Add_Tips2 @"请选择添加照片的方式"
+#define str_Photo_Add_Tips3 @"请选择照片"
+#define str_Photo_Tips1 @"暂无影像内容"
 
 #define str_More @"更多"
 #define str_More_Settings @"个人设置"
@@ -94,11 +101,13 @@
 #define str_LogInPlatform @"kLogInPlatform"
 #define str_TableName_Settings @"t_settings"
 #define str_TableName_Plan @"t_plan"
+#define str_TableName_Photo @"t_photo"
 #define str_Website_URL @"http://www.fengziyi.com"
 
 #define str_DateFormatter_yyyy_MM_dd_HHmmss @"yyyy-MM-dd HH:mm:ss"
 #define str_DateFormatter_yyyyMMddHHmmss @"yyyyMMddHHmmss"
 #define str_DateFormatter_yyyy_MM_dd_HHmm @"yyyy-MM-dd HH:mm"
+#define str_DateFormatter_yyyy_MM_dd @"yyyy-MM-dd"
 
 #define str_Bmob_ApplicationID @"ed10fc9a05fd6fd5c37be211bc0726b2"
 #define str_SinaWeibo_AppKey @"2763375435"

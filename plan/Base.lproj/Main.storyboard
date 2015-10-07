@@ -83,11 +83,11 @@
             </objects>
             <point key="canvasLocation" x="289" y="570"/>
         </scene>
-        <!--相册-->
+        <!--影像-->
         <scene sceneID="Nel-be-SHx">
             <objects>
                 <navigationController id="oI1-IL-nW5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="相册" image="photo" id="bKl-rg-0eF"/>
+                    <tabBarItem key="tabBarItem" title="影像" image="photo" id="bKl-rg-0eF"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sum-bo-bu7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

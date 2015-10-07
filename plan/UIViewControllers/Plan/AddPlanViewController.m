@@ -75,7 +75,7 @@ NSUInteger const kToolBarHeight = 44;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
     [button setAllImage:image];
-    [button addTarget:self action:@selector(rightAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(saveAction:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     [rightBarButtonItems addObject:barButtonItem];
@@ -189,7 +189,7 @@ NSUInteger const kToolBarHeight = 44;
 }
 
 #pragma mark - action
-- (void)rightAction:(UIButton *)button {
+- (void)saveAction:(UIButton *)button {
     
     NSString *title = [self.textNoteTitle.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *detail = [self.textNoteDetail.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];

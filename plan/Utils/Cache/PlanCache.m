@@ -206,6 +206,16 @@ static NSMutableDictionary * __contactsOnlineState;
         }
     }
 
+    //相册
+    if (![__db tableExists:str_TableName_Photo]) {
+        
+        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (account TEXT, photoid TEXT, content TEXT, createtime TEXT, phototime TEXT, updatetime TEXT, location TEXT, photo1 BLOB, photo2 BLOB, photo3 BLOB, photo4 BLOB, photo5 BLOB, photo6 BLOB, photo7 BLOB, photo8 BLOB, photo9 BLOB, isdeleted TEXT)", str_TableName_Photo];
+        
+        BOOL b = [__db executeUpdate:sqlString];
+        
+        FMDBQuickCheck(b, sqlString, __db);
+        
+    }
 }
 
 #pragma mark -存储个人设置
@@ -354,6 +364,62 @@ static NSMutableDictionary * __contactsOnlineState;
     }
 }
 
++ (void)storePhoto:(Photo *)photo {
+    
+    @synchronized(__db) {
+        
+        if (!__db.open) {
+            if (![__db open]) {
+                return ;
+            }
+        }
+        
+        if (!photo.photoid || !photo.content || !photo.createtime)
+            return;
+        
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            photo.account = user.objectId;
+        } else {
+            photo.account = @"";
+        }
+        if (!photo.phototime) {
+            photo.phototime = @"";
+        }
+        if (!photo.updatetime) {
+            photo.updatetime = @"";
+        }
+        if (!photo.location) {
+            photo.location = @"";
+        }
+
+        BOOL hasRec = NO;
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE photoid=? AND account=?", str_TableName_Photo];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[photo.photoid, photo.account]];
+        hasRec = [rs next];
+        [rs close];
+        if (hasRec) {
+            
+            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET content=?, createtime=?, phototime=?, updatetime=?, location=?, photo1=?, photo2=?, photo3=?, photo4=?, photo5=?, photo6=?, photo7=?, photo8=?, photo9=? WHERE photoid=? AND account=?", str_TableName_Photo];
+            
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[photo.content, photo.createtime, photo.phototime, photo.updatetime, photo.location, photo.photo1NSData, photo.photo2NSData, photo.photo3NSData, photo.photo4NSData, photo.photo5NSData, photo.photo6NSData, photo.photo7NSData, photo.photo8NSData, photo.photo9NSData, photo.photoid, photo.account]];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+
+        } else {
+            
+            sqlString = [NSString stringWithFormat:@"INSERT INTO %@(account, photoid, content, createtime, phototime, updatetime, location, photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, isdeleted) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", str_TableName_Photo];
+            
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[photo.account, photo.photoid, photo.content, photo.createtime, photo.phototime, photo.updatetime, photo.location, photo.photo1NSData, photo.photo2NSData, photo.photo3NSData, photo.photo4NSData, photo.photo5NSData, photo.photo6NSData, photo.photo7NSData, photo.photo8NSData, photo.photo9NSData, @"0"]];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+        }
+        
+        [NotificationCenter postNotificationName:Notify_Photo_Save object:nil];
+    }
+}
+
 #pragma mark -删除计划
 + (void)deletePlan:(Plan *)plan {
     @synchronized(__db) {
@@ -365,16 +431,16 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         BOOL hasRec = NO;
-        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE planid=?", str_TableName_Plan];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE planid=? AND account=?", str_TableName_Plan];
         
-        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plan.planid]];
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plan.planid, plan.account]];
         hasRec = [rs next];
         [rs close];
         if (hasRec) {
 
-            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET isdeleted=1  WHERE planid=?", str_TableName_Plan];
+            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET isdeleted=1  WHERE planid=? AND account=?", str_TableName_Plan];
             
-            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid]];
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[plan.planid, plan.account]];
             
             FMDBQuickCheck(b, sqlString, __db);
             
@@ -386,6 +452,34 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         [NotificationCenter postNotificationName:Notify_Plan_Save object:nil];
+    }
+}
+
++ (void)deletePhoto:(Photo *)photo {
+    @synchronized(__db) {
+        
+        if (!__db.open) {
+            if (![__db open]) {
+                return ;
+            }
+        }
+        
+        BOOL hasRec = NO;
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE photoid=? AND account=?", str_TableName_Photo];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[photo.photoid, photo.account]];
+        hasRec = [rs next];
+        [rs close];
+        if (hasRec) {
+            
+            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET isdeleted=1  WHERE photoid=? AND account=?", str_TableName_Photo];
+            
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[photo.photoid, photo.account]];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+        }
+        
+        [NotificationCenter postNotificationName:Notify_Photo_Save object:nil];
     }
 }
 
@@ -462,6 +556,55 @@ static NSMutableDictionary * __contactsOnlineState;
             plan.plantype = [rs stringForColumn:@"plantype"];
             
             [array addObject:plan];
+        }
+        [rs close];
+        
+        return array;
+    }
+}
+
++ (NSArray *)getPhoto {
+    
+    @synchronized(__db) {
+        
+        if (!__db.open) {
+            if (![__db open]) {
+                return nil ;
+            }
+        }
+        
+        NSString *account = @"";
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            account = user.objectId;
+        }
+        
+        NSMutableArray *array = [NSMutableArray array];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT photoid, content, createtime, phototime, updatetime, location, photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9 FROM %@ WHERE account=? AND isdeleted=0 ORDER BY createtime DESC", str_TableName_Photo];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[account]];
+        
+        while ([rs next]) {
+            
+            Photo *photo = [[Photo alloc] init];
+            photo.account = [rs stringForColumn:@"account"];
+            photo.photoid = [rs stringForColumn:@"photoid"];
+            photo.content = [rs stringForColumn:@"content"];
+            photo.createtime = [rs stringForColumn:@"createtime"];
+            photo.phototime = [rs stringForColumn:@"phototime"];
+            photo.updatetime = [rs stringForColumn:@"updatetime"];
+            photo.location = [rs stringForColumn:@"location"];
+            photo.photo1NSData = [rs dataForColumn:@"photo1"];
+            photo.photo2NSData = [rs dataForColumn:@"photo2"];
+            photo.photo3NSData = [rs dataForColumn:@"photo3"];
+            photo.photo4NSData = [rs dataForColumn:@"photo4"];
+            photo.photo5NSData = [rs dataForColumn:@"photo5"];
+            photo.photo6NSData = [rs dataForColumn:@"photo6"];
+            photo.photo7NSData = [rs dataForColumn:@"photo7"];
+            photo.photo8NSData = [rs dataForColumn:@"photo8"];
+            photo.photo9NSData = [rs dataForColumn:@"photo9"];
+            
+            [array addObject:photo];
         }
         [rs close];
         

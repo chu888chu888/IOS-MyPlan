@@ -585,7 +585,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
                                                                  defaultComponents.year - 100,
                                                                  defaultComponents.month,
                                                                  defaultComponents.day]
-                                                      formatter:@"yyyy-MM-dd"];
+                                                      formatter:str_DateFormatter_yyyy_MM_dd];
 
         picker.minimumDate = minDate;
         [pickerView addSubview:picker];
@@ -594,7 +594,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         NSString *birthday = [Config shareInstance].settings.birthday;
         
         if (birthday) {
-            NSDate *date = [CommonFunction NSStringDateToNSDate:birthday formatter:@"yyyy-MM-dd"];
+            NSDate *date = [CommonFunction NSStringDateToNSDate:birthday formatter:str_DateFormatter_yyyy_MM_dd];
             if (date) {
                 [self.datePicker setDate:date animated:YES];
             }
@@ -603,7 +603,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
                                                                          defaultComponents.year - 20,
                                                                          defaultComponents.month,
                                                                          defaultComponents.day]
-                                                              formatter:@"yyyy-MM-dd"];
+                                                              formatter:str_DateFormatter_yyyy_MM_dd];
             self.datePicker.date = defaultDate;
         }
     }
@@ -614,7 +614,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (void)onPickerCertainBtn {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"yyyy-MM-dd"];
+    [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd];
     NSString *birthday = [dateFormatter stringFromDate:self.datePicker.date];
     
     [Config shareInstance].settings.birthday = birthday;
@@ -769,14 +769,14 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 }
 
 #pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if (alertView.tag == kSettingsViewAlertTagForSetNickName) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else if (alertView.tag == kSettingsViewAlertTagForSetLife){
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    
+//    if (alertView.tag == kSettingsViewAlertTagForSetNickName) {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    } else if (alertView.tag == kSettingsViewAlertTagForSetLife) {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
+//}
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -785,8 +785,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:str_Settings_SetAvatar_Camera]) {
         //拍照
-        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-        {
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
             UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
             imagePickerController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor darkGrayColor]};
             imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -797,8 +796,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:str_Settings_SetAvatar_Album]) {
         //从相册选择
-        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
-        {
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
             UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
             imagePickerController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor darkGrayColor]};
             imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;

@@ -588,8 +588,8 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
     NSDate *today = [NSDate date];
     NSDate *yesterday = [today dateByAddingTimeInterval:-24 * 3600];
-    NSString *todayString = [CommonFunction NSDateToNSString:today formatter:@"yyyy-MM-dd"];
-    NSString *yesterdayString = [CommonFunction NSDateToNSString:yesterday formatter:@"yyyy-MM-dd"];
+    NSString *todayString = [CommonFunction NSDateToNSString:today formatter:str_DateFormatter_yyyy_MM_dd];
+    NSString *yesterdayString = [CommonFunction NSDateToNSString:yesterday formatter:str_DateFormatter_yyyy_MM_dd];
     if ([date isEqualToString:todayString]) {
         
         return [NSString stringWithFormat:@"%@ • %@", date, str_Plan_Today];

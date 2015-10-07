@@ -7,6 +7,7 @@
 //
 
 #import "Plan.h"
+#import "Photo.h"
 #import "Settings.h"
 
 @interface PlanCache : NSObject
@@ -17,7 +18,11 @@
 
 + (void)storePlan:(Plan *)plan;
 
++ (void)storePhoto:(Photo *)photo;
+
 + (void)deletePlan:(Plan *)plan;
+
++ (void)deletePhoto:(Photo *)photo;
 
 + (Settings *)getPersonalSettings;
 
@@ -26,6 +31,8 @@
 + (NSString *)getPlanTotalCountByPlantype:(NSString *)plantype;
 
 + (NSString *)getPlanCompletedCountByPlantype:(NSString *)plantype;
+
++ (NSArray *)getPhoto;
 
 + (void)updateLocalNotification:(Plan *)plan;
 

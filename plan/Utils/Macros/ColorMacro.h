@@ -20,5 +20,7 @@
 #define color_GrayDark RGBColor(70, 70, 70, 1)
 #define color_Background RGBColor(255, 255, 255, 1)
 #define color_NavigationBar RGBColor(87, 164, 254, 1)
+#define color_eeeeee RGBColor(238, 238, 238, 1)
+#define color_8f8f8f RGBColor(143, 143, 143, 1)
 
 #endif
