@@ -30,6 +30,7 @@
     [super viewDidLoad];
     
     self.title = str_Photo_Detail;
+    self.view.backgroundColor = color_eeeeee;
     
     photoArray = [NSMutableArray array];
     
@@ -81,6 +82,7 @@
         
         yOffset -= contentHeight;
         UITextView *contentView = [[UITextView alloc] initWithFrame:CGRectMake(xMargins, yOffset, WIDTH_FULL_SCREEN - xMargins * 2, contentHeight)];
+        contentView.backgroundColor = [UIColor clearColor];
         contentView.font = font_Normal_16;
         contentView.showsHorizontalScrollIndicator = NO;
         contentView.showsVerticalScrollIndicator = NO;
