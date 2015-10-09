@@ -27,5 +27,6 @@
 #define color_8f8f8f RGBColor(143, 143, 143, 1)
 #define color_8f8f8f_08 RGBColor(143, 143, 143, 0.8)
 #define color_e9eff1 RGBColor(233, 239, 241, 1)
+#define color_ff9900 RGBColor(255, 153, 0, 0.8)
 
 #endif

@@ -88,8 +88,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 300.f;
+//    Photo *photo = self.photoArray[indexPath.row];
+//    
+//    if (photo.content && photo.content.length > 0) {
+//        
+//        return 300.f;
+//        
+//    } else {
+//        
+//        return 220.f;
+//        
+//    }
     
+    return 300;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
