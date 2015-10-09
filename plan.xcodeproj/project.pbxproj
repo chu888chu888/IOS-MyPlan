@@ -105,6 +105,10 @@
 		13A6ACA81BC3FBF1005A02F9 /* PagedFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACA71BC3FBF1005A02F9 /* PagedFlowView.m */; };
 		13A6ACAD1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACAC1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png */; };
 		13A6ACAF1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACAE1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG */; };
+		13A6ACB11BC5F83A005A02F9 /* ImageDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACB01BC5F83A005A02F9 /* ImageDefault@2x.png */; };
+		13A6ACC71BC69E61005A02F9 /* PhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACC61BC69E61005A02F9 /* PhotoDetailViewController.m */; };
+		13A6ACC91BC6A33F005A02F9 /* ImageTest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACC81BC6A33F005A02F9 /* ImageTest@2x.png */; };
+		13A6ACCD1BC6A82C005A02F9 /* FullScreenImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACCC1BC6A82C005A02F9 /* FullScreenImageViewController.m */; };
 		C8A17A0270E972C390BD1398 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C51BA1CAD16DA7E729CF56 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -288,6 +292,12 @@
 		13A6ACA71BC3FBF1005A02F9 /* PagedFlowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagedFlowView.m; sourceTree = "<group>"; };
 		13A6ACAC1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Photo_Delete@2x.png"; sourceTree = "<group>"; };
 		13A6ACAE1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon_Alarm@2x.PNG"; sourceTree = "<group>"; };
+		13A6ACB01BC5F83A005A02F9 /* ImageDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ImageDefault@2x.png"; sourceTree = "<group>"; };
+		13A6ACC51BC69E61005A02F9 /* PhotoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoDetailViewController.h; sourceTree = "<group>"; };
+		13A6ACC61BC69E61005A02F9 /* PhotoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoDetailViewController.m; sourceTree = "<group>"; };
+		13A6ACC81BC6A33F005A02F9 /* ImageTest@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ImageTest@2x.png"; sourceTree = "<group>"; };
+		13A6ACCB1BC6A82C005A02F9 /* FullScreenImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullScreenImageViewController.h; sourceTree = "<group>"; };
+		13A6ACCC1BC6A82C005A02F9 /* FullScreenImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenImageViewController.m; sourceTree = "<group>"; };
 		D20618BBE36BB6EEAA8583DB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E63B58B1DFA51CA8858183E3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7C51BA1CAD16DA7E729CF56 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -452,6 +462,7 @@
 				135B21B41B90111A005CE84A /* Macros */,
 				1322639E1B9C7C7C00D21637 /* NotifyCenter */,
 				1368F9601BB617D800CC7E63 /* SDKCenter */,
+				13A6ACCA1BC6A7D3005A02F9 /* ViewController */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -496,6 +507,8 @@
 		135B21CA1B909644005CE84A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				13A6ACC81BC6A33F005A02F9 /* ImageTest@2x.png */,
+				13A6ACB01BC5F83A005A02F9 /* ImageDefault@2x.png */,
 				137700DC1B953226008C83FD /* Icon */,
 				137700C21B9429FD008C83FD /* LaunchImage@2x.png */,
 				135B220E1B92B417005CE84A /* Background */,
@@ -595,10 +608,10 @@
 		135B22111B92C070005CE84A /* UIViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				13A6AC941BC3473E005A02F9 /* Photo */,
+				135B22121B92C0AC005CE84A /* FatherController */,
 				132263A31B9C805700D21637 /* MainView */,
 				137700D81B952DA1008C83FD /* More */,
-				135B22121B92C0AC005CE84A /* FatherController */,
+				13A6AC941BC3473E005A02F9 /* Photo */,
 				135B22231B92EC69005CE84A /* Plan */,
 			);
 			path = UIViewControllers;
@@ -779,13 +792,24 @@
 		13A6AC941BC3473E005A02F9 /* Photo */ = {
 			isa = PBXGroup;
 			children = (
-				13A6AC981BC347D6005A02F9 /* PhotoCell.h */,
-				13A6AC991BC347D6005A02F9 /* PhotoCell.m */,
 				13A6AC9E1BC3AAA3005A02F9 /* AddPhotoViewController.h */,
 				13A6AC9F1BC3AAA3005A02F9 /* AddPhotoViewController.m */,
 				13A6ACA01BC3AAA3005A02F9 /* AddPhotoViewController.xib */,
+				13A6AC981BC347D6005A02F9 /* PhotoCell.h */,
+				13A6AC991BC347D6005A02F9 /* PhotoCell.m */,
+				13A6ACC51BC69E61005A02F9 /* PhotoDetailViewController.h */,
+				13A6ACC61BC69E61005A02F9 /* PhotoDetailViewController.m */,
 			);
 			path = Photo;
+			sourceTree = "<group>";
+		};
+		13A6ACCA1BC6A7D3005A02F9 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				13A6ACCB1BC6A82C005A02F9 /* FullScreenImageViewController.h */,
+				13A6ACCC1BC6A82C005A02F9 /* FullScreenImageViewController.m */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		1A2B3F1372598EA1C2E0A8DB /* Frameworks */ = {
@@ -937,7 +961,9 @@
 				137700C11B9428B1008C83FD /* Bg_NavigationBar@2x.png in Resources */,
 				135B22101B92B417005CE84A /* Bg_Cell_White@2x.png in Resources */,
 				137701081B95DF67008C83FD /* Icon_Gender_M_Normal@2x.png in Resources */,
+				13A6ACB11BC5F83A005A02F9 /* ImageDefault@2x.png in Resources */,
 				137701071B95DF67008C83FD /* Icon_Gender_F_Selected@2x.png in Resources */,
+				13A6ACC91BC6A33F005A02F9 /* ImageTest@2x.png in Resources */,
 				13A6ACA21BC3AAA3005A02F9 /* AddPhotoViewController.xib in Resources */,
 				135B22311B9301C9005CE84A /* Btn_Plan_Doing@2x.png in Resources */,
 				133B07AD1B9FC46A0015E752 /* Questions in Resources */,
@@ -1006,6 +1032,7 @@
 				135B21E41B913E46005CE84A /* Settings.m in Sources */,
 				13A6ACA11BC3AAA3005A02F9 /* AddPhotoViewController.m in Sources */,
 				13A6ACA51BC3E282005A02F9 /* PageScrollView.m in Sources */,
+				13A6ACCD1BC6A82C005A02F9 /* FullScreenImageViewController.m in Sources */,
 				135B218C1B900394005CE84A /* AppDelegate.m in Sources */,
 				133B08431BA458610015E752 /* PlanCell.m in Sources */,
 				137700E51B9534A4008C83FD /* SettingsViewController.m in Sources */,
@@ -1024,6 +1051,7 @@
 				13A6AC931BC344A2005A02F9 /* FatherTableViewController.m in Sources */,
 				13A6AC8D1BBFDDD6005A02F9 /* DataCenter.m in Sources */,
 				135B21891B900394005CE84A /* main.m in Sources */,
+				13A6ACC71BC69E61005A02F9 /* PhotoDetailViewController.m in Sources */,
 				13A6AC901BC3439E005A02F9 /* ThreeViewController.m in Sources */,
 				135B22341B932A4F005CE84A /* AddPlanViewController.m in Sources */,
 				1368F9791BB6498300CC7E63 /* LogIn.m in Sources */,

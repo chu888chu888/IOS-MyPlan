@@ -27,6 +27,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Private Methods
 - (void)handleTapGesture:(UIGestureRecognizer*)gestureRecognizer {
+    
     NSInteger tappedIndex = 0;
     CGPoint locationInScrollView = [gestureRecognizer locationInView:_scrollView];
     if (CGRectContainsPoint(_scrollView.bounds, locationInScrollView)) {
@@ -38,6 +39,7 @@
 }
 
 - (void)initialize {
+    
     self.clipsToBounds = YES;
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self addGestureRecognizer:tapRecognizer];
@@ -74,14 +76,19 @@
 }
 
 - (void)dealloc {
+    
     _scrollView.delegate = nil;
+    
 }
 
 - (void)queueReusableCell:(UIView *)cell {
+    
     [_reusableCells addObject:cell];
+    
 }
 
 - (void)removeCellAtIndex:(NSInteger)index {
+    
     UIView *cell = [_cells objectAtIndex:index];
     if ((NSObject *)cell == [NSNull null]) {
         return;
@@ -160,6 +167,7 @@
 }
 
 - (void)setPageAtIndex:(NSInteger)pageIndex {
+    
     NSParameterAssert(pageIndex >= 0 && pageIndex < [_cells count]);
     
     UIView *cell = [_cells objectAtIndex:pageIndex];
@@ -188,6 +196,7 @@
 
 
 - (void)setPagesAtContentOffset:(CGPoint)offset {
+    
     if ([_cells count] == 0)
         return;
     //计算_visibleRange
@@ -422,10 +431,14 @@
     
     switch (orientation) {
         case PagedFlowViewOrientationHorizontal:
-            pageIndex = floor(_scrollView.contentOffset.x / _pageSize.width);
+        {
+//            pageIndex = floor(_scrollView.contentOffset.x / _pageSize.width);
+            pageIndex = (_scrollView.contentOffset.x + _pageSize.width - 1) / _pageSize.width;
+        }
             break;
         case PagedFlowViewOrientationVertical:
-            pageIndex = floor(_scrollView.contentOffset.y / _pageSize.height);
+//            pageIndex = floor(_scrollView.contentOffset.y / _pageSize.height);
+            pageIndex = (_scrollView.contentOffset.y + _pageSize.height - 1) / _pageSize.height;
             break;
         default:
             break;

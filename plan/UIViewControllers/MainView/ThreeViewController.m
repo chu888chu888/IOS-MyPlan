@@ -6,8 +6,10 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "PhotoCell.h"
 #import "ThreeViewController.h"
 #import "AddPhotoViewController.h"
+#import "PhotoDetailViewController.h"
 
 @interface ThreeViewController ()
 
@@ -27,7 +29,7 @@
     
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     UIView *footer = [[UIView alloc] init];
     self.tableView.tableFooterView = footer;
@@ -71,23 +73,34 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    if (self.photoArray.count > 0) {
-        
-        return self.photoArray.count;
-        
-    } else {
-        
-        return 5;
-        
-    }
+//    if (self.photoArray.count > 0) {
+//        
+//        return self.photoArray.count;
+//        
+//    } else {
+//        
+//        return 5;
+//        
+//    }
+    return 3;
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 300.f;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row < self.photoArray.count) {
+    if (indexPath.row < 3) {//self.photoArray.count) {
         
-        UITableViewCell *cell = [[UITableViewCell alloc] init];
+//        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        Photo *photo = [[Photo alloc] init];
+        PhotoCell *cell = [PhotoCell cellView:photo];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;
         
@@ -107,6 +120,7 @@
             cell.textLabel.textColor = [UIColor lightGrayColor];
             cell.textLabel.font = font_Bold_16;
         }
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         if (indexPath.row == 4) {
             cell.textLabel.text = str_Photo_Tips1;
@@ -116,6 +130,14 @@
         
         return cell;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    PhotoDetailViewController *controller = [[PhotoDetailViewController alloc] init];
+    controller.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:controller animated:YES];
+    
 }
 
 @end

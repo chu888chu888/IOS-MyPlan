@@ -6,8 +6,11 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "Photo.h"
 #import <UIKit/UIKit.h>
 
 @interface PhotoCell : UITableViewCell
+
++ (PhotoCell *)cellView:(Photo *)photo;
 
 @end
