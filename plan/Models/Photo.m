@@ -16,6 +16,7 @@ NSString *const kPhoto_CreateTime = @"createtime";
 NSString *const kPhoto_PhotoTime = @"phototime";
 NSString *const kPhoto_UpdateTime = @"updatetime";
 NSString *const kPhoto_Location = @"location";
+NSString *const kPhoto_PhotoArray = @"photoarray";
 NSString *const kPhoto_Photo1NSData = @"photo1NSData";
 NSString *const kPhoto_Photo2NSData = @"photo2NSData";
 NSString *const kPhoto_Photo3NSData = @"photo3NSData";
@@ -45,6 +46,8 @@ NSString *const kPhoto_IsDeleted = @"isdeleted";
 @synthesize phototime = _phototime;
 @synthesize updatetime = _updatetime;
 @synthesize location = _location;
+@synthesize photoArray = _photoArray;
+
 @synthesize photo1NSData = _photo1NSData;
 @synthesize photo2NSData = _photo2NSData;
 @synthesize photo3NSData = _photo3NSData;
@@ -77,6 +80,7 @@ NSString *const kPhoto_IsDeleted = @"isdeleted";
         self.phototime = [dict objectOrNilForKey:kPhoto_PhotoTime];
         self.updatetime = [dict objectOrNilForKey:kPhoto_UpdateTime];
         self.location = [dict objectOrNilForKey:kPhoto_Location];
+        self.photoArray = [dict objectOrNilForKey:kPhoto_PhotoArray];
         self.photo1NSData = [dict objectOrNilForKey:kPhoto_Photo1NSData];
         self.photo2NSData = [dict objectOrNilForKey:kPhoto_Photo2NSData];
         self.photo3NSData = [dict objectOrNilForKey:kPhoto_Photo3NSData];
@@ -114,6 +118,7 @@ NSString *const kPhoto_IsDeleted = @"isdeleted";
     self.phototime = [aDecoder decodeObjectForKey:kPhoto_PhotoTime];
     self.updatetime = [aDecoder decodeObjectForKey:kPhoto_UpdateTime];
     self.location = [aDecoder decodeObjectForKey:kPhoto_Location];
+    self.photoArray = [aDecoder decodeObjectForKey:kPhoto_PhotoArray];
     self.photo1NSData = [aDecoder decodeObjectForKey:kPhoto_Photo1NSData];
     self.photo2NSData = [aDecoder decodeObjectForKey:kPhoto_Photo2NSData];
     self.photo3NSData = [aDecoder decodeObjectForKey:kPhoto_Photo3NSData];
@@ -138,6 +143,7 @@ NSString *const kPhoto_IsDeleted = @"isdeleted";
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
+    
     [aCoder encodeObject:_photoid forKey:kPhoto_PhotoId];
     [aCoder encodeObject:_account forKey:kPhoto_Account];
     [aCoder encodeObject:_content forKey:kPhoto_Content];
@@ -145,6 +151,7 @@ NSString *const kPhoto_IsDeleted = @"isdeleted";
     [aCoder encodeObject:_phototime forKey:kPhoto_PhotoTime];
     [aCoder encodeObject:_updatetime forKey:kPhoto_UpdateTime];
     [aCoder encodeObject:_location forKey:kPhoto_Location];
+    [aCoder encodeObject:_photoArray forKey:kPhoto_PhotoArray];
     [aCoder encodeObject:_photo1NSData forKey:kPhoto_Photo1NSData];
     [aCoder encodeObject:_photo2NSData forKey:kPhoto_Photo2NSData];
     [aCoder encodeObject:_photo3NSData forKey:kPhoto_Photo3NSData];
@@ -164,11 +171,12 @@ NSString *const kPhoto_IsDeleted = @"isdeleted";
     [aCoder encodeObject:_photo8URL forKey:kPhoto_Photo8URL];
     [aCoder encodeObject:_photo9URL forKey:kPhoto_Photo9URL];
     [aCoder encodeObject:_isdeleted forKey:kPhoto_IsDeleted];
+    
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    Photo *copy = [[Photo alloc] init];
     
+    Photo *copy = [[Photo alloc] init];
     copy.photoid = [self.photoid copyWithZone:zone];
     copy.account = [self.account copyWithZone:zone];
     copy.content = [self.content copyWithZone:zone];
@@ -176,6 +184,7 @@ NSString *const kPhoto_IsDeleted = @"isdeleted";
     copy.phototime = [self.phototime copyWithZone:zone];
     copy.updatetime = [self.updatetime copyWithZone:zone];
     copy.location = [self.location copyWithZone:zone];
+    copy.photoArray = [self.photoArray copyWithZone:zone];
     copy.photo1NSData = [self.photo1NSData copyWithZone:zone];
     copy.photo2NSData = [self.photo2NSData copyWithZone:zone];
     copy.photo3NSData = [self.photo3NSData copyWithZone:zone];

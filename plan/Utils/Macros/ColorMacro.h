@@ -25,8 +25,9 @@
 #define color_666666 RGBColor(102, 102, 102, 1)
 #define color_eeeeee RGBColor(238, 238, 238, 1)
 #define color_8f8f8f RGBColor(143, 143, 143, 1)
-#define color_8f8f8f_08 RGBColor(143, 143, 143, 0.8)
+#define color_ff0000_06 RGBColor(255, 0, 0, 0.6)
 #define color_e9eff1 RGBColor(233, 239, 241, 1)
-#define color_ff9900 RGBColor(255, 153, 0, 0.8)
+#define color_ff9900 RGBColor(255, 153, 0, 1)
+#define color_57a4fe_05 RGBColor(87, 164, 254, 0.5)
 
 #endif

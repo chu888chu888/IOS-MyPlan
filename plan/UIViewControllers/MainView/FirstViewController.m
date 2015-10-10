@@ -227,9 +227,7 @@ NSUInteger const kSecondsPerDay = 86400;
         birthdayFormat = [NSString stringWithFormat:@"%@ 00:00:00", [Config shareInstance].settings.birthday];
     }
     
-    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:str_DateFormatter_yyyy_MM_dd_HHmmss];
-    NSDate* birthday = [formater dateFromString:birthdayFormat];
+    NSDate *birthday = [CommonFunction NSStringDateToNSDate:birthdayFormat formatter:str_DateFormatter_yyyy_MM_dd_HHmmss];
     
     NSTimeInterval secondsLifetime = kSecondsPerDay * 365 * lifetime;
     deadDay = [birthday dateByAddingTimeInterval:secondsLifetime];

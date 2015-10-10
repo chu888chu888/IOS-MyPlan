@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSString *phototime;//拍照时间
 @property (nonatomic, strong) NSString *updatetime;
 @property (nonatomic, strong) NSString *location; //拍照地点
+@property (nonatomic, strong) NSMutableArray *photoArray;
+
 @property (nonatomic, strong) NSData *photo1NSData;
 @property (nonatomic, strong) NSData *photo2NSData;
 @property (nonatomic, strong) NSData *photo3NSData;

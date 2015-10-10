@@ -100,7 +100,7 @@
 //        
 //    }
     
-    return 300;
+    return kPhotoCellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

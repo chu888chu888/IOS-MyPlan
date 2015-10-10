@@ -9,6 +9,8 @@
 #import "Photo.h"
 #import <UIKit/UIKit.h>
 
+extern CGFloat kPhotoCellHeight;
+
 @interface PhotoCell : UITableViewCell
 
 + (PhotoCell *)cellView:(Photo *)photo;

@@ -52,6 +52,9 @@
 #define str_Photo_Add_Tips4 @"可选9张照片"
 #define str_Photo_Tips1 @"暂无影像内容"
 #define str_Photo_Detail @"影像详情"
+#define str_Photo_Age @"岁"
+#define str_Photo_Location @"地点："
+#define str_Photo_Date @"时间："
 
 #define str_More @"更多"
 #define str_More_Settings @"个人设置"

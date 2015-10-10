@@ -43,7 +43,9 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -78,6 +80,8 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     [self.photoArray addObject:addImage];
     [self.photoArray addObject:addImage];
     
+    self.labelTime.text = str_Photo_Date;
+    self.labelLocation.text = str_Photo_Location;
     self.textViewContent.textColor = color_8f8f8f;
     self.textViewContent.text = str_Photo_Add_Tips1;
     self.textViewContent.inputAccessoryView = [self getInputAccessoryView];
@@ -150,21 +154,25 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
         [pickerView addSubview:picker];
         self.datePicker = picker;
         
-//        NSString *birthday = [Config shareInstance].settings.birthday;
-//        
-//        if (birthday) {
-//            NSDate *date = [CommonFunction NSStringDateToNSDate:birthday formatter:str_DateFormatter_yyyy_MM_dd];
-//            if (date) {
-//                [self.datePicker setDate:date animated:YES];
-//            }
-//        } else {
-//            NSDate *defaultDate = [CommonFunction NSStringDateToNSDate:[NSString stringWithFormat:@"%zd-%zd-%zd",
-//                                                                        defaultComponents.year - 20,
-//                                                                        defaultComponents.month,
-//                                                                        defaultComponents.day]
-//                                                             formatter:str_DateFormatter_yyyy_MM_dd];
-//            self.datePicker.date = defaultDate;
-//        }
+        NSString *photoDate = self.textFieldTime.text;
+        
+        if (photoDate) {
+            
+            NSDate *date = [CommonFunction NSStringDateToNSDate:photoDate formatter:str_DateFormatter_yyyy_MM_dd];
+            if (date) {
+                
+                [self.datePicker setDate:date animated:YES];
+            }
+            
+        } else {
+            
+            NSDate *defaultDate = [CommonFunction NSStringDateToNSDate:[NSString stringWithFormat:@"%zd-%zd-%zd",
+                                                                        defaultComponents.year,
+                                                                        defaultComponents.month,
+                                                                        defaultComponents.day]
+                                                             formatter:str_DateFormatter_yyyy_MM_dd];
+            self.datePicker.date = defaultDate;
+        }
     }
     
     pickerView.tag = kAddPhotoViewPickerBgViewTag;
@@ -194,13 +202,7 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 #pragma mark - action
 - (void)saveAction:(UIButton *)button {
     
-//    NSString *title = [self.textNoteTitle.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//    NSString *detail = [self.textNoteDetail.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//    if (title.length == 0 && detail.length == 0) {
-//        [self alertButtonMessage:str_Plan_NoContent];
-//        return;
-//    }
-//    [self savePlan];
+
 }
 
 - (UIView *)getInputAccessoryView {
@@ -261,7 +263,8 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 
     }
     
-    if (index == self.photoArray.count - 1) {
+    if (index == self.photoArray.count - 1
+        && index < 9) {
         
         [self addPhoto];
         
@@ -290,7 +293,7 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     if (index != (self.photoArray.count - 1)) {
         
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        btn.backgroundColor = color_8f8f8f_08;
+        btn.backgroundColor = color_ff0000_06;
         btn.frame = CGRectMake((pageWidth - 30) / 2, pageHeight - 30 - 5, 30, 30);
         btn.layer.cornerRadius = 15;
         btn.tag = index;
@@ -342,6 +345,10 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     NSInteger index = btn.tag;
     [self.photoArray removeObjectAtIndex:index];
     
+    UIImage *addImage = [UIImage imageNamed:@"LaunchImage"];
+    NSInteger count = self.photoArray.count;
+    self.photoArray[count - 1] = addImage;
+    
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -355,7 +362,15 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     
-    [self.photoArray addObject:image];
+    if (self.photoArray.count < 8) {
+        
+        [self.photoArray insertObject:image atIndex:self.photoArray.count - 1];
+        
+    } else {
+        
+        self.photoArray[8] = image;
+        
+    }
 }
 
 @end
