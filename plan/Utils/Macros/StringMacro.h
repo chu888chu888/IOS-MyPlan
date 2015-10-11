@@ -31,6 +31,7 @@
 #define str_FirstView_12 @"长远计划"
 
 #define str_Save_Success @"保存成功"
+#define str_Save_Fail @"保存失败"
 #define str_Delete_Success @"删除成功"
 #define str_OK @"确定"
 #define str_Cancel @"取消"
@@ -52,6 +53,7 @@
 #define str_Photo_Add_Tips2 @"请选择添加照片的方式"
 #define str_Photo_Add_Tips3 @"请选择照片"
 #define str_Photo_Add_Tips4 @"可选9张照片"
+#define str_Photo_Add_Tips5 @"至少留一张照片吧~"
 #define str_Photo_Tips1 @"暂无影像内容"
 #define str_Photo_Detail @"影像详情"
 #define str_Photo_Age @"岁"
