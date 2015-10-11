@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "PlanCache.h"
 #import "PhotoCell.h"
 #import "ThreeViewController.h"
 #import "AddPhotoViewController.h"
@@ -20,6 +21,7 @@
 @implementation ThreeViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     self.title = str_ViewTitle_3;
@@ -29,20 +31,32 @@
     
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     UIView *footer = [[UIView alloc] init];
     self.tableView.tableFooterView = footer;
     
     self.photoArray = [NSArray array];
+    [NotificationCenter addObserver:self selector:@selector(getPhotoData) name:Notify_Photo_Save object:nil];
+    
+    [self getPhotoData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
+    
+}
+
+- (void)dealloc {
+    
+    [NotificationCenter removeObserver:self];
+    
 }
 
 #pragma mark -添加导航栏按钮
 - (void)showRightButtonView {
+    
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
     UIImage *image = [UIImage imageNamed:png_Btn_Add];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -51,8 +65,8 @@
     [button addTarget:self action:@selector(addAction:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     [rightBarButtonItems addObject:barButtonItem];
-    
     self.rightBarButtonItems = rightBarButtonItems;
+    
 }
 
 #pragma mark - action
@@ -65,6 +79,13 @@
     
 }
 
+- (void)getPhotoData {
+    
+    self.photoArray = [NSArray arrayWithArray:[PlanCache getPhoto]];
+    [self.tableView reloadData];
+    
+}
+
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
@@ -73,41 +94,35 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-//    if (self.photoArray.count > 0) {
-//        
-//        return self.photoArray.count;
-//        
-//    } else {
-//        
-//        return 5;
-//        
-//    }
-    return 3;
+    if (self.photoArray.count > 0) {
+        
+        return self.photoArray.count;
+        
+    } else {
+        
+        return 5;
+        
+    }
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    Photo *photo = self.photoArray[indexPath.row];
-//    
-//    if (photo.content && photo.content.length > 0) {
-//        
-//        return 300.f;
-//        
-//    } else {
-//        
-//        return 220.f;
-//        
-//    }
+    if (self.photoArray.count > 0) {
+        
+        return kPhotoCellHeight;
+        
+    } else {
+        
+        return 44.f;
+    }
     
-    return kPhotoCellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row < 3) {//self.photoArray.count) {
+    if (indexPath.row < self.photoArray.count) {
         
-//        UITableViewCell *cell = [[UITableViewCell alloc] init];
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         Photo *photo = [[Photo alloc] init];
         PhotoCell *cell = [PhotoCell cellView:photo];
@@ -145,9 +160,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    PhotoDetailViewController *controller = [[PhotoDetailViewController alloc] init];
-    controller.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:controller animated:YES];
+    if (indexPath.row < self.photoArray.count) {
+        
+        PhotoDetailViewController *controller = [[PhotoDetailViewController alloc] init];
+        controller.photo = self.photoArray[indexPath.row];
+        controller.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:controller animated:YES];
+        
+    }
     
 }
 
