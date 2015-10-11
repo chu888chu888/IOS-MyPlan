@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) UIImageView *bgImageView;
 @property (strong, nonatomic) UILabel *labelCompany;
-@property (strong, nonatomic) UILabel *labelWechat;
+@property (strong, nonatomic) UILabel *labelEnglishName;
 @property (assign, nonatomic) NSUInteger xMiddle;
 @property (assign, nonatomic) NSUInteger yOffset;
 
@@ -40,6 +40,24 @@
     [self showLogo];
     
     {
+        NSString *content = str_About_Name;
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
+        [label setNumberOfLines:0];
+        label.lineBreakMode = NSLineBreakByWordWrapping;
+        [label setTextColor:color_GrayLight];
+        UIFont *font = font_Normal_16;
+        [label setFont:font];
+        [label setText:content];
+        CGSize size = CGSizeMake(WIDTH_FULL_SCREEN - 60, 2000);
+        CGFloat yLabel = self.yOffset;
+        CGSize labelsize = [content sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        label.frame = CGRectMake(self.xMiddle - labelsize.width/2, yLabel, labelsize.width, labelsize.height);
+        [self.bgImageView addSubview:label];
+        self.labelEnglishName = label;
+        
+        self.yOffset += labelsize.height + 10;
+    }
+    {
         NSString *content = str_About_Copyright;
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
         [label setNumberOfLines:0];
@@ -57,24 +75,7 @@
         
         self.yOffset += labelsize.height + 10;
     }
-    {
-        NSString *content = str_About_Wechat;
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
-        [label setNumberOfLines:0];
-        label.lineBreakMode = NSLineBreakByWordWrapping;
-        [label setTextColor:color_GrayLight];
-        UIFont *font = font_Normal_16;
-        [label setFont:font];
-        [label setText:content];
-        CGSize size = CGSizeMake(WIDTH_FULL_SCREEN - 60, 2000);
-        CGFloat yLabel = self.yOffset;
-        CGSize labelsize = [content sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-        label.frame = CGRectMake(self.xMiddle - labelsize.width/2, yLabel, labelsize.width, labelsize.height);
-        [self.bgImageView addSubview:label];
-        self.labelWechat = label;
-        
-        self.yOffset += labelsize.height + 10;
-    }
+
 }
 
 - (void)showLogo {
