@@ -11,6 +11,8 @@
 
 #define str_App_Title @"我有计划"
 
+#define str_Common_Tips1 @"请到“设置”-“隐私”-“照片”中找到”我有计划“，将按钮打开，允许访问相册"
+
 #define str_ViewTitle_1 @"我的"
 #define str_ViewTitle_2 @"计划"
 #define str_ViewTitle_3 @"影像"
@@ -99,7 +101,7 @@
 
 #define str_About_Version @"当前版本："
 #define str_About_Copyright @"© 2015 Andwho Inc."
-#define str_About_Wechat @"微信公众号:Andwho"
+#define str_About_Name @"MyPlan"
 #define str_About_Content @"对于世界上大多数人，生命的长度最多不过30000来天。所以，时间对于每一个人都是奢侈品。人生苦短，时间有限，想要成功就得对自己狠一点，从坚持每天给自己定一些计划开始，然后逐个完成它们，让生活更有意义，让生命更有价值。乔布斯说过：活着就是为了改变世界！就算不能改变世界，理想还是要有的，只要坚持不懈，万一哪天就实现了呢？"
 
 #define str_Avatar @"kAvatar"
