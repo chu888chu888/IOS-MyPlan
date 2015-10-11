@@ -18,6 +18,7 @@ NSUInteger const kBounceSpace = 20;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
@@ -31,14 +32,13 @@ NSUInteger const kBounceSpace = 20;
         
     }
     return self;
-}
-
-- (void)dealloc {
     
 }
 
 - (void)awakeFromNib {
+    
     [self addControl];
+    
 }
 
 - (void)addControl {
@@ -92,6 +92,7 @@ NSUInteger const kBounceSpace = 20;
     vDoneButton.frame = CGRectMake(kPlanCellHeight, 0, kPlanCellHeight, self.frame.size.height);
     UIView *vMoreButton = [self.contentView viewWithTag:1002];
     vMoreButton.frame = CGRectMake(0, 0, kPlanCellHeight, self.frame.size.height);
+    
 }
 
 //此方法和下面的方法很重要,对ios 5SDK 设置不被Helighted
@@ -101,77 +102,114 @@ NSUInteger const kBounceSpace = 20;
     if (vMenuView.hidden == YES) {
         [super setSelected:selected animated:animated];
     }
+    
 }
 
 //此方法和上面的方法很重要，对ios 5SDK 设置不被Helighted
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    
     UIView *vMenuView = [self.contentView viewWithTag:100];
     if (vMenuView.hidden == YES) {
         [super setHighlighted:highlighted animated:animated];
     }
+    
 }
 
 - (void)prepareForReuse {
+    
     self.contentView.clipsToBounds = YES;
     [self hideMenuView:YES Animated:NO];
+    
 }
 
 
 - (CGFloat)getMaxMenuWidth {
+    
     return kPlanCellHeight * 2;
+    
 }
 
 - (void)enableSubviewUserInteraction:(BOOL)enable {
+    
     if (enable) {
+        
         for (UIView *aSubView in self.contentView.subviews) {
+            
             aSubView.userInteractionEnabled = YES;
+            
         }
+        
     } else {
+        
         for (UIView *aSubView in self.contentView.subviews) {
+            
             UIView *vDoneButtonView = [self.contentView viewWithTag:100];
             if (aSubView != vDoneButtonView) {
+                
                 aSubView.userInteractionEnabled = NO;
+                
             }
         }
     }
 }
 
 - (void)hideMenuView:(BOOL)hidden Animated:(BOOL)animated {
+    
     if (self.selected) {
+        
         [self setSelected:NO animated:NO];
+        
     }
     CGRect vDestinaRect = CGRectZero;
     if (hidden) {
+        
         vDestinaRect = self.contentView.frame;
         [self enableSubviewUserInteraction:YES];
+        
     } else {
+        
         vDestinaRect = CGRectMake(-[self getMaxMenuWidth], self.contentView.frame.origin.x, self.contentView.frame.size.width, self.contentView.frame.size.height);
         [self enableSubviewUserInteraction:NO];
+        
     }
     
     CGFloat vDuration = animated ? 0.4 : 0.0;
     [UIView animateWithDuration:vDuration animations: ^{
+        
         _moveContentView.frame = vDestinaRect;
+        
     } completion:^(BOOL finished) {
+        
         if (hidden) {
+            
             if ([_delegate respondsToSelector:@selector(didCellHided:)]) {
+                
                 [_delegate didCellHided:self];
+                
             }
+            
         } else {
+            
             if ([_delegate respondsToSelector:@selector(didCellShowed:)]) {
+                
                 [_delegate didCellShowed:self];
+                
             }
         }
         UIView *vMenuView = [self.contentView viewWithTag:100];
         vMenuView.hidden = hidden;
     }];
+    
 }
 
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
+    
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        
         CGPoint vTranslationPoint = [gestureRecognizer translationInView:self.contentView];
         return fabs(vTranslationPoint.x) > fabs(vTranslationPoint.y);
+        
     }
     return YES;
 }
@@ -179,18 +217,28 @@ NSUInteger const kBounceSpace = 20;
 - (void)handlePan:(UIPanGestureRecognizer *)sender {
     
     if (sender.state == UIGestureRecognizerStateBegan) {
+        
         startLocation = [sender locationInView:self.contentView].x;
         CGFloat direction = [sender velocityInView:self.contentView].x;
         if (direction < 0) {
+            
             if ([_delegate respondsToSelector:@selector(didCellWillShow:)]) {
+                
                 [_delegate didCellWillShow:self];
+                
             }
+            
         } else {
+            
             if ([_delegate respondsToSelector:@selector(didCellWillHide:)]) {
+                
                 [_delegate didCellWillHide:self];
+                
             }
         }
+        
     } else if (sender.state == UIGestureRecognizerStateChanged) {
+        
         CGFloat vCurrentLocation = [sender locationInView:self.contentView].x;
         CGFloat vDistance = vCurrentLocation - startLocation;
         startLocation = vCurrentLocation;
@@ -203,34 +251,52 @@ NSUInteger const kBounceSpace = 20;
         CGFloat direction = [sender velocityInView:self.contentView].x;
 
         if (direction < - 30.0 || vOriginX <  - (0.5 * [self getMaxMenuWidth])) {
+            
             hideMenuView = NO;
             UIView *vMenuView = [self.contentView viewWithTag:100];
             vMenuView.hidden = hideMenuView;
+            
         } else if (direction > 20.0 || vOriginX >  - (0.5 * [self getMaxMenuWidth])) {
+            
             hideMenuView = YES;
+            
         }
+        
     } else if (sender.state == UIGestureRecognizerStateEnded) {
+        
         [self hideMenuView:hideMenuView Animated:YES];
+        
     }
 }
 
 - (void)setIsDone:(NSString *)isDone {
+    
     if ([isDone isEqualToString:@"1"]) {
+        
         [doneButton setAllBackgroundImage:[UIImage imageNamed:png_Btn_Plan_Doing]];
+        
     } else {
+        
         [doneButton setAllBackgroundImage:[UIImage imageNamed:png_Btn_Plan_Done]];
+        
     }
 }
 
 - (void)didContentClicked:(id)sender {
+    
     if ([_delegate respondsToSelector:@selector(didCellClicked:)]) {
+        
         [_delegate didCellClicked:self];
+        
     }
 }
 
 - (void)deleteButtonClicked:(id)sender {
+    
     if ([_delegate respondsToSelector:@selector(didCellClickedDeleteButton:)]) {
+        
         [_delegate didCellClickedDeleteButton:self];
+        
     }
 }
 
@@ -238,8 +304,11 @@ NSUInteger const kBounceSpace = 20;
     
     [self.superview sendSubviewToBack:self];
     if ([_delegate respondsToSelector:@selector(didCellClickedDoneButton:)]) {
+        
         [_delegate didCellClickedDoneButton:self];
+        
     }
+    
 }
 
 

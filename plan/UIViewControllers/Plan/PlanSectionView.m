@@ -51,9 +51,13 @@
     CGFloat fl = (M_PI / 180) * 180;
     
     if (_toggle) {
+        
         toggleImageView.transform = CGAffineTransformMakeRotation(fl * 4);
+        
     } else {
+        
         toggleImageView.transform = CGAffineTransformMakeRotation(fl);
+        
     }
     _toggle = !_toggle;
 }
