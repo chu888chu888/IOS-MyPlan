@@ -21,29 +21,38 @@
 @synthesize isPush;
 
 - (id)init {
+    
     self = [super init];
     if (self) {
+        
         self.isPush = YES;
+        
     }
     return self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
         self.isPush = YES;
     }
     return self;
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     if (iOS7_LATER) {
-        self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
+        
+        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
         self.extendedLayoutIncludesOpaqueBars = NO;
         self.automaticallyAdjustsScrollViewInsets = NO;
         [self setNeedsStatusBarAppearanceUpdate];
+        
+        
     }
     self.view.backgroundColor = color_Background;
     
@@ -59,16 +68,20 @@
                           [UIColor whiteColor] ,UITextAttributeTextShadowColor ,
                           nil];
     [self.navigationController.navigationBar setTitleTextAttributes:dict];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
     
+    [super viewWillDisappear:animated];
     [self.view endEditing:YES];
+    
 }
 
 - (void)dealloc {
@@ -109,11 +122,16 @@
     
     [self willBack];
     if(isPush) {
+        
         if (self.navigationController) {
+            
             [self.navigationController popViewControllerAnimated:YES];
+            
         }
     } else {
+        
         [self dismissViewControllerAnimated:YES completion:nil];
+        
     }
 }
 
@@ -123,11 +141,14 @@
 @implementation FatherTableViewController (HUDControl)
 
 - (void)showHUD {
+    
     if (!self.hud) {
+        
         MBProgressHUD *hud = [[MBProgressHUD alloc] initWithFrame:self.view.bounds];
         hud.backgroundColor = [UIColor colorWithWhite:1 alpha:0.4];
         [self.view addSubview:hud];
         self.hud = hud;
+        
     }
     self.hud.frame = self.view.bounds;
     [self.view bringSubviewToFront:self.hud];
@@ -135,7 +156,9 @@
 }
 
 - (void)hideHUD {
+    
     [self.hud hide:YES];
+    
 }
 
 @end
@@ -146,11 +169,15 @@
 @implementation FatherTableViewController (alert)
 
 - (void)alertButtonMessage:(NSString *)message {
+    
     [AlertCenter alertButtonMessage:message];
+    
 }
 
 - (void)alertToastMessage:(NSString *)message {
+    
     [AlertCenter alertToastMessage:message];
+    
 }
 
 @end

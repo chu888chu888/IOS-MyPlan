@@ -20,6 +20,7 @@
 -(UIBarButtonItem *)createBarButtonItemWithNormalImageName:(NSString *)normalImageName selectedImageName:(NSString *)selectedImageName selector:(SEL)selector;
 
 - (void)backAction:(UIButton*)sender;
+
 //返回,可被重写
 - (void)willBack;
 
