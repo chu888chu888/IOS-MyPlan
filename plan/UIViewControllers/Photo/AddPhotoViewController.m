@@ -6,17 +6,20 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "PlanCache.h"
 #import "PageScrollView.h"
 #import "AddPhotoViewController.h"
 
+NSUInteger const photoMax = 9;
 NSUInteger const pageHeight = 148;
 NSUInteger const pageWidth = 110;
 NSUInteger const kAddPhotoViewPickerHeight = 216;
 NSUInteger const kAddPhotoViewToolBarHeight = 44;
 NSUInteger const kAddPhotoViewPickerBgViewTag = 20151006;
 NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
+NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
 
-@interface AddPhotoViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PageScrollViewDataSource, PageScrollViewDelegate>
+@interface AddPhotoViewController () <UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PageScrollViewDataSource, PageScrollViewDelegate>
 
 @property (nonatomic, strong) UIDatePicker *datePicker;
 @property (nonatomic, strong) NSMutableArray *photoArray;
@@ -28,6 +31,7 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 @implementation AddPhotoViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     if (self.operationType == Add) {
@@ -50,8 +54,7 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    NSUInteger addIndex = self.photoArray.count - 1;
-    [self.pageScrollView scrollToPage:addIndex animated:YES];
+    [self relocationPage];
     
 }
 
@@ -72,23 +75,63 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 
 - (void)loadCustomView {
     
-    UIImage *addImage = [UIImage imageNamed:@"LaunchImage"];
-    
-    [self.photoArray addObject:addImage];
-    [self.photoArray addObject:addImage];
-    [self.photoArray addObject:addImage];
-    [self.photoArray addObject:addImage];
-    [self.photoArray addObject:addImage];
-    
     self.labelTime.text = str_Photo_Date;
     self.labelLocation.text = str_Photo_Location;
-    self.textViewContent.textColor = color_8f8f8f;
-    self.textViewContent.text = str_Photo_Add_Tips1;
+    //描述
+    if (self.operationType == Edit
+        && self.photo.content
+        && self.photo.content.length > 0) {
+        
+        self.textViewContent.textColor = color_333333;
+        self.textViewContent.text = self.photo.content;
+        
+    } else {
+        
+        self.textViewContent.textColor = color_8f8f8f;
+        self.textViewContent.text = str_Photo_Add_Tips1;
+    }
     self.textViewContent.inputAccessoryView = [self getInputAccessoryView];
     self.textViewContent.delegate = self;
+    //时间
+    if (self.photo.phototime
+        && self.photo.phototime.length > 0) {
+        
+        self.textFieldTime.text = self.photo.phototime;
+        
+    } else {
+        
+        self.textFieldTime.text = [CommonFunction NSDateToNSString:[NSDate date] formatter:str_DateFormatter_yyyy_MM_dd];
+        
+    }
     [self.textFieldTime addTarget:self action:@selector(setPhotoTime) forControlEvents:UIControlEventTouchDown];
+    self.textFieldTime.inputView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.textFieldTime.delegate = self;
+    //地点
+    if (self.operationType == Edit
+        && self.photo.location
+        && self.photo.location.length > 0) {
+        
+        self.textFieldLocation.text = self.photo.location;
+        
+    }
     self.textFieldLocation.inputAccessoryView = [self getInputAccessoryView];
-
+    self.textFieldLocation.placeholder = str_Photo_Add_Tips7;
+    //照片
+    UIImage *addImage = [UIImage imageNamed:png_Btn_AddPhoto];
+    if (self.operationType == Edit) {
+        
+        self.photoArray = [NSMutableArray arrayWithArray:self.photo.photoArray];
+        
+        if (self.photoArray.count < photoMax) {
+            
+            [self.photoArray addObject:addImage];
+        }
+        
+    } else {
+        
+        [self.photoArray addObject:addImage];
+        
+    }
     
     CGFloat tipsHeight = 30;
     CGFloat photoViewHeight = HEIGHT_FULL_SCREEN / 2;
@@ -202,7 +245,58 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 #pragma mark - action
 - (void)saveAction:(UIButton *)button {
     
+    if (self.photoArray.count < 2) {
+        
+        [self alertButtonMessage:str_Photo_Add_Tips5];
+        return;
+    }
+    
+    NSString *timeNow = [CommonFunction getTimeNowString];
+    NSString* photoid = [CommonFunction NSDateToNSString:[NSDate date] formatter:str_DateFormatter_yyyyMMddHHmmss];
+    
+    if (self.operationType == Add) {
+        
+        self.photo = [[Photo alloc] init];
+        self.photo.photoid = photoid;
+        self.photo.createtime = timeNow;
 
+    } else {
+        
+        self.photo.updatetime = timeNow;
+    }
+    if (![self.textViewContent.text isEqualToString:str_Photo_Add_Tips1]) {
+        
+        self.photo.content = self.textViewContent.text;
+        
+    }
+    self.photo.phototime = self.textFieldTime.text;
+    if (self.textFieldLocation.text.length > 0) {
+        
+        self.photo.location = self.textFieldLocation.text;
+        
+    }
+    //去掉那张新增按钮图
+    [self.photoArray removeObjectAtIndex:self.photoArray.count - 1];
+    self.photo.photoArray = self.photoArray;
+    
+    BOOL result = [PlanCache storePhoto:self.photo];
+    if (result) {
+        
+        [self alertToastMessage:str_Save_Success];
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } else {
+        
+        [self alertButtonMessage:str_Save_Fail];
+    }
+
+}
+
+- (void)relocationPage {
+    
+    NSUInteger addIndex = self.photoArray.count > 1 ? self.photoArray.count - 2 : self.photoArray.count - 1;
+    [self.pageScrollView scrollToPage:addIndex animated:YES];
+    
 }
 
 - (UIView *)getInputAccessoryView {
@@ -238,7 +332,7 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     NSString *text = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if ([text isEqualToString:str_Photo_Add_Tips1]) {
         textView.text = @"";
-        textView.textColor = [UIColor blackColor];
+        textView.textColor = color_333333;
     }
     
 }
@@ -253,6 +347,13 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    
+    return NO;
+    
+}
+
 - (void)tapAction:(UITapGestureRecognizer *)tapGestureRecognizer {
     
     NSInteger index = tapGestureRecognizer.view.tag - kAddPhotoViewPhotoStartTag;
@@ -264,7 +365,7 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     }
     
     if (index == self.photoArray.count - 1
-        && index < 9) {
+        && index < photoMax) {
         
         [self addPhoto];
         
@@ -286,7 +387,8 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     imageView.tag = kAddPhotoViewPhotoStartTag + index;
     imageView.image = photo;
     imageView.backgroundColor = [UIColor clearColor];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     [imageView addGestureRecognizer:tapGestureRecognizer];
     
@@ -315,7 +417,8 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     } else if (self.photoArray.count > 1) {
     
         long selectedCount = self.photoArray.count - 1;
-        self.tipsLabel.text = [NSString stringWithFormat:@"%ld / 9", selectedCount];
+        long canSelectCount = photoMax - selectedCount;
+        self.tipsLabel.text = [NSString stringWithFormat:str_Photo_Add_Tips6, selectedCount, canSelectCount];
         
     }
     
@@ -334,7 +437,7 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
         
     } else {
         
-        //不支持相片选取，请去设置里面赋予权限
+        [self alertButtonMessage:str_Common_Tips1];
         
     }
 }
@@ -345,10 +448,12 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     NSInteger index = btn.tag;
     [self.photoArray removeObjectAtIndex:index];
     
-    UIImage *addImage = [UIImage imageNamed:@"LaunchImage"];
+    UIImage *addImage = [UIImage imageNamed:png_Btn_AddPhoto];
     NSInteger count = self.photoArray.count;
     self.photoArray[count - 1] = addImage;
     
+    [self.pageScrollView reloadData];
+    [self relocationPage];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -362,15 +467,17 @@ NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     
-    if (self.photoArray.count < 8) {
+    if (self.photoArray.count < (photoMax -1)) {
         
         [self.photoArray insertObject:image atIndex:self.photoArray.count - 1];
         
     } else {
         
-        self.photoArray[8] = image;
+        self.photoArray[photoMax - 1] = image;
         
     }
+
+    [self.pageScrollView reloadData];
 }
 
 @end

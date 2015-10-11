@@ -24,13 +24,6 @@ CGFloat kPhotoCellHeight;
 
 + (PhotoCell *)cellView:(Photo *)photo {
     
-    photo.content = @"测试是事实是时候死hi搜狐和搜狐哦啊红花山东宏撒谎昂首撒还上课哈";
-    photo.phototime = @"2015-10-10 10:10:10";
-    photo.location = @"大上海";
-    photo.photoArray = [NSMutableArray array];
-    UIImage *addImage1 = [UIImage imageNamed:@"LaunchImage"];
-    [photo.photoArray addObject:addImage1];
-    
     CGFloat contentHeight = [self setContentHeight:photo.content];
     
     PhotoCell *cell = [[PhotoCell alloc] initWithFrame:CGRectMake(0, 0, WIDTH_FULL_SCREEN, kPhotoCellHeight)];
@@ -43,7 +36,7 @@ CGFloat kPhotoCellHeight;
     CGFloat dateHeight = 30;
     CGFloat btnAgeSize = 45;
     
-    NSDate *photoDate = [CommonFunction NSStringDateToNSDate:photo.phototime formatter:str_DateFormatter_yyyy_MM_dd_HHmmss];
+    NSDate *photoDate = [CommonFunction NSStringDateToNSDate:photo.phototime formatter:str_DateFormatter_yyyy_MM_dd];
     
     UILabel *labelYear = [[UILabel alloc] initWithFrame:CGRectMake(xOffset, yOffset, dateWidth, dateHeight)];
     labelYear.textAlignment = NSTextAlignmentCenter;

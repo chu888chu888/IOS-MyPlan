@@ -378,7 +378,7 @@ static NSMutableDictionary * __contactsOnlineState;
             }
         }
         
-        if (!photo.photoid || !photo.content || !photo.createtime)
+        if (!photo.photoid || !photo.createtime)
             return NO;
         
         if ([LogIn isLogin]) {
@@ -386,6 +386,9 @@ static NSMutableDictionary * __contactsOnlineState;
             photo.account = user.objectId;
         } else {
             photo.account = @"";
+        }
+        if (!photo.content) {
+            photo.content = @"";
         }
         if (!photo.phototime) {
             photo.phototime = @"";
@@ -399,7 +402,7 @@ static NSMutableDictionary * __contactsOnlineState;
         NSMutableArray *photoDataArray = [NSMutableArray array];
         for (NSInteger i = 0; i < 9; i++) {
             
-            if (i < photo.photoArray.count - 1) {
+            if (i < photo.photoArray.count) {
                 
                 UIImage *image = photo.photoArray[i];
                 NSData *imageData = UIImagePNGRepresentation(image);
@@ -632,51 +635,52 @@ static NSMutableDictionary * __contactsOnlineState;
             photo.phototime = [rs stringForColumn:@"phototime"];
             photo.updatetime = [rs stringForColumn:@"updatetime"];
             photo.location = [rs stringForColumn:@"location"];
+            photo.photoArray = [NSMutableArray array];
             
             NSData *imageData = [rs dataForColumn:@"photo1"];
             if (imageData) {
-                
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             imageData = [rs dataForColumn:@"photo2"];
             if (imageData) {
                 
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             imageData = [rs dataForColumn:@"photo3"];
             if (imageData) {
                 
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             imageData = [rs dataForColumn:@"photo4"];
             if (imageData) {
                 
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             imageData = [rs dataForColumn:@"photo5"];
             if (imageData) {
                 
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             imageData = [rs dataForColumn:@"photo6"];
             if (imageData) {
                 
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             imageData = [rs dataForColumn:@"photo7"];
             if (imageData) {
                 
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             imageData = [rs dataForColumn:@"photo8"];
             if (imageData) {
                 
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             imageData = [rs dataForColumn:@"photo9"];
             if (imageData) {
                 
-                [photo.photoArray addObject:[UIImage imageWithData: imageData]];
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
             }
             
             [array addObject:photo];
@@ -684,6 +688,92 @@ static NSMutableDictionary * __contactsOnlineState;
         [rs close];
         
         return array;
+    }
+}
+
++ (Photo *)getPhotoById:(NSString *)photoid {
+    
+    @synchronized(__db) {
+        
+        Photo *photo = [[Photo alloc] init];
+        
+        if (!__db.open) {
+            if (![__db open]) {
+                return photo ;
+            }
+        }
+        
+        NSString *account = @"";
+        if ([LogIn isLogin]) {
+            BmobUser *user = [BmobUser getCurrentUser];
+            account = user.objectId;
+        }
+        
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT photoid, content, createtime, phototime, updatetime, location, photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9 FROM %@ WHERE account=? AND photoid=? AND isdeleted=0 ORDER BY createtime DESC", str_TableName_Photo];
+        
+        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[account, photoid]];
+        
+        while ([rs next]) {
+            
+            photo.account = [rs stringForColumn:@"account"];
+            photo.photoid = [rs stringForColumn:@"photoid"];
+            photo.content = [rs stringForColumn:@"content"];
+            photo.createtime = [rs stringForColumn:@"createtime"];
+            photo.phototime = [rs stringForColumn:@"phototime"];
+            photo.updatetime = [rs stringForColumn:@"updatetime"];
+            photo.location = [rs stringForColumn:@"location"];
+            photo.photoArray = [NSMutableArray array];
+            
+            NSData *imageData = [rs dataForColumn:@"photo1"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            imageData = [rs dataForColumn:@"photo2"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            imageData = [rs dataForColumn:@"photo3"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            imageData = [rs dataForColumn:@"photo4"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            imageData = [rs dataForColumn:@"photo5"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            imageData = [rs dataForColumn:@"photo6"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            imageData = [rs dataForColumn:@"photo7"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            imageData = [rs dataForColumn:@"photo8"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            imageData = [rs dataForColumn:@"photo9"];
+            if (imageData) {
+                
+                [photo.photoArray addObject:[UIImage imageWithData:imageData]];
+            }
+            
+        }
+        [rs close];
+        
+        return photo;
     }
 }
 

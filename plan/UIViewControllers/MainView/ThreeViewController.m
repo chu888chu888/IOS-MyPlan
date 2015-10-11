@@ -124,7 +124,7 @@
     if (indexPath.row < self.photoArray.count) {
         
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        Photo *photo = [[Photo alloc] init];
+        Photo *photo = self.photoArray[indexPath.row];
         PhotoCell *cell = [PhotoCell cellView:photo];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         

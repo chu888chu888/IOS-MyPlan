@@ -24,6 +24,8 @@
 
 - (void)scrollToPage:(NSUInteger)pageIndex animated:(BOOL)animated;
 
+- (void)reloadData;
+
 @end
 
 

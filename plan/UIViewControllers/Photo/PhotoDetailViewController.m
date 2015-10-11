@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "PlanCache.h"
 #import "PagedFlowView.h"
 #import "AddPhotoViewController.h"
 #import "PhotoDetailViewController.h"
@@ -16,7 +17,6 @@
     CGFloat xMargins;
     CGFloat yMargins;
     CGFloat yOffset;
-    NSMutableArray *photoArray;
     UILabel *labelCurrentPage;
     PagedFlowView *pageFlowView;
     
@@ -33,7 +33,7 @@
     self.title = str_Photo_Detail;
     self.view.backgroundColor = color_eeeeee;
     
-    photoArray = [NSMutableArray array];
+    [NotificationCenter addObserver:self selector:@selector(refreshData) name:Notify_Photo_Save object:nil];
     
     [self showRightButtonView];
     [self initVariables];
@@ -43,6 +43,12 @@
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc {
+    
+    [NotificationCenter removeObserver:self];
+    
 }
 
 - (void)showRightButtonView {
@@ -70,9 +76,7 @@
 
 - (void)loadCustomView {
     
-    UIImage *addImage = [UIImage imageNamed:@"LaunchImage"];
-    [photoArray addObject:addImage];
-    
+    [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self createTextViewContent];
     [self createLabelTimeAndLocation];
     [self createLabelCurrentPage];
@@ -82,11 +86,9 @@
 
 - (void)createTextViewContent {
     
-    NSString *content = @"测试内容的是";
-    
-    if (content && content.length > 0) {
+    if (self.photo.content && self.photo.content.length > 0) {
         
-        CGSize size = [content sizeWithFont:font_Normal_16 constrainedToSize:CGSizeMake(240, 2000) lineBreakMode:NSLineBreakByCharWrapping];
+        CGSize size = [self.photo.content sizeWithFont:font_Normal_16 constrainedToSize:CGSizeMake(240, 2000) lineBreakMode:NSLineBreakByCharWrapping];
         CGFloat contentHeight = size.height + 10;//获取自适应文本内容高度
         contentHeight = contentHeight > 108 ? 108 : contentHeight;//content高度不能超过108
         
@@ -97,7 +99,7 @@
         contentView.showsHorizontalScrollIndicator = NO;
         contentView.showsVerticalScrollIndicator = NO;
         contentView.textColor = color_333333;
-        contentView.text = content;
+        contentView.text = self.photo.content;
         contentView.editable = NO;
         if (contentHeight < 30) {
             
@@ -116,12 +118,17 @@
 
 - (void)createLabelTimeAndLocation {
     
+    NSString *timeAndLocation = [NSString stringWithFormat:str_Photo_Detail_Tips1, self.photo.phototime];
+    if (self.photo.location && self.photo.location.length > 0) {
+        
+        timeAndLocation = [NSString stringWithFormat:str_Photo_Detail_Tips2, timeAndLocation, self.photo.location];
+    }
     yOffset -= 30;
     UILabel *labelTimeAndLocation = [[UILabel alloc] initWithFrame:CGRectMake(xMargins, yOffset, WIDTH_FULL_SCREEN - xMargins * 2, 30)];
     labelTimeAndLocation.font = font_Normal_18;
     labelTimeAndLocation.textColor = color_666666;
     labelTimeAndLocation.textAlignment = NSTextAlignmentCenter;
-    labelTimeAndLocation.text = @"时间：2015-10-08   地点：广州";
+    labelTimeAndLocation.text = timeAndLocation;
     
     [self.view addSubview:labelTimeAndLocation];
     
@@ -134,7 +141,7 @@
     labelPage.font = font_Bold_18;
     labelPage.textColor = color_Blue;
     labelPage.textAlignment = NSTextAlignmentCenter;
-    labelPage.text = [NSString stringWithFormat:@"1 / %ld", (long)photoArray.count];
+    labelPage.text = [NSString stringWithFormat:@"1 / %ld", (long)self.photo.photoArray.count];
     
     labelCurrentPage = labelPage;
     [self.view addSubview:labelPage];
@@ -154,6 +161,14 @@
 
 }
 
+- (void)refreshData {
+    
+    self.photo = [PlanCache getPhotoById:self.photo.photoid];
+    [self initVariables];
+    [self loadCustomView];
+    
+}
+
 #pragma mark - action
 - (void)editAction:(UIButton *)button {
     
@@ -167,7 +182,7 @@
 #pragma mark - PagedFlowView Datasource
 - (NSInteger)numberOfPagesInFlowView:(PagedFlowView *)flowView {
     
-    return photoArray.count;
+    return self.photo.photoArray.count;
     
 }
 
@@ -177,7 +192,7 @@
     
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.image = photoArray[index];
+    imageView.image = self.photo.photoArray[index];
     
     
     return imageView;
@@ -195,7 +210,7 @@
 - (void)flowView:(PagedFlowView *)flowView didScrollToPageAtIndex:(NSInteger)index {
     
     long current = index + 1;
-    long total = photoArray.count;
+    long total = self.photo.photoArray.count;
     labelCurrentPage.text = [NSString stringWithFormat:@"%ld / %ld", current, total];
 
 }
@@ -203,7 +218,7 @@
 - (void)flowView:(PagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index {
     
     FullScreenImageViewController *controller = [[FullScreenImageViewController alloc] init];
-    controller.image = photoArray[index];
+    controller.image = self.photo.photoArray[index];
     [self.navigationController pushViewController:controller animated:YES];
     
 }

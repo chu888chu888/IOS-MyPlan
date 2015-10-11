@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
+#import "Photo.h"
 #import "FatherViewController.h"
 
 @interface AddPhotoViewController : FatherViewController
@@ -17,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *textFieldLocation;
 @property (strong, nonatomic) IBOutlet UIView *viewPhoto;
 
-@property (nonatomic, assign) OperationType operationType;
+@property (assign, nonatomic) OperationType operationType;
+@property (strong, nonatomic) Photo *photo;
 
 @end

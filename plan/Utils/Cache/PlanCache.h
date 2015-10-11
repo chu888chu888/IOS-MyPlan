@@ -34,6 +34,8 @@
 
 + (NSArray *)getPhoto;
 
++ (Photo *)getPhotoById:(NSString *)photoid;
+
 + (void)updateLocalNotification:(Plan *)plan;
 
 + (void)linkedLocalDataToAccount;

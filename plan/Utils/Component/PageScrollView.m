@@ -60,7 +60,9 @@ NSString * const kPageScrollViewCellTagKey = @"cellTag";
 @interface PageScrollView () <UIScrollViewDelegate> {
     
     struct {
+        
         unsigned int responseDidScrollToPage:1;
+        
     } _delegateFlags;
     
 }
@@ -118,8 +120,22 @@ NSString * const kPageScrollViewCellTagKey = @"cellTag";
     [self.scrollView setContentOffset:CGPointMake(CGRectGetWidth(self.scrollView.bounds) * pageIndex, 0) animated:animated];
     
     if (_delegateFlags.responseDidScrollToPage) {
+        
         [self.delegate pageScrollView:self didScrollToPage:pageIndex];
+        
     }
+    
+}
+
+- (void)reloadData {
+    
+    self.totalPage = [_dataSource numberOfPagesInPageScrollView:self];
+    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    for (NSInteger index = 0; index < self.totalPage; index++) {
+        
+        [self loadScrollViewWithPageIndex:index];
+    }
+    [self setNeedsLayout];
     
 }
 
@@ -136,6 +152,7 @@ NSString * const kPageScrollViewCellTagKey = @"cellTag";
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     
     if ([self pointInside:point withEvent:event]) {
+        
         CGPoint newPoint = CGPointZero;
         newPoint.x = point.x - self.scrollView.frame.origin.x + self.scrollView.contentOffset.x;
         newPoint.y = point.y - self.scrollView.frame.origin.y + self.scrollView.contentOffset.y;
