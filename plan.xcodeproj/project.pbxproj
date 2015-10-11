@@ -94,6 +94,9 @@
 		137C60851BBB6F1300725662 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B07F11BA133590015E752 /* JavaScriptCore.framework */; };
 		137C60901BBFD3C800725662 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C605F1BBB6EA100725662 /* libWeiboSDK.a */; };
 		137C60921BBFD43200725662 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C60911BBFD43200725662 /* AdSupport.framework */; };
+		1385B47C1BC9E50D00CB208C /* Btn_Edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1385B47B1BC9E50D00CB208C /* Btn_Edit@2x.png */; };
+		1385B47E1BC9EEDD00CB208C /* Btn_AddPhoto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1385B47D1BC9EEDD00CB208C /* Btn_AddPhoto@2x.png */; };
+		1385B4801BC9EF9900CB208C /* Btn_AddPhoto@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1385B47F1BC9EF9900CB208C /* Btn_AddPhoto@3x.png */; };
 		13A6AC8D1BBFDDD6005A02F9 /* DataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */; };
 		13A6AC901BC3439E005A02F9 /* ThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC8F1BC3439E005A02F9 /* ThreeViewController.m */; };
 		13A6AC931BC344A2005A02F9 /* FatherTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6AC921BC344A2005A02F9 /* FatherTableViewController.m */; };
@@ -107,7 +110,6 @@
 		13A6ACAF1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACAE1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG */; };
 		13A6ACB11BC5F83A005A02F9 /* ImageDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACB01BC5F83A005A02F9 /* ImageDefault@2x.png */; };
 		13A6ACC71BC69E61005A02F9 /* PhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACC61BC69E61005A02F9 /* PhotoDetailViewController.m */; };
-		13A6ACC91BC6A33F005A02F9 /* ImageTest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13A6ACC81BC6A33F005A02F9 /* ImageTest@2x.png */; };
 		13A6ACCD1BC6A82C005A02F9 /* FullScreenImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A6ACCC1BC6A82C005A02F9 /* FullScreenImageViewController.m */; };
 		C8A17A0270E972C390BD1398 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C51BA1CAD16DA7E729CF56 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -273,6 +275,9 @@
 		137C60751BBB6EA100725662 /* ShareSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKUI.bundle; sourceTree = "<group>"; };
 		137C60761BBB6EA100725662 /* ShareSDKUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKUI.framework; sourceTree = "<group>"; };
 		137C60911BBFD43200725662 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		1385B47B1BC9E50D00CB208C /* Btn_Edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Edit@2x.png"; sourceTree = "<group>"; };
+		1385B47D1BC9EEDD00CB208C /* Btn_AddPhoto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_AddPhoto@2x.png"; sourceTree = "<group>"; };
+		1385B47F1BC9EF9900CB208C /* Btn_AddPhoto@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_AddPhoto@3x.png"; sourceTree = "<group>"; };
 		13A6AC8B1BBFDDD6005A02F9 /* DataCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataCenter.h; sourceTree = "<group>"; };
 		13A6AC8C1BBFDDD6005A02F9 /* DataCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataCenter.m; sourceTree = "<group>"; };
 		13A6AC8E1BC3439E005A02F9 /* ThreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeViewController.h; sourceTree = "<group>"; };
@@ -295,7 +300,6 @@
 		13A6ACB01BC5F83A005A02F9 /* ImageDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ImageDefault@2x.png"; sourceTree = "<group>"; };
 		13A6ACC51BC69E61005A02F9 /* PhotoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoDetailViewController.h; sourceTree = "<group>"; };
 		13A6ACC61BC69E61005A02F9 /* PhotoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoDetailViewController.m; sourceTree = "<group>"; };
-		13A6ACC81BC6A33F005A02F9 /* ImageTest@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ImageTest@2x.png"; sourceTree = "<group>"; };
 		13A6ACCB1BC6A82C005A02F9 /* FullScreenImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullScreenImageViewController.h; sourceTree = "<group>"; };
 		13A6ACCC1BC6A82C005A02F9 /* FullScreenImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenImageViewController.m; sourceTree = "<group>"; };
 		D20618BBE36BB6EEAA8583DB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -507,7 +511,6 @@
 		135B21CA1B909644005CE84A /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				13A6ACC81BC6A33F005A02F9 /* ImageTest@2x.png */,
 				13A6ACB01BC5F83A005A02F9 /* ImageDefault@2x.png */,
 				137700DC1B953226008C83FD /* Icon */,
 				137700C21B9429FD008C83FD /* LaunchImage@2x.png */,
@@ -580,6 +583,9 @@
 		135B220B1B92B2B5005CE84A /* Button */ = {
 			isa = PBXGroup;
 			children = (
+				1385B47F1BC9EF9900CB208C /* Btn_AddPhoto@3x.png */,
+				1385B47D1BC9EEDD00CB208C /* Btn_AddPhoto@2x.png */,
+				1385B47B1BC9E50D00CB208C /* Btn_Edit@2x.png */,
 				13A6ACAC1BC551EE005A02F9 /* Btn_Photo_Delete@2x.png */,
 				1368F97A1BB6538F00CC7E63 /* Btn_LogIn_QQ@2x.png */,
 				1368F97B1BB6538F00CC7E63 /* Btn_LogIn_SinaWeibo@2x.png */,
@@ -935,6 +941,7 @@
 				137700EB1B953915008C83FD /* Icon_Logo_512@2x.png in Resources */,
 				137701061B95DF67008C83FD /* Icon_Gender_F_Normal@2x.png in Resources */,
 				137700BC1B93E56A008C83FD /* LaunchScreen.xib in Resources */,
+				1385B47C1BC9E50D00CB208C /* Btn_Edit@2x.png in Resources */,
 				137C607A1BBB6EA100725662 /* WeiboSDK.bundle in Resources */,
 				137C60781BBB6EA100725662 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				135B21CD1B909644005CE84A /* avatarBg@2x.png in Resources */,
@@ -944,12 +951,14 @@
 				137C60811BBB6EA200725662 /* ShareSDKUI.bundle in Resources */,
 				137701091B95DF67008C83FD /* Icon_Gender_M_Selected@2x.png in Resources */,
 				135B222F1B9301C9005CE84A /* Btn_Plan_Done@2x.png in Resources */,
+				1385B4801BC9EF9900CB208C /* Btn_AddPhoto@3x.png in Resources */,
 				137700DE1B953226008C83FD /* Icon_Arrow_Right@2x.png in Resources */,
 				135B220D1B92B2B5005CE84A /* Btn_Add@2x.png in Resources */,
 				1368F97D1BB6538F00CC7E63 /* Btn_LogIn_QQ@2x.png in Resources */,
 				137701101B9680AC008C83FD /* Bg_Input_Gray@2x.png in Resources */,
 				137C607D1BBB6EA200725662 /* ShareSDK.bundle in Resources */,
 				137700C31B9429FD008C83FD /* LaunchImage@2x.png in Resources */,
+				1385B47E1BC9EEDD00CB208C /* Btn_AddPhoto@2x.png in Resources */,
 				13A6ACAF1BC55B9D005A02F9 /* Icon_Alarm@2x.PNG in Resources */,
 				135B21971B900394005CE84A /* Images.xcassets in Resources */,
 				1368F97F1BB6538F00CC7E63 /* Btn_LogIn_Wechat@2x.png in Resources */,
@@ -963,7 +972,6 @@
 				137701081B95DF67008C83FD /* Icon_Gender_M_Normal@2x.png in Resources */,
 				13A6ACB11BC5F83A005A02F9 /* ImageDefault@2x.png in Resources */,
 				137701071B95DF67008C83FD /* Icon_Gender_F_Selected@2x.png in Resources */,
-				13A6ACC91BC6A33F005A02F9 /* ImageTest@2x.png in Resources */,
 				13A6ACA21BC3AAA3005A02F9 /* AddPhotoViewController.xib in Resources */,
 				135B22311B9301C9005CE84A /* Btn_Plan_Doing@2x.png in Resources */,
 				133B07AD1B9FC46A0015E752 /* Questions in Resources */,
