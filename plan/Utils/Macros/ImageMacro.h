@@ -14,7 +14,9 @@
 #define png_ImageDefault @"ImageDefault"
 
 #define png_Btn_Add @"Btn_Add"
+#define png_Btn_Edit @"Btn_Edit"
 #define png_Btn_Save @"Btn_Save"
+#define png_Btn_AddPhoto @"Btn_AddPhoto"
 
 #define png_Bg_Cell_White @"Bg_Cell_White"
 #define png_Bg_Input_Gray @"Bg_Input_Gray"
