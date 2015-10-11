@@ -56,18 +56,6 @@ NSUInteger const kToolBarHeight = 44;
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    
-    [NotificationCenter removeObserver:self];
-    
-}
-
-- (void)dealloc {
-    
-    [NotificationCenter removeObserver:self];
-    
-}
-
 - (void)showRightButtonView {
     
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
@@ -213,12 +201,15 @@ NSUInteger const kToolBarHeight = 44;
 }
 
 - (void)labelTouchUpInside:(UITapGestureRecognizer *)recognizer {
+    
     if ([switchButton isOn]) {
+        
         [self showDatePicker];
     }
 }
 
 - (void)onPickerCertainBtn {
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd_HHmm];
     labelNotifyTime.text = [dateFormatter stringFromDate:datePicker.date];
@@ -228,6 +219,7 @@ NSUInteger const kToolBarHeight = 44;
 }
 
 - (void)onPickerCancelBtn {
+    
     UIView *pickerView = [self.view viewWithTag:kDatePickerBgViewTag];
     [pickerView removeFromSuperview];
     
@@ -240,10 +232,8 @@ NSUInteger const kToolBarHeight = 44;
 - (void)savePlan {
     
     NSString *timeNow = [CommonFunction getTimeNowString];
-    
-    NSDateFormatter*idFormatter = [[NSDateFormatter alloc]init];//格式化
-    [idFormatter setDateFormat:str_DateFormatter_yyyyMMddHHmmss];
-    NSString* planid = [idFormatter stringFromDate:[NSDate date]];
+
+    NSString* planid = [CommonFunction NSDateToNSString:[NSDate date] formatter:str_DateFormatter_yyyyMMddHHmmss];
     
     if (self.operationType == Add) {
         self.plan = [[Plan alloc]init];
@@ -265,13 +255,17 @@ NSUInteger const kToolBarHeight = 44;
     self.plan.content = self.textNoteDetail.text;
     self.plan.plantype = self.planType == PlanEveryday ? @"1" : @"0";
     
-    [PlanCache storePlan:self.plan];
-    
-    if (self.finishBlock) {
-        self.finishBlock();
+    BOOL result = [PlanCache storePlan:self.plan];
+    if (result) {
+        
+        [self alertToastMessage:str_Save_Success];
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } else {
+        
+        [self alertButtonMessage:str_Save_Fail];
     }
     
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

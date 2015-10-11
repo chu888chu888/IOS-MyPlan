@@ -16,11 +16,11 @@
 
 + (void)storePersonalSettings:(Settings *)settings;
 
-+ (void)storePlan:(Plan *)plan;
++ (BOOL)storePlan:(Plan *)plan;
 
-+ (void)storePhoto:(Photo *)photo;
++ (BOOL)storePhoto:(Photo *)photo;
 
-+ (void)deletePlan:(Plan *)plan;
++ (BOOL)deletePlan:(Plan *)plan;
 
 + (void)deletePhoto:(Photo *)photo;
 

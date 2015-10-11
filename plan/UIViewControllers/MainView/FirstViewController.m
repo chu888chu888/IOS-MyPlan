@@ -45,6 +45,7 @@ NSUInteger const kSecondsPerDay = 86400;
 @implementation FirstViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     self.title = str_ViewTitle_1;
@@ -60,17 +61,22 @@ NSUInteger const kSecondsPerDay = 86400;
     [Config shareInstance].settings = [PlanCache getPersonalSettings];
     
     [self loadCustomView];
+    
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
 }
 
 - (void)dealloc {
+    
     [NotificationCenter removeObserver:self];
+    
 }
 
 - (void)toPlan:(NSNotification*)notification {
+    
     NSDictionary *dict = notification.userInfo;
     Plan *plan = [[Plan alloc] init];
     plan.planid = [dict objectForKey:@"tag"];
@@ -86,30 +92,32 @@ NSUInteger const kSecondsPerDay = 86400;
         //5天未新建计划提醒，不需要跳转到计划详情
         return;
     }
-    __weak typeof(self) weakSelf = self;
+
     AddPlanViewController *controller = [[AddPlanViewController alloc]init];
     controller.planType = [plan.plantype isEqualToString:@"1"] ? PlanEveryday : PlanLife;
     controller.operationType = Edit;
     controller.plan = plan;
-    controller.finishBlock = ^(){
-        
-        [weakSelf alertToastMessage:str_Save_Success];
-    };
     controller.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:controller animated:YES];
+    
 }
 
 - (void)refreshView:(NSNotification*)notification {
+    
     [self loadCustomView];
+    
 }
 
 - (void)loadCustomView {
+    
     [self createAvatar];
     [self createLabelText];
     [self createStatisticsView];
+    
 }
 
 - (void)createAvatar {
+    
     [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     NSUInteger avatarBgSize = WIDTH_FULL_SCREEN / 3;
@@ -130,7 +138,6 @@ NSUInteger const kSecondsPerDay = 86400;
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toMoreViewController)];
     [avatarBg addGestureRecognizer:singleTap];
     [self.view addSubview:avatarBg];
-    
     {
         UIImage *image = [[Config shareInstance] getAvatar];
         
@@ -296,8 +303,8 @@ NSUInteger const kSecondsPerDay = 86400;
     secondsFrame.origin.y = yOffset;
     
     secondsLeftView.frame = secondsFrame;
-    
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(secondsCountdown) userInfo:nil repeats:YES];
+    
 }
 
 - (void)createStatisticsView {
@@ -434,31 +441,39 @@ NSUInteger const kSecondsPerDay = 86400;
         [longtermStatisticsView autoLayout];
         [statisticsView addSubview:longtermStatisticsView];
     }
+    
 }
 
-
 - (void)addSeparatorForTop:(UIView *)view {
+    
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(view.bounds) - 1, 1)];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
+    
 }
 
 - (void)addSeparatorForBottom:(UIView *)view {
+    
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(view.bounds) - 1, CGRectGetWidth(view.bounds) - 1, 1)];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
+    
 }
 
 - (void)addSeparatorForLeft:(UIView *)view {
+    
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGRectGetHeight(view.bounds))];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
+    
 }
 
 - (void)addSeparatorForRight:(UIView *)view {
+    
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(view.bounds) - 1, 0, 1, CGRectGetHeight(view.bounds))];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
+    
 }
 
 - (void)secondsCountdown {
@@ -493,14 +508,16 @@ NSUInteger const kSecondsPerDay = 86400;
         daysLeftView.frame = frame;
         
     }
+    
 }
 
 #pragma mark －进入更多
 -(void)toMoreViewController {
+    
     MoreViewController *controller = [[MoreViewController alloc]init];
     controller.hidesBottomBarWhenPushed = YES;
-    
     [self.navigationController pushViewController:controller animated:YES];
+    
 }
 
 @end
