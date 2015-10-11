@@ -7,6 +7,7 @@
 //
 
 #import "PagedFlowView.h"
+#import "AddPhotoViewController.h"
 #import "PhotoDetailViewController.h"
 #import "FullScreenImageViewController.h"
 
@@ -34,6 +35,7 @@
     
     photoArray = [NSMutableArray array];
     
+    [self showRightButtonView];
     [self initVariables];
     [self loadCustomView];
 }
@@ -41,6 +43,21 @@
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
+}
+
+- (void)showRightButtonView {
+    
+    NSMutableArray *rightBarButtonItems = [NSMutableArray array];
+    UIImage *image = [UIImage imageNamed:png_Btn_Edit];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
+    [button setAllImage:image];
+    [button addTarget:self action:@selector(editAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    [rightBarButtonItems addObject:barButtonItem];
+    
+    self.rightBarButtonItems = rightBarButtonItems;
 }
 
 - (void)initVariables {
@@ -53,12 +70,7 @@
 
 - (void)loadCustomView {
     
-    UIImage *addImage = [UIImage imageNamed:@"ImageTest"];
-    
-    [photoArray addObject:addImage];
-    [photoArray addObject:addImage];
-    [photoArray addObject:addImage];
-    [photoArray addObject:addImage];
+    UIImage *addImage = [UIImage imageNamed:@"LaunchImage"];
     [photoArray addObject:addImage];
     
     [self createTextViewContent];
@@ -70,8 +82,6 @@
 
 - (void)createTextViewContent {
     
-//    NSString *content = @"测试内容的是不是打不开的势不可挡边看边吃打不打开始不反抗基本上打不开是不得不说的可不可舍不得看不上的课程包括第十八课程包括说不出口戴斯班克舍不得吃开始边吃边看上的差别开始被打开不算不算多看看吧的是不是不看的差别是肯定不考试不出口处十多年开始带你看你才开始看你说的不错可不可快速的补偿款是传播快";
-
     NSString *content = @"测试内容的是";
     
     if (content && content.length > 0) {
@@ -141,9 +151,18 @@
     pageFlowView.dataSource = self;
     
     [self.view addSubview:pageFlowView];
-    
+
 }
 
+#pragma mark - action
+- (void)editAction:(UIButton *)button {
+    
+    AddPhotoViewController *controller = [[AddPhotoViewController alloc] init];
+    controller.operationType = Edit;
+    controller.photo = self.photo;
+    [self.navigationController pushViewController:controller animated:YES];
+    
+}
 
 #pragma mark - PagedFlowView Datasource
 - (NSInteger)numberOfPagesInFlowView:(PagedFlowView *)flowView {
@@ -157,7 +176,9 @@
     [flowView dequeueReusableCell]; //必须要调用否则会内存泄漏
     
     UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.image = photoArray[index];
+    
     
     return imageView;
 }
