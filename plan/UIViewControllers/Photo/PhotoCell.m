@@ -24,17 +24,12 @@ CGFloat kPhotoCellHeight;
 
 + (PhotoCell *)cellView:(Photo *)photo {
     
-//    NSString *content = @"测试是事实是时候死hi搜狐和搜狐哦啊红花山东宏撒谎昂首撒还上课哈看看看看上课戴斯班克不上课不考试谎哦哈SOHO大红啊还是都好好都好少等候阿迪后阿萨德哈时候啥都安宏达";//87.545
-//    NSString *content = @"测试是事实是时候死hi搜狐和搜狐哦啊红花山东宏撒谎昂首撒还上课哈";//41.018
-//    NSString *content = @"测试是事实是";//25.509
     photo.content = @"测试是事实是时候死hi搜狐和搜狐哦啊红花山东宏撒谎昂首撒还上课哈";
     photo.phototime = @"2015-10-10 10:10:10";
     photo.location = @"大上海";
     photo.photoArray = [NSMutableArray array];
-    [photo.photoArray addObject:[UIImage imageNamed:png_Bg_LaunchImage]];
-//    [photo.photoArray addObject:[UIImage imageNamed:@"ImageTest"]];
-//    [photo.photoArray addObject:[UIImage imageNamed:png_Bg_LaunchImage]];
-//    [photo.photoArray addObject:[UIImage imageNamed:@"ImageTest"]];
+    UIImage *addImage1 = [UIImage imageNamed:@"LaunchImage"];
+    [photo.photoArray addObject:addImage1];
     
     CGFloat contentHeight = [self setContentHeight:photo.content];
     
