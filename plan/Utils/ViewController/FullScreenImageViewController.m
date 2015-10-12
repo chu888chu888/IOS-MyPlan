@@ -26,6 +26,7 @@
     
     self.title = self.viewControllerTitle;
     
+//    [self showRightButtonView];
     [self loadCustomView];
 }
 
@@ -35,10 +36,31 @@
     
 }
 
+- (void)showLeftBarButtonView {
+    
+    NSMutableArray *leftBarButtonItems = [NSMutableArray array];
+    UIImage *imgClose = [UIImage imageNamed:png_Btn_Delete];
+    
+    UIButton *btnClose = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnClose.frame = CGRectMake(0, 0, imgClose.size.width + 20, imgClose.size.height);
+    [btnClose setAllImage:imgClose];
+    [btnClose addTarget:self action:@selector(closeAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *itemDelete = [[UIBarButtonItem alloc] initWithCustomView:btnClose];
+    [leftBarButtonItems addObject:itemDelete];
+    
+    self.leftBarButtonItems = leftBarButtonItems;
+}
+
+- (void)closeAction:(UIButton *)button {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
 - (void)loadCustomView {
     
     imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.image = self.image;
     [imageView setUserInteractionEnabled:YES];
     [imageView setMultipleTouchEnabled:YES];
