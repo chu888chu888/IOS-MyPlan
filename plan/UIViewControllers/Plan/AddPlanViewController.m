@@ -83,6 +83,7 @@ NSUInteger const kToolBarHeight = 44;
         detailTextView.font = font_Normal_18;
         detailTextView.textColor = color_Black;
         detailTextView.delegate = self;
+        detailTextView.inputAccessoryView = [self getInputAccessoryView];
         
         [self.view addSubview:detailTextView];
         
