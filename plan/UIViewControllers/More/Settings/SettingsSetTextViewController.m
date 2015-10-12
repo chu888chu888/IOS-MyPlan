@@ -21,6 +21,7 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
 
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
@@ -38,6 +39,7 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     
     if (!self.textField) {
@@ -47,12 +49,14 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
     
+    [super viewWillDisappear:animated];
     [self.view endEditing:YES];
+    
 }
 
 - (void)loadCustomView {
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     NSUInteger yOffset = kSettingsSetTextViewEdgeInset + 5;
@@ -62,14 +66,20 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
     textField.backgroundColor = [UIColor clearColor];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.delegate = self;
+    textField.inputAccessoryView = [self getInputAccessoryView];
     if (self.textFieldPlaceholder.length > 0) {
+        
         textField.placeholder = self.textFieldPlaceholder;
     }
     
     if (self.setType == SetLife) {
+        
         textField.keyboardType = UIKeyboardTypeNumberPad;
+        
     } else if (self.setType == SetEmail) {
+        
         textField.keyboardType = UIKeyboardTypeEmailAddress;
+        
     }
     [textField becomeFirstResponder];
     [self.view addSubview:textField];
@@ -77,14 +87,18 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
     self.textField = textField;
     
     yOffset = CGRectGetMaxY(textField.frame) + 15;
+    
 }
 
 #pragma mark - funcs
 
 - (NSUInteger)contentWidth {
+    
     static NSUInteger contentWidth = 0;
     if (contentWidth == 0) {
+        
         contentWidth = CGRectGetWidth(self.view.bounds) - kSettingsSetTextViewEdgeInset * 2;
+        
     }
     return contentWidth;
 }
@@ -92,20 +106,27 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
 
 #pragma mark - action
 - (void)saveAction:(UIButton *)button {
+    
     if (self.finishedBlock) {
+        
         self.finishedBlock(self.textField.text);
+        
     }
 }
 
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
     UIImage *image = [UIImage imageNamed:png_Bg_Input_Blue];
     textField.background = [image resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
+    
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    
     UIImage *image = [UIImage imageNamed:png_Bg_Input_Gray];
     textField.background = [image resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
+    
 }
 
 
