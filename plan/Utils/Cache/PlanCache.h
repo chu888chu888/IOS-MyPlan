@@ -22,7 +22,7 @@
 
 + (BOOL)deletePlan:(Plan *)plan;
 
-+ (void)deletePhoto:(Photo *)photo;
++ (BOOL)deletePhoto:(Photo *)photo;
 
 + (Settings *)getPersonalSettings;
 

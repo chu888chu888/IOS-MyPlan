@@ -44,6 +44,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 @implementation SettingsViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     self.title = str_More_Settings;
     
@@ -52,6 +53,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     
     if (!self.layerView) {
@@ -67,6 +69,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 }
 
 - (void)loadCustomView {
+    
     self.layerView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.layerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.layerView];
@@ -84,26 +87,27 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         yOffset = CGRectGetMaxY(view.frame) + kSettingsViewCellHeight;
     }
     
-    if([LogIn isLogin]) {
-        UIButton *button = [self createExitButton];
-        [self.layerView addSubview:button];
-        
-        CGRect frame = CGRectZero;
-        frame.origin.x = kSettingsViewEdgeInset;
-        frame.origin.y = yOffset;
-        frame.size.width = CGRectGetWidth(self.layerView.frame) - kSettingsViewEdgeInset * 2;
-        frame.size.height = kSettingsViewCellHeight;
-        button.frame = frame;
-        
-    } else {
-        
-        [self createLogInButton:yOffset];
-    }
+//    if([LogIn isLogin]) {
+//        UIButton *button = [self createExitButton];
+//        [self.layerView addSubview:button];
+//        
+//        CGRect frame = CGRectZero;
+//        frame.origin.x = kSettingsViewEdgeInset;
+//        frame.origin.y = yOffset;
+//        frame.size.width = CGRectGetWidth(self.layerView.frame) - kSettingsViewEdgeInset * 2;
+//        frame.size.height = kSettingsViewCellHeight;
+//        button.frame = frame;
+//        
+//    } else {
+//        
+//        [self createLogInButton:yOffset];
+//    }
     
-    [self hideHUD];
+//    [self hideHUD];
 }
 
 - (UIView *)createSectionTwoView {
+    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(kSettingsViewEdgeInset, 0, [self contentWidth], 0)];
     view.backgroundColor = [UIColor whiteColor];
     
@@ -175,9 +179,11 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [self configBorderForView:view];
     
     return view;
+    
 }
 
 - (ThreeSubView *)createAvatarView {
+    
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf setAvatar];
@@ -215,9 +221,11 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     self.avatarView = avatar;
 
     return threeSubView;
+    
 }
 
 - (ThreeSubView *)createNickNameView {
+    
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf toSetNickNameViewController];
@@ -236,11 +244,12 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     self.nickThreeSubView = threeSubView;
     
     return threeSubView;
+    
 }
 
 - (ThreeSubView *)createGenderView {
-    __weak typeof(self) weakSelf = self;
     
+    __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf setMale];
     } rightBlock: ^{
@@ -279,9 +288,11 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     self.sexThreeSubView = threeSubView;
     
     return threeSubView;
+    
 }
 
 - (ThreeSubView *)createBirthdayView {
+    
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf setBirthday];
@@ -300,9 +311,11 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     self.birthThreeSubView = threeSubView;
     
     return threeSubView;
+    
 }
 
 - (ThreeSubView *)createLifespanView {
+    
     __weak typeof(self) weakSelf = self;
     ThreeSubView *threeSubView = [self getThreeSubViewForCenterBlock: ^{
         [weakSelf toSetLifeViewController];
@@ -321,9 +334,11 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     self.lifeThreeSubView = threeSubView;
     
     return threeSubView;
+    
 }
 
 - (UIButton *)createExitButton {
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.backgroundColor = [UIColor redColor];
     button.titleLabel.font = font_Bold_18;
@@ -395,6 +410,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 }
 
 - (ThreeSubView *)getThreeSubViewForCenterBlock:(ButtonSelectBlock)centerBlock rightBlock:(ButtonSelectBlock)rightBlock {
+    
     CGRect frame = CGRectZero;
     frame.size = [self cellSize];
     
@@ -419,52 +435,70 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 }
 
 - (void)configBorderForView:(UIView *)view {
+    
     view.layer.borderWidth = 1;
     view.layer.borderColor = [color_GrayLight CGColor];
     view.layer.cornerRadius = 2;
+    
 }
 
 - (void)addSeparatorForView:(UIView *)view {
+    
     UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(view.bounds) - 1, CGRectGetWidth(view.bounds) - 1, 1)];
     separator.backgroundColor = color_GrayLight;
     [view addSubview:separator];
+    
 }
 
 - (NSUInteger)contentWidth {
+    
     static NSUInteger contentWidth = 0;
     if (contentWidth == 0) {
+        
         contentWidth = CGRectGetWidth(self.layerView.bounds) - kSettingsViewEdgeInset * 2;
+        
     }
     return contentWidth;
+    
 }
 
 - (CGSize)cellSize {
+    
     static CGSize cellSize = {0, 0};
     if (CGSizeEqualToSize(cellSize, CGSizeZero)) {
+        
         cellSize = CGSizeMake([self contentWidth], kSettingsViewCellHeight);
+        
     }
     return cellSize;
 }
 
 - (NSString *)addLeftWhiteSpaceForString:(NSString *)string {
+    
     return [NSString stringWithFormat:@"%@%@", kSettingsViewEdgeWhiteSpace, string];
+    
 }
 
 - (void)setAvatar {
+    
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:str_Settings_SetAvatar_Tips1
                                                                  delegate:self
                                                         cancelButtonTitle:str_Cancel
                                                    destructiveButtonTitle:nil
                                                         otherButtonTitles:str_Settings_SetAvatar_Camera, str_Settings_SetAvatar_Album, nil];
         [actionSheet showInView:self.view];
+        
     } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:str_Settings_SetAvatar_Tips2
                                                                  delegate:self
                                                         cancelButtonTitle:str_Cancel
                                                    destructiveButtonTitle:nil
                                                         otherButtonTitles:str_Settings_SetAvatar_Album, nil];
         [actionSheet showInView:self.view];
+        
     } else {
         //不支持相片选取
     }
@@ -535,21 +569,25 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 }
 
 - (void)setMale {
+    
     self.sexThreeSubView.centerButton.selected = YES;
     self.sexThreeSubView.rightButton.selected = NO;
     
     [Config shareInstance].settings.gender = @"1";
     
     [PlanCache storePersonalSettings:[Config shareInstance].settings];
+    
 }
 
 - (void)setFemale {
+    
     self.sexThreeSubView.centerButton.selected = NO;
     self.sexThreeSubView.rightButton.selected = YES;
     
     [Config shareInstance].settings.gender = @"0";
     
     [PlanCache storePersonalSettings:[Config shareInstance].settings];
+    
 }
 
 - (void)setBirthday {
@@ -610,9 +648,11 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     
     pickerView.tag = kSettingsViewPickerBgViewTag;
     [self.view addSubview:pickerView];
+    
 }
 
 - (void)onPickerCertainBtn {
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:str_DateFormatter_yyyy_MM_dd];
     NSString *birthday = [dateFormatter stringFromDate:self.datePicker.date];
@@ -630,14 +670,18 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [Config shareInstance].settings.birthday = birthday;
     
     [PlanCache storePersonalSettings:[Config shareInstance].settings];
+    
 }
 
 - (void)onPickerCancelBtn {
+    
     UIView *pickerView = [self.view viewWithTag:kSettingsViewPickerBgViewTag];
     [pickerView removeFromSuperview];
+    
 }
 
 - (void)saveAvatar:(UIImage *)icon {
+    
     if (icon == nil) {
         return;
     }
@@ -646,6 +690,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     self.avatarView.contentMode = UIViewContentModeScaleAspectFit;
 
     [[Config shareInstance] saveAvatar:icon];
+    
 }
 
 - (void)exitAction {
@@ -786,23 +831,34 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:str_Settings_SetAvatar_Camera]) {
         //拍照
         if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            
             UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
             imagePickerController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor darkGrayColor]};
             imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             imagePickerController.allowsEditing = YES;
             imagePickerController.delegate = self;
             [self presentViewController:imagePickerController animated:YES completion:nil];
+            
+        } else {
+            
+            [self alertButtonMessage:str_Common_Tips2];
         }
         
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:str_Settings_SetAvatar_Album]) {
         //从相册选择
         if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+            
             UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
             imagePickerController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor darkGrayColor]};
             imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             imagePickerController.allowsEditing = YES;
             imagePickerController.delegate = self;
             [self presentViewController:imagePickerController animated:YES completion:nil];
+            
+        } else {
+            
+            [self alertButtonMessage:str_Common_Tips1];
+            
         }
     }
 }
@@ -811,12 +867,14 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
     [picker dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     [self saveAvatar:image];
+    
 }
 
 

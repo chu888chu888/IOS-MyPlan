@@ -137,6 +137,10 @@ static NSMutableDictionary * __contactsOnlineState;
             
             FMDBQuickCheck(b, sqlString, __db);
         }
+        
+        //2015-10-12将account值统一赋值
+        NSString *sqlString = [NSString stringWithFormat:@"UPDATE %@ SET account=?",str_TableName_Settings];
+        [__db executeUpdate:sqlString withArgumentsInArray:@[@""]];
     }
     
     // 计划
@@ -204,6 +208,10 @@ static NSMutableDictionary * __contactsOnlineState;
             FMDBQuickCheck(b, sqlString, __db);
             
         }
+        
+        //2015-10-12将account值统一赋值
+        NSString *sqlString = [NSString stringWithFormat:@"UPDATE %@ SET account=?",str_TableName_Plan];
+        [__db executeUpdate:sqlString withArgumentsInArray:@[@""]];
     }
 
     //相册
@@ -215,6 +223,11 @@ static NSMutableDictionary * __contactsOnlineState;
         
         FMDBQuickCheck(b, sqlString, __db);
         
+    } else {
+        
+        //2015-10-12将account值统一赋值
+        NSString *sqlString = [NSString stringWithFormat:@"UPDATE %@ SET account=?",str_TableName_Photo];
+        [__db executeUpdate:sqlString withArgumentsInArray:@[@""]];
     }
 }
 
@@ -229,12 +242,14 @@ static NSMutableDictionary * __contactsOnlineState;
             }
         }
         
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            settings.account = user.objectId;
-        } else {
-            settings.account = @"";
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            settings.account = user.objectId;
+//        } else {
+//            settings.account = @"";
+//        }
+        settings.account = @"";
+        
         if (!settings.nickname) {
             settings.nickname = @"";
         }
@@ -297,12 +312,14 @@ static NSMutableDictionary * __contactsOnlineState;
         if (!plan.planid || !plan.content || !plan.createtime)
             return NO;
         
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            plan.account = user.objectId;
-        } else {
-            plan.account = @"";
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            plan.account = user.objectId;
+//        } else {
+//            plan.account = @"";
+//        }
+        plan.account = @"";
+        
         if (!plan.completetime) {
             plan.completetime = @"";
         }
@@ -381,12 +398,14 @@ static NSMutableDictionary * __contactsOnlineState;
         if (!photo.photoid || !photo.createtime)
             return NO;
         
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            photo.account = user.objectId;
-        } else {
-            photo.account = @"";
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            photo.account = user.objectId;
+//        } else {
+//            photo.account = @"";
+//        }
+        photo.account = @"";
+        
         if (!photo.content) {
             photo.content = @"";
         }
@@ -456,10 +475,13 @@ static NSMutableDictionary * __contactsOnlineState;
             }
         }
         
-        if (!plan.account) {
-            
-            plan.account = @"";
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            plan.account = user.objectId;
+//        } else {
+//            plan.account = @"";
+//        }
+        plan.account = @"";
         
         BOOL hasRec = NO;
         NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE planid=? AND account=?", str_TableName_Plan];
@@ -489,20 +511,23 @@ static NSMutableDictionary * __contactsOnlineState;
     }
 }
 
-+ (void)deletePhoto:(Photo *)photo {
++ (BOOL)deletePhoto:(Photo *)photo {
     
     @synchronized(__db) {
         
         if (!__db.open) {
             if (![__db open]) {
-                return ;
+                return NO;
             }
         }
         
-        if (!photo.account) {
-            
-            photo.account = @"";
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            photo.account = user.objectId;
+//        } else {
+//            photo.account = @"";
+//        }
+        photo.account = @"";
         
         BOOL hasRec = NO;
         NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE photoid=? AND account=?", str_TableName_Photo];
@@ -510,16 +535,19 @@ static NSMutableDictionary * __contactsOnlineState;
         FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[photo.photoid, photo.account]];
         hasRec = [rs next];
         [rs close];
+        BOOL b = NO;
         if (hasRec) {
             
             sqlString = [NSString stringWithFormat:@"UPDATE %@ SET isdeleted=1  WHERE photoid=? AND account=?", str_TableName_Photo];
             
-            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[photo.photoid, photo.account]];
+            b = [__db executeUpdate:sqlString withArgumentsInArray:@[photo.photoid, photo.account]];
             
             FMDBQuickCheck(b, sqlString, __db);
         }
         
         [NotificationCenter postNotificationName:Notify_Photo_Save object:nil];
+        
+        return b;
     }
 }
 
@@ -535,12 +563,13 @@ static NSMutableDictionary * __contactsOnlineState;
         }
 
         Settings *settings = [[Settings alloc] init];
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            settings.account = user.objectId;
-        } else {
-            settings.account = @"";
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            settings.account = user.objectId;
+//        } else {
+//            settings.account = @"";
+//        }
+        settings.account = @"";
         
         NSString *sqlString = [NSString stringWithFormat:@"SELECT nickname, birthday, email, gender, lifespan, syntime FROM %@ WHERE account=?", str_TableName_Settings];
         
@@ -573,10 +602,10 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSString *account = @"";
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            account = user.objectId;
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            account = user.objectId;
+//        }
         
         NSMutableArray *array = [NSMutableArray array];
         NSString *sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype FROM %@ WHERE plantype=? AND account=? AND isdeleted=0 ORDER BY createtime DESC", str_TableName_Plan];
@@ -586,6 +615,7 @@ static NSMutableDictionary * __contactsOnlineState;
         while ([rs next]) {
             
             Plan *plan = [[Plan alloc] init];
+            plan.account = account;
             plan.planid = [rs stringForColumn:@"planid"];
             plan.content = [rs stringForColumn:@"content"];
             plan.createtime = [rs stringForColumn:@"createtime"];
@@ -615,20 +645,20 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSString *account = @"";
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            account = user.objectId;
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            account = user.objectId;
+//        }
         
         NSMutableArray *array = [NSMutableArray array];
-        NSString *sqlString = [NSString stringWithFormat:@"SELECT photoid, content, createtime, phototime, updatetime, location, photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9 FROM %@ WHERE account=? AND isdeleted=0 ORDER BY createtime DESC", str_TableName_Photo];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT photoid, content, createtime, phototime, updatetime, location, photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9 FROM %@ WHERE account=? AND isdeleted=0 ORDER BY phototime DESC, createtime DESC", str_TableName_Photo];
         
         FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[account]];
         
         while ([rs next]) {
             
             Photo *photo = [[Photo alloc] init];
-            photo.account = [rs stringForColumn:@"account"];
+            photo.account = account;
             photo.photoid = [rs stringForColumn:@"photoid"];
             photo.content = [rs stringForColumn:@"content"];
             photo.createtime = [rs stringForColumn:@"createtime"];
@@ -704,10 +734,10 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSString *account = @"";
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            account = user.objectId;
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            account = user.objectId;
+//        }
         
         NSString *sqlString = [NSString stringWithFormat:@"SELECT photoid, content, createtime, phototime, updatetime, location, photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9 FROM %@ WHERE account=? AND photoid=? AND isdeleted=0 ORDER BY createtime DESC", str_TableName_Photo];
         
@@ -715,7 +745,7 @@ static NSMutableDictionary * __contactsOnlineState;
         
         while ([rs next]) {
             
-            photo.account = [rs stringForColumn:@"account"];
+            photo.account = account;
             photo.photoid = [rs stringForColumn:@"photoid"];
             photo.content = [rs stringForColumn:@"content"];
             photo.createtime = [rs stringForColumn:@"createtime"];
@@ -788,10 +818,10 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSString *account = @"";
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            account = user.objectId;
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            account = user.objectId;
+//        }
         
         NSString *total = @"0";
         NSString *sqlString = [NSString stringWithFormat:@"SELECT COUNT(*) as total FROM %@ WHERE plantype=? AND account=? AND isdeleted=0", str_TableName_Plan];
@@ -819,10 +849,10 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSString *account = @"";
-        if ([LogIn isLogin]) {
-            BmobUser *user = [BmobUser getCurrentUser];
-            account = user.objectId;
-        }
+//        if ([LogIn isLogin]) {
+//            BmobUser *user = [BmobUser getCurrentUser];
+//            account = user.objectId;
+//        }
         
         NSString *completed = @"0";
         NSString *sqlString = [NSString stringWithFormat:@"SELECT COUNT(*) as completed FROM %@ WHERE plantype=? AND account=? AND iscompleted=1 AND isdeleted=0", str_TableName_Plan];
