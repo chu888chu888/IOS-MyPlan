@@ -16,6 +16,7 @@
 #define png_Btn_Add @"Btn_Add"
 #define png_Btn_Edit @"Btn_Edit"
 #define png_Btn_Save @"Btn_Save"
+#define png_Btn_Delete @"Btn_Delete"
 #define png_Btn_AddPhoto @"Btn_AddPhoto"
 
 #define png_Bg_Cell_White @"Bg_Cell_White"
