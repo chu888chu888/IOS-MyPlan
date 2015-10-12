@@ -12,6 +12,8 @@
 #import "PhotoDetailViewController.h"
 #import "FullScreenImageViewController.h"
 
+NSUInteger const kPhotoDeleteTag = 20151011;
+
 @interface PhotoDetailViewController () <PagedFlowViewDataSource, PagedFlowViewDelegate> {
     
     CGFloat xMargins;
@@ -54,14 +56,22 @@
 - (void)showRightButtonView {
     
     NSMutableArray *rightBarButtonItems = [NSMutableArray array];
-    UIImage *image = [UIImage imageNamed:png_Btn_Edit];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
-    [button setAllImage:image];
-    [button addTarget:self action:@selector(editAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIImage *imgEdit = [UIImage imageNamed:png_Btn_Edit];
+    UIImage *imgDelete = [UIImage imageNamed:png_Btn_Delete];
     
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    [rightBarButtonItems addObject:barButtonItem];
+    UIButton *btnEdit = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnEdit.frame = CGRectMake(0, 0, imgEdit.size.width + 20, imgEdit.size.height);
+    [btnEdit setAllImage:imgEdit];
+    [btnEdit addTarget:self action:@selector(editAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *itemEdit = [[UIBarButtonItem alloc] initWithCustomView:btnEdit];
+    [rightBarButtonItems addObject:itemEdit];
+    
+    UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnDelete.frame = CGRectMake(0, 0, imgDelete.size.width + 20, imgDelete.size.height);
+    [btnDelete setAllImage:imgDelete];
+    [btnDelete addTarget:self action:@selector(deleteAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *itemDelete = [[UIBarButtonItem alloc] initWithCustomView:btnDelete];
+    [rightBarButtonItems addObject:itemDelete];
     
     self.rightBarButtonItems = rightBarButtonItems;
 }
@@ -177,6 +187,43 @@
     controller.photo = self.photo;
     [self.navigationController pushViewController:controller animated:YES];
     
+}
+
+- (void)deleteAction:(UIButton *)button {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str_Photo_Delete_Tips
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:str_Cancel
+                                          otherButtonTitles:str_OK,
+                          nil];
+    
+    alert.tag = kPhotoDeleteTag;
+    [alert show];
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == kPhotoDeleteTag) {
+        
+        if (buttonIndex == 1) {
+            
+            BOOL result = [PlanCache deletePhoto:self.photo];
+            if (result) {
+                
+                [self alertToastMessage:str_Delete_Success];
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            } else {
+                
+                [self alertButtonMessage:str_Delete_Fail];
+                
+            }
+            
+        }
+        
+    }
 }
 
 #pragma mark - PagedFlowView Datasource
