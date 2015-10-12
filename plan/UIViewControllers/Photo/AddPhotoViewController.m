@@ -7,8 +7,10 @@
 //
 
 #import "PlanCache.h"
+#import "AssetHelper.h"
 #import "PageScrollView.h"
 #import "AddPhotoViewController.h"
+#import "DoImagePickerController.h"
 
 NSUInteger const photoMax = 9;
 NSUInteger const pageHeight = 148;
@@ -19,7 +21,7 @@ NSUInteger const kAddPhotoViewPickerBgViewTag = 20151006;
 NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
 
-@interface AddPhotoViewController () <UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PageScrollViewDataSource, PageScrollViewDelegate>
+@interface AddPhotoViewController () <UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PageScrollViewDataSource, PageScrollViewDelegate, DoImagePickerControllerDelegate>
 
 @property (nonatomic, strong) UIDatePicker *datePicker;
 @property (nonatomic, strong) NSMutableArray *photoArray;
@@ -251,6 +253,8 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
         return;
     }
     
+    [self showHUD];
+    
     NSString *timeNow = [CommonFunction getTimeNowString];
     NSString* photoid = [CommonFunction NSDateToNSString:[NSDate date] formatter:str_DateFormatter_yyyyMMddHHmmss];
     
@@ -280,6 +284,7 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     self.photo.photoArray = self.photoArray;
     
     BOOL result = [PlanCache storePhoto:self.photo];
+    [self hideHUD];
     if (result) {
         
         [self alertToastMessage:str_Save_Success];
@@ -404,11 +409,17 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     //从相册选择
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         
-        UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-        imagePickerController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor darkGrayColor]};
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        imagePickerController.delegate = self;
-        [self presentViewController:imagePickerController animated:YES completion:nil];
+        DoImagePickerController *cont = [[DoImagePickerController alloc] initWithNibName:@"DoImagePickerController" bundle:nil];
+        cont.delegate = self;
+        cont.nResultType = DO_PICKER_RESULT_UIIMAGE;
+        cont.nMaxCount = photoMax + 1 - self.photoArray.count;
+//        {
+//            cont.nMaxCount = DO_NO_LIMIT_SELECT;
+//            cont.nResultType = DO_PICKER_RESULT_ASSET;  // if you want to get lots photos, you'd better use this mode for memory!!!
+//        }
+        cont.nColumnCount = 4;
+        
+        [self presentViewController:cont animated:YES completion:nil];
         
     } else {
         
@@ -431,16 +442,41 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     [self relocationPage];
 }
 
-#pragma mark - UIImagePickerControllerDelegate
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+#pragma mark - DoImagePickerControllerDelegate
+- (void)didCancelDoImagePickerController {
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+- (void)didSelectPhotosFromDoImagePickerController:(DoImagePickerController *)picker result:(NSArray *)aSelected {
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    if (picker.nResultType == DO_PICKER_RESULT_UIIMAGE)
+    {
+        for (int i = 0; i < MIN(photoMax, aSelected.count); i++) {
+
+            [self addImageToPhotoArray:aSelected[i]];
+            
+        }
+        
+    } else if (picker.nResultType == DO_PICKER_RESULT_ASSET) {
+        
+        for (int i = 0; i < MIN(photoMax, aSelected.count); i++) {
+            
+            UIImage *image = [ASSETHELPER getImageFromAsset:aSelected[i] type:ASSET_PHOTO_SCREEN_SIZE];
+            [self addImageToPhotoArray:image];
+        }
+        
+        [ASSETHELPER clearData];
+    }
+
+    [self.pageScrollView reloadData];
+    
+}
+
+- (void)addImageToPhotoArray:(UIImage *)image {
     
     if (self.photoArray.count < (photoMax -1)) {
         
@@ -451,8 +487,7 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
         self.photoArray[photoMax - 1] = image;
         
     }
-
-    [self.pageScrollView reloadData];
+    
 }
 
 @end
