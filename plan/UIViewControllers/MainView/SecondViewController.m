@@ -744,6 +744,10 @@ NSUInteger const kPlanCellDeleteTag = 9527;
         
         [self alertToastMessage:str_Delete_Success];
         
+    } else {
+        
+        [self alertButtonMessage:str_Delete_Fail];
+        
     }
     
 }
