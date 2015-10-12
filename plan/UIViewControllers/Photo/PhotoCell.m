@@ -55,15 +55,15 @@ CGFloat kPhotoCellHeight;
     xOffset += dateWidth;
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(xOffset + btnAgeSize / 2 - 1, 0, 2, yOffset)];
-    lineView.backgroundColor = color_ff9900;
+    lineView.backgroundColor = color_Blue;
     [cell addSubview:lineView];
     
     UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(xOffset + btnAgeSize / 2 - 1, yOffset + btnAgeSize, 2, kPhotoCellHeight - yOffset -btnAgeSize)];
-    lineView1.backgroundColor = color_ff9900;
+    lineView1.backgroundColor = color_Blue;
     [cell addSubview:lineView1];
     
     UIButton *btnAge = [[UIButton alloc] initWithFrame:CGRectMake(xOffset, yOffset, btnAgeSize, btnAgeSize)];
-    btnAge.backgroundColor = color_ff9900;
+    btnAge.backgroundColor = color_Blue;
     btnAge.layer.cornerRadius = btnAgeSize / 2;
     btnAge.titleLabel.font = font_Bold_18;
     btnAge.tintColor = [UIColor whiteColor];

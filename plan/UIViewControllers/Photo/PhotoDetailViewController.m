@@ -266,6 +266,8 @@ NSUInteger const kPhotoDeleteTag = 20151011;
     
     FullScreenImageViewController *controller = [[FullScreenImageViewController alloc] init];
     controller.image = self.photo.photoArray[index];
+    
+//    [self presentViewController:controller animated:YES completion:nil];
     [self.navigationController pushViewController:controller animated:YES];
     
 }
