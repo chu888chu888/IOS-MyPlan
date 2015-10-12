@@ -108,7 +108,7 @@ NSUInteger const kPhotoDeleteTag = 20151011;
         contentView.font = font_Normal_16;
         contentView.showsHorizontalScrollIndicator = NO;
         contentView.showsVerticalScrollIndicator = NO;
-        contentView.textColor = color_333333;
+        contentView.textColor = color_1dadfc;
         contentView.text = self.photo.content;
         contentView.editable = NO;
         if (contentHeight < 30) {
@@ -136,7 +136,7 @@ NSUInteger const kPhotoDeleteTag = 20151011;
     yOffset -= 30;
     UILabel *labelTimeAndLocation = [[UILabel alloc] initWithFrame:CGRectMake(xMargins, yOffset, WIDTH_FULL_SCREEN - xMargins * 2, 30)];
     labelTimeAndLocation.font = font_Normal_18;
-    labelTimeAndLocation.textColor = color_666666;
+    labelTimeAndLocation.textColor = color_333333;
     labelTimeAndLocation.textAlignment = NSTextAlignmentCenter;
     labelTimeAndLocation.text = timeAndLocation;
     

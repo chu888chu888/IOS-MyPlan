@@ -29,5 +29,6 @@
 #define color_e9eff1 RGBColor(233, 239, 241, 1)
 #define color_ff9900 RGBColor(255, 153, 0, 1)
 #define color_57a4fe_05 RGBColor(87, 164, 254, 0.5)
+#define color_1dadfc RGBColor(29, 173, 252, 1) //蓝色
 
 #endif
