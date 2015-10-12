@@ -19,6 +19,9 @@
 //创建导航栏图片按钮
 -(UIBarButtonItem *)createBarButtonItemWithNormalImageName:(NSString *)normalImageName selectedImageName:(NSString *)selectedImageName selector:(SEL)selector;
 
+//键盘顶部按钮栏
+- (UIView *)getInputAccessoryView;
+
 - (void)backAction:(UIButton*)sender;
 
 //返回,可被重写
