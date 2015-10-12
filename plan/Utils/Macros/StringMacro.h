@@ -12,6 +12,7 @@
 #define str_App_Title @"我有计划"
 
 #define str_Common_Tips1 @"请到“设置”-“隐私”-“照片”中找到”我有计划“，将按钮打开，允许访问相册"
+#define str_Common_Tips2 @"请到“设置”-“隐私”-“相机”中找到”我有计划“，将按钮打开，允许使用摄像头"
 
 #define str_ViewTitle_1 @"我的"
 #define str_ViewTitle_2 @"计划"
@@ -33,6 +34,7 @@
 #define str_Save_Success @"保存成功"
 #define str_Save_Fail @"保存失败"
 #define str_Delete_Success @"删除成功"
+#define str_Delete_Fail @"删除失败"
 #define str_OK @"确定"
 #define str_Cancel @"取消"
 #define str_Show @"显示"
@@ -63,6 +65,7 @@
 #define str_Photo_Date @"时间："
 #define str_Photo_Detail_Tips1 @"时间：%@"
 #define str_Photo_Detail_Tips2 @"%@   地点：%@"
+#define str_Photo_Delete_Tips @"删除该影像"
 
 #define str_More @"更多"
 #define str_More_Settings @"个人设置"

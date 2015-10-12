@@ -136,7 +136,7 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     CGFloat tipsHeight = 30;
     CGFloat photoViewHeight = HEIGHT_FULL_SCREEN / 2;
     CGFloat yEdgeInset = (photoViewHeight - pageHeight - tipsHeight - 44) / 2;
-    
+
     PageScrollView *pageScrollView = [[PageScrollView alloc] initWithFrame:CGRectMake(0, yEdgeInset, WIDTH_FULL_SCREEN, pageHeight) pageWidth:pageWidth pageDistance:10];
     pageScrollView.holdPageCount = 5;
     pageScrollView.dataSource = self;
@@ -350,6 +350,8 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     
+    [self.textViewContent resignFirstResponder];
+    [self.textFieldLocation resignFirstResponder];
     return NO;
     
 }
