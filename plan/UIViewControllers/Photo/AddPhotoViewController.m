@@ -349,7 +349,7 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
         
         if (iPhone4 || iPhone5) {
             
-            self.viewTimeAndLocationBottom.constant = 40;
+            self.viewTimeAndLocationBottom.constant = 50;
         }
         
         return YES;
