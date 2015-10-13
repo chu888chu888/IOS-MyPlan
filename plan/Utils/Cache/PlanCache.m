@@ -424,7 +424,7 @@ static NSMutableDictionary * __contactsOnlineState;
             if (i < photo.photoArray.count) {
                 
                 UIImage *image = photo.photoArray[i];
-                NSData *imageData = UIImagePNGRepresentation(image);
+                NSData *imageData = UIImageJPEGRepresentation(image, 0.8);//UIImagePNGRepresentation(image);
                 [photoDataArray addObject:imageData];
                 
             } else {

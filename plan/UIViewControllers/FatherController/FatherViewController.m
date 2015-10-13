@@ -42,19 +42,20 @@
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     if (iOS7_LATER) {
         
-        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
-        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
+        self.extendedLayoutIncludesOpaqueBars = YES;
         self.automaticallyAdjustsScrollViewInsets = NO;
         [self setNeedsStatusBarAppearanceUpdate];
         
     }
     self.view.backgroundColor = color_Background;
 
-    UIImage *navigationBarBg = [UIImage imageNamed:@"Bg_NavigationBar"];
+    UIImage *navigationBarBg = [UIImage imageNamed:png_Bg_NavigationBar];
     [self.navigationController.navigationBar setBackgroundImage:navigationBarBg forBarMetrics:UIBarMetricsDefault];
     //设置返回按钮文字颜色
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
