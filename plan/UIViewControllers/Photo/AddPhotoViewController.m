@@ -21,7 +21,12 @@ NSUInteger const kAddPhotoViewPickerBgViewTag = 20151006;
 NSUInteger const kAddPhotoViewPhotoStartTag = 20151007;
 NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
 
-@interface AddPhotoViewController () <UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PageScrollViewDataSource, PageScrollViewDelegate, DoImagePickerControllerDelegate>
+@interface AddPhotoViewController () <UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PageScrollViewDataSource, PageScrollViewDelegate, DoImagePickerControllerDelegate> {
+    
+    BOOL canAddPhoto;
+    CGRect originalFrame;
+    
+}
 
 @property (nonatomic, strong) UIDatePicker *datePicker;
 @property (nonatomic, strong) NSMutableArray *photoArray;
@@ -42,6 +47,7 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
         self.title = str_Photo_Edit;
     }
     
+    canAddPhoto = YES;
     self.photoArray = [NSMutableArray array];
     
     [self showRightButtonView];
@@ -108,6 +114,7 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     [self.textFieldTime addTarget:self action:@selector(setPhotoTime) forControlEvents:UIControlEventTouchDown];
     self.textFieldTime.inputView = [[UIView alloc] initWithFrame:CGRectZero];
     self.textFieldTime.delegate = self;
+    self.textFieldTime.tag = 0;
     //地点
     if (self.operationType == Edit
         && self.photo.location
@@ -118,6 +125,8 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     }
     self.textFieldLocation.inputAccessoryView = [self getInputAccessoryView];
     self.textFieldLocation.placeholder = str_Photo_Add_Tips7;
+    self.textFieldLocation.delegate = self;
+    self.textFieldLocation.tag = 1;
     //照片
     UIImage *addImage = [UIImage imageNamed:png_Btn_AddPhoto];
     if (self.operationType == Edit) {
@@ -155,6 +164,8 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     label.text = str_Photo_Add_Tips4;
     [self.viewPhoto addSubview:label];
     self.tipsLabel = label;
+    
+    originalFrame = self.view.frame;
     
 }
 
@@ -328,10 +339,31 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     
-    [self.textViewContent resignFirstResponder];
-    [self.textFieldLocation resignFirstResponder];
-    return NO;
+    if (textField.tag == 0) {
+        
+        [self.textViewContent resignFirstResponder];
+        [self.textFieldLocation resignFirstResponder];
+        return NO;
+        
+    } else if (textField.tag == 1) {
+        
+        if (iPhone4 || iPhone5) {
+            
+            self.viewTimeAndLocationBottom.constant = 40;
+        }
+        
+        return YES;
+        
+    } else {
+        
+        return YES;
+    }
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     
+    self.viewTimeAndLocationBottom.constant = 0;
+    return YES;
 }
 
 - (void)tapAction:(UITapGestureRecognizer *)tapGestureRecognizer {
@@ -367,12 +399,20 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     imageView.tag = kAddPhotoViewPhotoStartTag + index;
     imageView.image = photo;
     imageView.backgroundColor = [UIColor clearColor];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.clipsToBounds = YES;
+    if (canAddPhoto && (index == self.photoArray.count - 1)) {
+        
+        imageView.contentMode = UIViewContentModeScaleToFill;
+        
+    } else {
+        
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
+        
+    }
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     [imageView addGestureRecognizer:tapGestureRecognizer];
     
-    if (index != (self.photoArray.count - 1)) {
+    if (canAddPhoto && index != (self.photoArray.count - 1)) {
         
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         btn.backgroundColor = color_ff0000_06;
@@ -383,6 +423,17 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
         [btn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
         [imageView addSubview:btn];
 
+    } else if (!canAddPhoto) {
+        
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        btn.backgroundColor = color_ff0000_06;
+        btn.frame = CGRectMake((pageWidth - 30) / 2, pageHeight - 30 - 5, 30, 30);
+        btn.layer.cornerRadius = 15;
+        btn.tag = index;
+        [btn setBackgroundImage:[UIImage imageNamed:png_Btn_Photo_Delete] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
+        [imageView addSubview:btn];
+        
     }
     
     return imageView;
@@ -396,7 +447,7 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
         
     } else if (self.photoArray.count > 1) {
     
-        long selectedCount = self.photoArray.count - 1;
+        long selectedCount = canAddPhoto ? self.photoArray.count - 1 : self.photoArray.count;
         long canSelectCount = photoMax - selectedCount;
         self.tipsLabel.text = [NSString stringWithFormat:str_Photo_Add_Tips6, selectedCount, canSelectCount];
         
@@ -438,6 +489,7 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
     NSInteger count = self.photoArray.count;
     self.photoArray[count - 1] = addImage;
     
+    canAddPhoto = YES;
     [self.pageScrollView reloadData];
     [self relocationPage];
 }
@@ -478,16 +530,18 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
 
 - (void)addImageToPhotoArray:(UIImage *)image {
     
-    if (self.photoArray.count < (photoMax -1)) {
+    if (self.photoArray.count < photoMax) {
         
         [self.photoArray insertObject:image atIndex:self.photoArray.count - 1];
         
     } else {
         
         self.photoArray[photoMax - 1] = image;
+        canAddPhoto = NO;
         
     }
     
 }
+
 
 @end
