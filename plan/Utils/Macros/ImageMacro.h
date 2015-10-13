@@ -19,6 +19,7 @@
 #define png_Btn_Delete @"Btn_Delete"
 #define png_Btn_AddPhoto @"Btn_AddPhoto"
 
+#define png_Bg_NavigationBar @"Bg_NavigationBar"
 #define png_Bg_Cell_White @"Bg_Cell_White"
 #define png_Bg_Input_Gray @"Bg_Input_Gray"
 #define png_Bg_Input_Blue @"Bg_Input_Blue"
