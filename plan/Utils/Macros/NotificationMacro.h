@@ -16,6 +16,7 @@
 #define Notify_Settings_LogOut @"Notify_Settings_LogOut"
 #define Notify_Plan_Save @"Notify_Plan_Save"
 #define Notify_Photo_Save @"Notify_Photo_Save"
+#define Notify_Photo_RefreshOnly @"Notify_Photo_RefreshOnly"
 //推送通知
 #define Notify_Push_LocalNotify @"Notify_Push_LocalNotify"
 

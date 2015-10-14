@@ -295,6 +295,7 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         [NotificationCenter postNotificationName:Notify_Settings_Changed object:nil];
+        [NotificationCenter postNotificationName:Notify_Photo_RefreshOnly object:nil];
     }
 }
 

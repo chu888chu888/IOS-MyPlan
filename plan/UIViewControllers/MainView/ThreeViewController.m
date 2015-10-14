@@ -36,9 +36,10 @@
     self.tableView.tableFooterView = footer;
     
     self.photoArray = [NSArray array];
-    [NotificationCenter addObserver:self selector:@selector(getPhotoData) name:Notify_Photo_Save object:nil];
+    [NotificationCenter addObserver:self selector:@selector(reloadPhotoData) name:Notify_Photo_Save object:nil];
+    [NotificationCenter addObserver:self selector:@selector(refreshTable) name:Notify_Photo_RefreshOnly object:nil];
     
-    [self getPhotoData];
+    [self reloadPhotoData];
     
 }
 
@@ -79,9 +80,15 @@
     
 }
 
-- (void)getPhotoData {
+- (void)reloadPhotoData {
     
     self.photoArray = [NSArray arrayWithArray:[PlanCache getPhoto]];
+    [self.tableView reloadData];
+    
+}
+
+- (void)refreshTable {
+    
     [self.tableView reloadData];
     
 }
