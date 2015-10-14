@@ -125,14 +125,14 @@
 #define str_DateFormatter_yyyy_MM_dd_HHmm @"yyyy-MM-dd HH:mm"
 #define str_DateFormatter_yyyy_MM_dd @"yyyy-MM-dd"
 
-#define str_Bmob_ApplicationID @"ed10fc9a05fd6fd5c37be211bc0726b2"
-#define str_SinaWeibo_AppKey @"2763375435"
-#define str_SinaWeibo_AppSecret @"c0f52655316236b558b22f6b90e2ba44"
+#define str_Bmob_ApplicationID @""
+#define str_SinaWeibo_AppKey @""
+#define str_SinaWeibo_AppSecret @""
 #define str_SinaWeibo_RedirectURI @"http://www.fengziyi.com"
-#define str_QQ_AppID @"1104873268"
-#define str_QQ_AppKey @"0HK3NGbEdP1sCMmr"
-#define str_Wechat_AppKey @"wx6bae95e549a33fb8"
-#define str_Wechat_AppSecret @"24dd0aaa317888920cd690ed55a98520"
-#define str_ShareSDK_AppKey @"a47e7a940fac"
+#define str_QQ_AppID @""
+#define str_QQ_AppKey @""
+#define str_Wechat_AppKey @""
+#define str_Wechat_AppSecret @""
+#define str_ShareSDK_AppKey @""
 
 #endif
