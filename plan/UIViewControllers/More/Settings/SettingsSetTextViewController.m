@@ -24,17 +24,7 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
     
     [super viewDidLoad];
     
-    NSMutableArray *rightBarButtonItems = [NSMutableArray array];
-    UIImage *image = [UIImage imageNamed:png_Btn_Save];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
-    [button setAllImage:image];
-    [button addTarget:self action:@selector(saveAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    [rightBarButtonItems addObject:barButtonItem];
-    
-    self.rightBarButtonItems = rightBarButtonItems;
+    [self createRightBarButton];
     
 }
 
@@ -52,6 +42,13 @@ NSUInteger const kSettingsSetTextViewEdgeInset = 10;
     
     [super viewWillDisappear:animated];
     [self.view endEditing:YES];
+    
+}
+
+#pragma mark -添加导航栏按钮
+- (void)createRightBarButton {
+    
+    self.rightBarButtonItem = [self createBarButtonItemWithNormalImageName:png_Btn_Save selectedImageName:png_Btn_Save selector:@selector(saveAction:)];
     
 }
 

@@ -26,7 +26,6 @@
     
     self.title = self.viewControllerTitle;
     
-//    [self showRightButtonView];
     [self loadCustomView];
 }
 

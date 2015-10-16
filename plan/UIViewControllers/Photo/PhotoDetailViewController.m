@@ -37,7 +37,7 @@ NSUInteger const kPhotoDeleteTag = 20151011;
     
     [NotificationCenter addObserver:self selector:@selector(refreshData) name:Notify_Photo_Save object:nil];
     
-    [self showRightButtonView];
+    [self createRightBarButton];
     [self initVariables];
     [self loadCustomView];
 }
@@ -53,27 +53,11 @@ NSUInteger const kPhotoDeleteTag = 20151011;
     
 }
 
-- (void)showRightButtonView {
+- (void)createRightBarButton {
     
-    NSMutableArray *rightBarButtonItems = [NSMutableArray array];
-    UIImage *imgEdit = [UIImage imageNamed:png_Btn_Edit];
-    UIImage *imgDelete = [UIImage imageNamed:png_Btn_Delete];
-    
-    UIButton *btnEdit = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnEdit.frame = CGRectMake(0, 0, imgEdit.size.width + 20, imgEdit.size.height);
-    [btnEdit setAllImage:imgEdit];
-    [btnEdit addTarget:self action:@selector(editAction:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *itemEdit = [[UIBarButtonItem alloc] initWithCustomView:btnEdit];
-    [rightBarButtonItems addObject:itemEdit];
-    
-    UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDelete.frame = CGRectMake(0, 0, imgDelete.size.width + 20, imgDelete.size.height);
-    [btnDelete setAllImage:imgDelete];
-    [btnDelete addTarget:self action:@selector(deleteAction:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *itemDelete = [[UIBarButtonItem alloc] initWithCustomView:btnDelete];
-    [rightBarButtonItems addObject:itemDelete];
-    
-    self.rightBarButtonItems = rightBarButtonItems;
+    self.rightBarButtonItems = [NSArray arrayWithObjects:
+                                               [self createBarButtonItemWithNormalImageName:png_Btn_Edit selectedImageName:png_Btn_Edit selector:@selector(editAction:)],
+                                               [self createBarButtonItemWithNormalImageName:png_Btn_Delete selectedImageName:png_Btn_Delete selector:@selector(deleteAction:)], nil];
 }
 
 - (void)initVariables {

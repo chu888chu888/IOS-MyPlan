@@ -27,7 +27,7 @@
     self.title = str_ViewTitle_3;
     self.tabBarItem.title = str_ViewTitle_3;
     
-    [self showRightButtonView];
+    [self createRightBarButton];
     
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
@@ -56,17 +56,9 @@
 }
 
 #pragma mark -添加导航栏按钮
-- (void)showRightButtonView {
+- (void)createRightBarButton {
     
-    NSMutableArray *rightBarButtonItems = [NSMutableArray array];
-    UIImage *image = [UIImage imageNamed:png_Btn_Add];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
-    [button setAllImage:image];
-    [button addTarget:self action:@selector(addAction:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    [rightBarButtonItems addObject:barButtonItem];
-    self.rightBarButtonItems = rightBarButtonItems;
+    self.rightBarButtonItem = [self createBarButtonItemWithNormalImageName:png_Btn_Add selectedImageName:png_Btn_Add selector:@selector(addAction:)];
     
 }
 

@@ -127,9 +127,11 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     self.flag[0] = !self.flag[0];
     
     if (!self.underLineView) {
-        [self showRightButtonView];
+        
+        [self createRightBarButton];
         [self showMenuView];
         [self showUnderLineView];
+        
     }
     self.planType = PlanEveryday;
     [self showListView];
@@ -137,17 +139,9 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 }
 
 #pragma mark -添加导航栏按钮
-- (void)showRightButtonView {
+- (void)createRightBarButton {
     
-    NSMutableArray *rightBarButtonItems = [NSMutableArray array];
-    UIImage *image = [UIImage imageNamed:png_Btn_Add];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
-    [button setAllImage:image];
-    [button addTarget:self action:@selector(addAction:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    [rightBarButtonItems addObject:barButtonItem];
-    self.rightBarButtonItems = rightBarButtonItems;
+    self.rightBarButtonItem = [self createBarButtonItemWithNormalImageName:png_Btn_Add selectedImageName:png_Btn_Add selector:@selector(addAction:)];
     
 }
 
@@ -422,7 +416,6 @@ NSUInteger const kPlanCellDeleteTag = 9527;
                 Plan *plan = planArray[indexPath.row];
 
                 cell.plan = plan;
-                cell.contentLabel.text = plan.content;
                 cell.isDone = plan.iscompleted;
                 if ([plan.iscompleted isEqualToString:@"1"]) {
                     cell.moveContentView.backgroundColor = color_Green_Mint;
@@ -481,7 +474,6 @@ NSUInteger const kPlanCellDeleteTag = 9527;
             Plan *plan = self.planLifeArray[indexPath.row];
             
             cell.plan = plan;
-            cell.contentLabel.text = plan.content;
             cell.isDone = plan.iscompleted;
             if ([plan.iscompleted isEqualToString:@"1"]) {
                 cell.moveContentView.backgroundColor = color_Green_Mint;

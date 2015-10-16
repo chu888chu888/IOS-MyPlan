@@ -40,7 +40,7 @@ NSUInteger const kToolBarHeight = 44;
         self.title = str_Plan_Edit;
     }
     
-    [self showRightButtonView];
+    [self createRightBarButton];
     [self.view setBackgroundColor:[UIColor whiteColor]];
 }
 
@@ -56,19 +56,9 @@ NSUInteger const kToolBarHeight = 44;
     [super didReceiveMemoryWarning];
 }
 
-- (void)showRightButtonView {
+- (void)createRightBarButton {
     
-    NSMutableArray *rightBarButtonItems = [NSMutableArray array];
-    UIImage *image = [UIImage imageNamed:png_Btn_Save];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, image.size.width + 20, image.size.height);
-    [button setAllImage:image];
-    [button addTarget:self action:@selector(saveAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    [rightBarButtonItems addObject:barButtonItem];
-    
-    self.rightBarButtonItems = rightBarButtonItems;
+    self.rightBarButtonItem = [self createBarButtonItemWithNormalImageName:png_Btn_Save selectedImageName:png_Btn_Save selector:@selector(saveAction:)];
 }
 
 - (void)loadCustomView {

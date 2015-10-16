@@ -99,19 +99,18 @@
     button.frame = CGRectMake(0, 0, btnWidth, btnHeight);
     [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     return [[UIBarButtonItem alloc] initWithCustomView:button];
+    
 }
 
 - (UIBarButtonItem *)createBarButtonItemWithNormalImageName:(NSString *)normalImageName selectedImageName:(NSString*)selectedImageName selector:(SEL)selector {
     
-    CGFloat width = 25;
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, width, width);
     UIImage *imageNormal = [UIImage imageNamed:normalImageName];
-    UIImage *imageSelected = [UIImage imageNamed:selectedImageName];
-    [button setBackgroundImage:imageNormal forState:UIControlStateNormal];
-    [button setBackgroundImage:imageSelected forState:UIControlStateHighlighted];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, imageNormal.size.width + 20, imageNormal.size.height);
+    [button setAllImage:imageNormal];
     [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     return [[UIBarButtonItem alloc] initWithCustomView:button];
+
 }
 
 - (UIView *)getInputAccessoryView {
