@@ -39,7 +39,7 @@
     }
 
     //注册第三方SDK
-    //[RegisterSDK registerSDK];
+    [RegisterSDK registerSDK];
     
     return YES;
 }
