@@ -281,7 +281,11 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
         
     }
     //去掉那张新增按钮图
-    [self.photoArray removeObjectAtIndex:self.photoArray.count - 1];
+    if (canAddPhoto) {
+        
+        [self.photoArray removeObjectAtIndex:self.photoArray.count - 1];
+        
+    }
     self.photo.photoArray = self.photoArray;
     
     BOOL result = [PlanCache storePhoto:self.photo];
