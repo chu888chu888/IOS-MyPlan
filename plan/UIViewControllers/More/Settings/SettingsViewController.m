@@ -87,23 +87,23 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         yOffset = CGRectGetMaxY(view.frame) + kSettingsViewCellHeight;
     }
     
-//    if([LogIn isLogin]) {
-//        UIButton *button = [self createExitButton];
-//        [self.layerView addSubview:button];
-//        
-//        CGRect frame = CGRectZero;
-//        frame.origin.x = kSettingsViewEdgeInset;
-//        frame.origin.y = yOffset;
-//        frame.size.width = CGRectGetWidth(self.layerView.frame) - kSettingsViewEdgeInset * 2;
-//        frame.size.height = kSettingsViewCellHeight;
-//        button.frame = frame;
-//        
-//    } else {
-//        
-//        [self createLogInButton:yOffset];
-//    }
+    if([LogIn isLogin]) {
+        UIButton *button = [self createExitButton];
+        [self.layerView addSubview:button];
+        
+        CGRect frame = CGRectZero;
+        frame.origin.x = kSettingsViewEdgeInset;
+        frame.origin.y = yOffset;
+        frame.size.width = CGRectGetWidth(self.layerView.frame) - kSettingsViewEdgeInset * 2;
+        frame.size.height = kSettingsViewCellHeight;
+        button.frame = frame;
+        
+    } else {
+        
+        [self createLogInButton:yOffset];
+    }
     
-//    [self hideHUD];
+    [self hideHUD];
 }
 
 - (UIView *)createSectionTwoView {
@@ -708,30 +708,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
         [BmobUser logout];
         
     }
-//    
-//    if ([ShareSDK hasAuthorized:SSDKPlatformTypeSinaWeibo]) {
-//        
-//        [ShareSDK cancelAuthorize:SSDKPlatformTypeSinaWeibo];
-//        
-//        [LogIn bmobLogOut:BmobSNSPlatformSinaWeibo];
-//        
-//    } else if ([ShareSDK hasAuthorized:SSDKPlatformTypeQQ]) {
-//        
-//        [ShareSDK cancelAuthorize:SSDKPlatformTypeQQ];
-//        
-//        [LogIn bmobLogOut:BmobSNSPlatformQQ];
-//        
-//    } else if ([ShareSDK hasAuthorized:SSDKPlatformTypeWechat]) {
-//        
-//        [ShareSDK cancelAuthorize:SSDKPlatformTypeWechat];
-//        
-//        [LogIn bmobLogOut:BmobSNSPlatformWeiXin];
-//        
-//    } else {
-//        
-//        [BmobUser logout];
-//        
-//    }
 }
 
 - (void)sinaWeiboLogin {
@@ -812,16 +788,6 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (void)tencentDidLogout {
 }
-
-#pragma mark - UIAlertViewDelegate
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    
-//    if (alertView.tag == kSettingsViewAlertTagForSetNickName) {
-//        [self.navigationController popViewControllerAnimated:YES];
-//    } else if (alertView.tag == kSettingsViewAlertTagForSetLife) {
-//        [self.navigationController popViewControllerAnimated:YES];
-//    }
-//}
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
