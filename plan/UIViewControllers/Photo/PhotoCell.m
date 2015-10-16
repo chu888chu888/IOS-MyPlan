@@ -135,10 +135,27 @@ CGFloat kPhotoCellHeight;
         imageView.clipsToBounds = YES;
         imageView.layer.borderWidth = 1;
         imageView.layer.borderColor = [color_eeeeee CGColor];
+        
+        if (photo.photoArray.count > 3 && i == 2) {
+            
+            NSString *totalImgCount = [NSString stringWithFormat:@"%ld", (unsigned long)photo.photoArray.count];
+            NSInteger btnTotalSize = 20;
+            CGFloat btnX = imageWidth - btnTotalSize - xMargins;
+            CGFloat btnY = photoHeight - btnTotalSize - yMargins;
+            UIButton *btnTotal = [[UIButton alloc] initWithFrame:CGRectMake(btnX, btnY, btnTotalSize, btnTotalSize)];
+            btnTotal.backgroundColor = color_57a4fe_05;
+            btnTotal.layer.cornerRadius = btnTotalSize / 2;
+            btnTotal.titleLabel.font = font_Normal_13;
+            btnTotal.tintColor = [UIColor whiteColor];
+            [btnTotal setTitle:totalImgCount forState:UIControlStateNormal];
+            [btnTotal setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [imageView addSubview:btnTotal];
+            
+        }
+        
         [photoView addSubview:imageView];
         
         pXOffset += imageWidth + imageSpace;
-        
     }
     
     return cell;
