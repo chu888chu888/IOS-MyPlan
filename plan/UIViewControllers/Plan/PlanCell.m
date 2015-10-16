@@ -15,7 +15,10 @@ NSUInteger const kBounceSpace = 20;
 @implementation PlanCell {
     
     UIButton *doneButton;
+    UIImageView *alarmImageView;
 }
+
+@synthesize plan = _plan;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
@@ -69,6 +72,11 @@ NSUInteger const kBounceSpace = 20;
     [_contentLabel addGestureRecognizer:tapGestureRecognizer];
     _contentLabel.userInteractionEnabled = YES;
     
+    alarmImageView = [[UIImageView alloc] initWithFrame:CGRectMake(WIDTH_FULL_SCREEN - 24 - kPlanCellHeight / 2, kPlanCellHeight / 4, kPlanCellHeight / 2, kPlanCellHeight / 2)];
+    alarmImageView.image = [UIImage imageNamed:png_Icon_Alarm];
+    alarmImageView.hidden = YES;
+    [_contentLabel addSubview:alarmImageView];
+    
     [menuContetnView addSubview:vDoneButton];
     [menuContetnView addSubview:vDeleteButton];
     [_moveContentView addSubview:_contentLabel];
@@ -121,7 +129,6 @@ NSUInteger const kBounceSpace = 20;
     [self hideMenuView:YES Animated:NO];
     
 }
-
 
 - (CGFloat)getMaxMenuWidth {
     
@@ -202,7 +209,6 @@ NSUInteger const kBounceSpace = 20;
     
 }
 
-
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
     
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
@@ -267,6 +273,24 @@ NSUInteger const kBounceSpace = 20;
         [self hideMenuView:hideMenuView Animated:YES];
         
     }
+}
+
+- (void)setPlan:(Plan *)plan {
+    
+    _plan = plan;
+    
+    _contentLabel.text = plan.content;
+    
+    if ([plan.isnotify isEqualToString:@"1"]) {
+        
+        alarmImageView.hidden = NO;
+        
+    } else {
+        
+        alarmImageView.hidden = YES;
+        
+    }
+    
 }
 
 - (void)setIsDone:(NSString *)isDone {
