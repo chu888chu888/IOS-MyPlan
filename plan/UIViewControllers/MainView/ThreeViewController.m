@@ -74,8 +74,10 @@
 
 - (void)reloadPhotoData {
     
+    [self showHUD];
     self.photoArray = [NSArray arrayWithArray:[PlanCache getPhoto]];
     [self.tableView reloadData];
+    [self hideHUD];
     
 }
 
