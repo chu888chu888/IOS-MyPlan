@@ -524,13 +524,14 @@ NSUInteger const kAddPhotoViewPhotoDateTextFieldTag = 20151011;
 
 - (void)addImageToPhotoArray:(UIImage *)image {
     
+    UIImage *img = [CommonFunction compressImage:image];
     if (self.photoArray.count < photoMax) {
         
-        [self.photoArray insertObject:image atIndex:self.photoArray.count - 1];
+        [self.photoArray insertObject:img atIndex:self.photoArray.count - 1];
         
     } else {
         
-        self.photoArray[photoMax - 1] = image;
+        self.photoArray[photoMax - 1] = img;
         canAddPhoto = NO;
         
     }

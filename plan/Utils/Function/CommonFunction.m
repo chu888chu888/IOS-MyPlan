@@ -11,11 +11,17 @@
 
 @implementation CommonFunction
 
-#pragma mark -获取设备型号 iPhone4、iPhone6 Plus
+//获取设备型号 iPhone4、iPhone6 Plus
 + (NSString *)getDeviceType {
     return [[UIDevice currentDevice] platformString];
 }
 
+//获取iOS系统版本号
++ (NSString *)getiOSVersion {
+    return [[UIDevice currentDevice] systemVersion];
+}
+
+//获取当前时间字符串：yyyy-MM-dd HH:mm:ss
 + (NSString *)getTimeNowString {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -38,10 +44,18 @@
     return comps;
 }
 
+//判断是否为空白字符串
 + (BOOL)isEmptyString:(NSString *)original {
     
     return original == nil || [original isEqualToString:@""];
     
+}
+
+//压缩图片
++ (UIImage *)compressImage:(UIImage *)image {
+    
+    NSData *imgData = UIImageJPEGRepresentation(image, 0.7);
+    return [UIImage imageWithData:imgData];
 }
 
 //NSString转换NSDate
