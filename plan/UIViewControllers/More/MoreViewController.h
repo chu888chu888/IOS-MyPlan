@@ -6,6 +6,9 @@
 //  Copyright (c) 2015年 Fengzy. All rights reserved.
 //
 
-@interface MoreViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
+#import "FatherTableViewController.h"
+#import <MessageUI/MFMailComposeViewController.h>
+
+@interface MoreViewController : FatherTableViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 
 @end

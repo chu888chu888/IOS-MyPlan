@@ -58,6 +58,7 @@
 		1361AFD61BCBB54800DD5FFB /* Btn_Up.png in Resources */ = {isa = PBXBuildFile; fileRef = 1361AFD01BCBB54800DD5FFB /* Btn_Up.png */; };
 		1361AFD71BCBB54800DD5FFB /* Btn_Up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1361AFD11BCBB54800DD5FFB /* Btn_Up@2x.png */; };
 		1361AFEA1BCD3BF100DD5FFB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 137C60911BBFD43200725662 /* AdSupport.framework */; };
+		1361AFF81BD478EB00DD5FFB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1361AFF71BD478EB00DD5FFB /* MessageUI.framework */; };
 		1368F9631BB623E100CC7E63 /* RegisterSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 1368F9621BB623E100CC7E63 /* RegisterSDK.m */; };
 		1368F9641BB6254000CC7E63 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B07F31BA1336C0015E752 /* ImageIO.framework */; };
 		1368F9651BB6255500CC7E63 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B07F51BA133880015E752 /* libsqlite3.dylib */; };
@@ -243,6 +244,7 @@
 		1361AFCF1BCBB54800DD5FFB /* Btn_Show@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Show@2x.png"; sourceTree = "<group>"; };
 		1361AFD01BCBB54800DD5FFB /* Btn_Up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Btn_Up.png; sourceTree = "<group>"; };
 		1361AFD11BCBB54800DD5FFB /* Btn_Up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Up@2x.png"; sourceTree = "<group>"; };
+		1361AFF71BD478EB00DD5FFB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		1368F9611BB623E100CC7E63 /* RegisterSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterSDK.h; sourceTree = "<group>"; };
 		1368F9621BB623E100CC7E63 /* RegisterSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSDK.m; sourceTree = "<group>"; };
 		1368F9661BB6281D00CC7E63 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -344,6 +346,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1361AFF81BD478EB00DD5FFB /* MessageUI.framework in Frameworks */,
 				1361AFEA1BCD3BF100DD5FFB /* AdSupport.framework in Frameworks */,
 				137C60851BBB6F1300725662 /* JavaScriptCore.framework in Frameworks */,
 				137C60841BBB6F0B00725662 /* libstdc++.dylib in Frameworks */,
@@ -879,6 +882,7 @@
 		1A2B3F1372598EA1C2E0A8DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1361AFF71BD478EB00DD5FFB /* MessageUI.framework */,
 				137C60911BBFD43200725662 /* AdSupport.framework */,
 				1368F9741BB6286E00CC7E63 /* CoreGraphics.framework */,
 				1368F9721BB6286500CC7E63 /* Foundation.framework */,

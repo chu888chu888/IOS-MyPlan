@@ -75,6 +75,15 @@
 #define str_More_About @"关于我们"
 #define str_More_Welcome @"去欢迎页"
 
+#define str_More_Feedback_Tips1 @"当前系统版本不支持应用内发送邮件功能"
+#define str_More_Feedback_Tips2 @"你还没有设置邮件账户"
+#define str_More_Feedback_Tips3 @"请输入你的建议或反馈~"
+#define str_More_Feedback_Tips4 @"取消编辑邮件"
+#define str_More_Feedback_Tips5 @"保存邮件成功"
+#define str_More_Feedback_Tips6 @"发送邮件成功"
+#define str_More_Feedback_Tips7 @"保存或者发送邮件失败"
+#define str_More_Feedback_Tips8 @"我有计划 For iOS"
+
 #define str_Settings_Avatar @"头像："
 #define str_Settings_Nickname @"昵称："
 #define str_Settings_Nickname_Tips @"点击修改昵称"
@@ -119,6 +128,7 @@
 #define str_TableName_Plan @"t_plan"
 #define str_TableName_Photo @"t_photo"
 #define str_Website_URL @"http://www.fengziyi.com"
+#define str_Feedback_Email @"fengziyi@andwho.com"
 
 #define str_DateFormatter_yyyy_MM_dd_HHmmss @"yyyy-MM-dd HH:mm:ss"
 #define str_DateFormatter_yyyyMMddHHmmss @"yyyyMMddHHmmss"
