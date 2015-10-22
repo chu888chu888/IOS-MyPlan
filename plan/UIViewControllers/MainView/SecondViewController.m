@@ -554,9 +554,11 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     if (self.planType == PlanEveryday && self.dateKeyArray.count > 0) {
         
         NSString *date = self.dateKeyArray[section];
+        NSArray *planArray = [self.planEverydayDic objectForKey:date];
+        BOOL isAllDone = [self isAllDone:planArray];
         date = [self isToday:date];
         
-        view = [[PlanSectionView alloc] initWithTitle:date];
+        view = [[PlanSectionView alloc] initWithTitle:date isAllDone:isAllDone];
         view.sectionIndex = section;
         if (self.flag[section])
             [view toggleArrow];
@@ -624,6 +626,19 @@ NSUInteger const kPlanCellDeleteTag = 9527;
         
         return date;
     }
+}
+
+- (BOOL)isAllDone:(NSArray *)planArray {
+    
+    for (Plan *plan in planArray) {
+        
+        if ([plan.iscompleted isEqualToString:@"0"]) {
+            
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 #pragma mark - action

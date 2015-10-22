@@ -17,7 +17,7 @@
     
 }
 
-- (id)initWithTitle:(NSString *)title {
+- (id)initWithTitle:(NSString *)title isAllDone:(BOOL)isAllDone {
     
     self = [super initWithFrame:CGRectMake(0, 0, WIDTH_FULL_SCREEN, kPlanSectionViewHeight)];
     if (self) {
@@ -26,7 +26,15 @@
         
         toggleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:png_Btn_SectionUp]];
         titleLabel = [[UILabel alloc] init];
-        titleLabel.textColor = [UIColor whiteColor];
+        if (isAllDone) {
+            
+            titleLabel.textColor = [UIColor whiteColor];
+            
+        } else {
+            
+            titleLabel.textColor = [UIColor yellowColor];
+            
+        }
         titleLabel.font = font_Normal_18;
         titleLabel.text = title;
         
