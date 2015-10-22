@@ -72,7 +72,7 @@ NSUInteger const kBounceSpace = 20;
     [_contentLabel addGestureRecognizer:tapGestureRecognizer];
     _contentLabel.userInteractionEnabled = YES;
     
-    alarmImageView = [[UIImageView alloc] initWithFrame:CGRectMake(WIDTH_FULL_SCREEN - 24 - kPlanCellHeight / 2, kPlanCellHeight / 4, kPlanCellHeight / 2, kPlanCellHeight / 2)];
+    alarmImageView = [[UIImageView alloc] initWithFrame:CGRectMake(WIDTH_FULL_SCREEN - 24 - kPlanCellHeight / 3, kPlanCellHeight / 6, kPlanCellHeight / 3, kPlanCellHeight / 3)];
     alarmImageView.image = [UIImage imageNamed:png_Icon_Alarm];
     alarmImageView.hidden = YES;
     [_contentLabel addSubview:alarmImageView];
