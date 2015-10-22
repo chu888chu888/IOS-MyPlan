@@ -524,7 +524,7 @@ static NSMutableDictionary * __contactsOnlineState;
         }
         
         NSMutableArray *array = [NSMutableArray array];
-        NSString *sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype FROM %@ WHERE plantype=? AND account=? AND isdeleted=0 ORDER BY createtime DESC", str_TableName_Plan];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT planid, content, createtime, completetime, updatetime, iscompleted, isnotify, notifytime, plantype FROM %@ WHERE plantype=? AND account=? AND isdeleted=0 ORDER BY iscompleted, createtime DESC", str_TableName_Plan];
         
         FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[plantype, account]];
         
