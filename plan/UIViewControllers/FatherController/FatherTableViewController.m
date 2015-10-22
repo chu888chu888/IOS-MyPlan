@@ -51,8 +51,6 @@
         self.extendedLayoutIncludesOpaqueBars = NO;
         self.automaticallyAdjustsScrollViewInsets = NO;
         [self setNeedsStatusBarAppearanceUpdate];
-        
-        
     }
     self.view.backgroundColor = color_Background;
     
