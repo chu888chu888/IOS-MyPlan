@@ -21,6 +21,10 @@
     return [[UIDevice currentDevice] systemVersion];
 }
 
++ (NSString *)getAppVersion {
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
+
 //获取当前时间字符串：yyyy-MM-dd HH:mm:ss
 + (NSString *)getTimeNowString {
     

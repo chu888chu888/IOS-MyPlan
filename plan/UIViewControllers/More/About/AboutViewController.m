@@ -94,7 +94,7 @@
     self.bgImageView = imageView;
  
     {
-        NSString *version = [NSString stringWithFormat:@"%@%@", str_About_Version, [[Config shareInstance] appVersion]];
+        NSString *version = [NSString stringWithFormat:@"%@%@", str_About_Version, [CommonFunction getAppVersion]];
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
         [label setNumberOfLines:0];
         label.lineBreakMode = NSLineBreakByWordWrapping;

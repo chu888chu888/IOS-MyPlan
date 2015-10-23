@@ -16,6 +16,9 @@
 //获取iOS系统版本号
 + (NSString *)getiOSVersion;
 
+//获取应用版本号
++ (NSString *)getAppVersion;
+
 //获取当前时间字符串：yyyy-MM-dd HH:mm:ss
 + (NSString *)getTimeNowString;
 

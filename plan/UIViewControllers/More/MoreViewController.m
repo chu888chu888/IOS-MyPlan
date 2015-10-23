@@ -126,7 +126,7 @@
     
     //设置主题
     NSString *device = [NSString stringWithFormat:@"（%@，iOS%@）", [CommonFunction getDeviceType], [CommonFunction getiOSVersion]];
-    NSString *subject = [NSString stringWithFormat:@"%@ V%@%@", str_More_Feedback_Tips8, [[Config shareInstance] appVersion], device];
+    NSString *subject = [NSString stringWithFormat:@"%@ V%@%@", str_More_Feedback_Tips8, [CommonFunction getAppVersion], device];
     [mailPicker setSubject:subject];
     //添加收件人
     NSArray *toRecipients = [NSArray arrayWithObject:str_Feedback_Email];
