@@ -167,6 +167,7 @@
 		133B08401BA458610015E752 /* PlanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlanCell.h; sourceTree = "<group>"; };
 		133B08411BA458610015E752 /* PlanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlanCell.m; sourceTree = "<group>"; };
 		133B08421BA458610015E752 /* PlanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlanCell.xib; sourceTree = "<group>"; };
+		135098111BDA227C00D60A67 /* CommonEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonEnum.h; sourceTree = "<group>"; };
 		135B21831B900394005CE84A /* plan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = plan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		135B21871B900394005CE84A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		135B21881B900394005CE84A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -525,13 +526,13 @@
 		135B21B41B90111A005CE84A /* Macros */ = {
 			isa = PBXGroup;
 			children = (
-				135B21B51B90117C005CE84A /* CommonMacro.h */,
-				135B21B61B9011FF005CE84A /* Macro.h */,
-				135B21D31B909A8F005CE84A /* StringMacro.h */,
-				135B21D41B909B14005CE84A /* ImageMacro.h */,
-				135B21D71B909EAB005CE84A /* FontMacro.h */,
 				135B21D81B90A024005CE84A /* ColorMacro.h */,
+				135B21B51B90117C005CE84A /* CommonMacro.h */,
+				135B21D71B909EAB005CE84A /* FontMacro.h */,
+				135B21D41B909B14005CE84A /* ImageMacro.h */,
+				135B21B61B9011FF005CE84A /* Macro.h */,
 				137701141B96E1D6008C83FD /* NotificationMacro.h */,
+				135B21D31B909A8F005CE84A /* StringMacro.h */,
 			);
 			path = Macros;
 			sourceTree = "<group>";
@@ -561,11 +562,12 @@
 		135B21CF1B90991E005CE84A /* Function */ = {
 			isa = PBXGroup;
 			children = (
+				135098111BDA227C00D60A67 /* CommonEnum.h */,
+				137701111B9683E3008C83FD /* CommonFunction.h */,
+				137701121B9683E3008C83FD /* CommonFunction.m */,
 				135B21D01B909955005CE84A /* Config.h */,
 				135B21D11B909955005CE84A /* Config.m */,
 				135B22061B92ADBA005CE84A /* Function.h */,
-				137701111B9683E3008C83FD /* CommonFunction.h */,
-				137701121B9683E3008C83FD /* CommonFunction.m */,
 				1368F9771BB6498300CC7E63 /* LogIn.h */,
 				1368F9781BB6498300CC7E63 /* LogIn.m */,
 			);
