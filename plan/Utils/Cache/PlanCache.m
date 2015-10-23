@@ -220,11 +220,12 @@ static NSMutableDictionary * __contactsOnlineState;
         if (settings.avatar) {
             
             avatarData = UIImageJPEGRepresentation(settings.avatar, 1.0);
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:str_Avatar];//过渡代码
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
         } else if ([[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar]) {//过渡代码
             
             avatarData = [[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar];
-            
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:str_Avatar];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
