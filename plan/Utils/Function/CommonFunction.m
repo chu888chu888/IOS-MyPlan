@@ -58,6 +58,14 @@
     return [UIImage imageWithData:imgData];
 }
 
+//数组排序 yes升序排列，no,降序排列
++ (NSArray *)arraySort:(NSArray *)array ascending:(BOOL)ascending {
+    
+    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:nil ascending:ascending];
+    return [array sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sd, nil]];
+
+}
+
 //NSString转换NSDate
 + (NSDate *)NSStringDateToNSDate:(NSString *)datetime formatter:(NSString *)format {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
