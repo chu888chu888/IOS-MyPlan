@@ -21,13 +21,13 @@
 #define color_Background RGBColor(255, 255, 255, 1)
 #define color_NavigationBar RGBColor(87, 164, 254, 1)
 
-#define color_333333 RGBColor(51, 51, 51, 1)
-#define color_666666 RGBColor(102, 102, 102, 1)
-#define color_eeeeee RGBColor(238, 238, 238, 1)
-#define color_8f8f8f RGBColor(143, 143, 143, 1)
+#define color_333333 RGBColor(51, 51, 51, 1) //近似黑色
+#define color_666666 RGBColor(102, 102, 102, 1)//深灰色
+#define color_eeeeee RGBColor(238, 238, 238, 1)//淡灰色
+#define color_8f8f8f RGBColor(143, 143, 143, 1)//中深灰色
 #define color_ff0000_06 RGBColor(255, 0, 0, 0.6) //红色
-#define color_e9eff1 RGBColor(233, 239, 241, 1)
-#define color_ff9900 RGBColor(255, 153, 0, 1)
+#define color_e9eff1 RGBColor(233, 239, 241, 1)//青灰色
+#define color_ff9900 RGBColor(255, 153, 0, 1) //橙色
 #define color_57a4fe_05 RGBColor(87, 164, 254, 0.5) //蓝色
 #define color_1dadfc RGBColor(29, 173, 252, 1) //蓝色
 
