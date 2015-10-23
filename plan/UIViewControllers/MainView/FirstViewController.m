@@ -139,8 +139,11 @@ NSUInteger const kSecondsPerDay = 86400;
     [avatarBg addGestureRecognizer:singleTap];
     [self.view addSubview:avatarBg];
     {
-        UIImage *image = [[Config shareInstance] getAvatar];
-        
+        UIImage *image = [UIImage imageNamed:png_AvatarDefault];
+        if ([Config shareInstance].settings.avatar) {
+            
+            image = [Config shareInstance].settings.avatar;
+        }
         UIImageView *avatar = [[UIImageView alloc] initWithFrame:CGRectMake(ceilf((avatarBgSize - avatarSize)/2), ceilf((avatarBgSize - avatarSize)/2), avatarSize, avatarSize)];
         avatar.backgroundColor = [UIColor clearColor];
         avatar.image = image;

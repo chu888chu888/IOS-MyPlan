@@ -17,6 +17,9 @@
 @property (nonatomic, strong) NSString *gender; //性别：1男 0女
 @property (nonatomic, strong) NSString *lifespan;
 @property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) UIImage *avatar;
+@property (nonatomic, strong) NSString *avatarURL;
 @property (nonatomic, strong) NSString *syntime;
+@property (nonatomic, strong) NSString *updatetime;
 
 @end

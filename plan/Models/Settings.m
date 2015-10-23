@@ -15,8 +15,10 @@ NSString *const kSettings_Email = @"email";
 NSString *const kSettings_Gender = @"gender";
 NSString *const kSettings_Lifespan = @"lifespan";
 NSString *const kSettings_Password = @"password";
+NSString *const kSettings_Avatar = @"avatar";
+NSString *const kSettings_AvatarURL = @"avatarURL";
+NSString *const kSettings_Updatetime = @"updatetime";
 NSString *const kSettings_Syntime = @"syntime";
-
 
 @implementation Settings
 
@@ -27,6 +29,9 @@ NSString *const kSettings_Syntime = @"syntime";
 @synthesize gender = _gender;
 @synthesize lifespan = _lifespan;
 @synthesize password = _password;
+@synthesize avatar = _avatar;
+@synthesize avatarURL = _avatarURL;
+@synthesize updatetime = _updatetime;
 @synthesize syntime = _syntime;
 
 
@@ -41,6 +46,9 @@ NSString *const kSettings_Syntime = @"syntime";
         self.gender = [dict objectOrNilForKey:kSettings_Gender];
         self.lifespan = [dict objectOrNilForKey:kSettings_Lifespan];
         self.password = [dict objectOrNilForKey:kSettings_Password];
+        self.avatar = [dict objectOrNilForKey:kSettings_Avatar];
+        self.avatarURL = [dict objectOrNilForKey:kSettings_AvatarURL];
+        self.updatetime = [dict objectOrNilForKey:kSettings_Updatetime];
         self.syntime = [dict objectOrNilForKey:kSettings_Syntime];
     }
     
@@ -60,6 +68,9 @@ NSString *const kSettings_Syntime = @"syntime";
     self.gender = [aDecoder decodeObjectForKey:kSettings_Gender];
     self.lifespan = [aDecoder decodeObjectForKey:kSettings_Lifespan];
     self.password = [aDecoder decodeObjectForKey:kSettings_Password];
+    self.avatar = [aDecoder decodeObjectForKey:kSettings_Avatar];
+    self.avatarURL = [aDecoder decodeObjectForKey:kSettings_AvatarURL];
+    self.updatetime = [aDecoder decodeObjectForKey:kSettings_Updatetime];
     self.syntime = [aDecoder decodeObjectForKey:kSettings_Syntime];
     
     return self;
@@ -73,6 +84,9 @@ NSString *const kSettings_Syntime = @"syntime";
     [aCoder encodeObject:_gender forKey:kSettings_Gender];
     [aCoder encodeObject:_lifespan forKey:kSettings_Lifespan];
     [aCoder encodeObject:_password forKey:kSettings_Password];
+    [aCoder encodeObject:_avatar forKey:kSettings_Avatar];
+    [aCoder encodeObject:_avatarURL forKey:kSettings_AvatarURL];
+    [aCoder encodeObject:_updatetime forKey:kSettings_Updatetime];
     [aCoder encodeObject:_syntime forKey:kSettings_Syntime];
 }
 
@@ -86,6 +100,9 @@ NSString *const kSettings_Syntime = @"syntime";
     copy.gender = [self.gender copyWithZone:zone];
     copy.lifespan = [self.lifespan copyWithZone:zone];
     copy.password = [self.password copyWithZone:zone];
+    copy.avatar = self.avatar;
+    copy.avatarURL = [self.avatarURL copyWithZone:zone];
+    copy.updatetime = [self.updatetime copyWithZone:zone];
     copy.syntime = [self.syntime copyWithZone:zone];
     
     return copy;

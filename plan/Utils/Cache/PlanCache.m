@@ -107,8 +107,8 @@ static NSMutableDictionary * __contactsOnlineState;
     
     // 个人设置
     if (![__db tableExists:str_TableName_Settings]) {
-        
-        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (account TEXT, nickname TEXT, birthday TEXT, email TEXT, gender TEXT, lifespan TEXT, syntime TEXT, avatar BLOB)", str_TableName_Settings];
+        //在做头像同步的时候，先判断本地avatarURL与服务器上的时候一样，如果不一样，则以updatetime最新的为准
+        NSString *sqlString = [NSString stringWithFormat:@"CREATE TABLE %@ (account TEXT, nickname TEXT, birthday TEXT, email TEXT, gender TEXT, lifespan TEXT, syntime TEXT, avatar BLOB, avatarURL TEXT, updatetime TEXT)", str_TableName_Settings];
         
         BOOL b = [__db executeUpdate:sqlString];
         
@@ -121,6 +121,26 @@ static NSMutableDictionary * __contactsOnlineState;
         if (![__db columnExists:avatar inTableWithName:str_TableName_Settings]) {
             
             NSString *sqlString = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ BLOB",str_TableName_Settings, avatar];
+            
+            BOOL b = [__db executeUpdate:sqlString];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+        }
+        //新增头像字段2015-10-16
+        NSString *avatarURL = @"avatarURL";
+        if (![__db columnExists:avatarURL inTableWithName:str_TableName_Settings]) {
+            
+            NSString *sqlString = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",str_TableName_Settings, avatarURL];
+            
+            BOOL b = [__db executeUpdate:sqlString];
+            
+            FMDBQuickCheck(b, sqlString, __db);
+        }
+        //新增头像字段2015-10-16
+        NSString *updateTime = @"updatetime";
+        if (![__db columnExists:updateTime inTableWithName:str_TableName_Settings]) {
+            
+            NSString *sqlString = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",str_TableName_Settings, updateTime];
             
             BOOL b = [__db executeUpdate:sqlString];
             
@@ -190,9 +210,26 @@ static NSMutableDictionary * __contactsOnlineState;
         if (!settings.password) {
             settings.password = @"";
         }
+        if (!settings.avatarURL) {
+            settings.avatarURL = @"";
+        }
         if (!settings.syntime) {
             settings.syntime = @"";
         }
+        NSData *avatarData = [NSData data];
+        if (settings.avatar) {
+            
+            avatarData = UIImageJPEGRepresentation(settings.avatar, 1.0);
+            
+        } else if ([[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar]) {//过渡代码
+            
+            avatarData = [[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:str_Avatar];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+        }
+        settings.updatetime = [CommonFunction getTimeNowString];
         
         BOOL hasRec = NO;
         NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE account=?", str_TableName_Settings];
@@ -201,17 +238,17 @@ static NSMutableDictionary * __contactsOnlineState;
         [rs close];
         if (hasRec) {
             
-            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET nickname=?, birthday=?, email=?, gender=?, lifespan=?, syntime=? WHERE account=?", str_TableName_Settings];
+            sqlString = [NSString stringWithFormat:@"UPDATE %@ SET nickname=?, birthday=?, email=?, gender=?, lifespan=?, avatar=?, avatarURL=?, updatetime=?, syntime=? WHERE account=?", str_TableName_Settings];
             
-            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan, settings.syntime, settings.account]];
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan, avatarData, settings.avatarURL, settings.updatetime, settings.syntime, settings.account]];
             
             FMDBQuickCheck(b, sqlString, __db);
             
         } else {
             
-            sqlString = [NSString stringWithFormat:@"INSERT INTO %@(account, nickname, birthday, email, gender, lifespan, syntime) values(?, ?, ?, ?, ?, ?, ?)", str_TableName_Settings];
+            sqlString = [NSString stringWithFormat:@"INSERT INTO %@(account, nickname, birthday, email, gender, lifespan, avatar, avatarURL, updatetime, syntime) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", str_TableName_Settings];
             
-            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[settings.account, settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan, settings.syntime]];
+            BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[settings.account, settings.nickname, settings.birthday, settings.email, settings.gender, settings.lifespan, avatarData, settings.avatarURL, settings.updatetime, settings.syntime]];
 
             FMDBQuickCheck(b, sqlString, __db);
         }
@@ -343,7 +380,7 @@ static NSMutableDictionary * __contactsOnlineState;
             if (i < photo.photoArray.count) {
                 
                 UIImage *image = photo.photoArray[i];
-                NSData *imageData = UIImageJPEGRepresentation(image, 0.8);//UIImagePNGRepresentation(image);
+                NSData *imageData = UIImageJPEGRepresentation(image, 1.0);//UIImagePNGRepresentation(image);
                 [photoDataArray addObject:imageData];
                 
             } else {
@@ -487,7 +524,7 @@ static NSMutableDictionary * __contactsOnlineState;
             settings.account = @"";
         }
         
-        NSString *sqlString = [NSString stringWithFormat:@"SELECT nickname, birthday, email, gender, lifespan, syntime FROM %@ WHERE account=?", str_TableName_Settings];
+        NSString *sqlString = [NSString stringWithFormat:@"SELECT nickname, birthday, email, gender, lifespan, avatar, avatarURL, updatetime, syntime FROM %@ WHERE account=?", str_TableName_Settings];
         
         FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[settings.account]];
         while ([rs next]) {
@@ -497,9 +534,24 @@ static NSMutableDictionary * __contactsOnlineState;
             settings.email = [rs stringForColumn:@"email"];
             settings.gender = [rs stringForColumn:@"gender"];
             settings.lifespan = [rs stringForColumn:@"lifespan"];
+            NSData *imageData = [rs dataForColumn:@"avatar"];
+            if (imageData) {
+                
+                settings.avatar = [UIImage imageWithData:imageData];
+            }
+            settings.avatarURL = [rs stringForColumn:@"avatarURL"];
+            settings.updatetime = [rs stringForColumn:@"updatetime"];
             settings.syntime = [rs stringForColumn:@"syntime"];
+            
         }
         [rs close];
+        
+        //过渡代码
+        NSData* imageData = [[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar];
+        if (imageData) {
+            
+            settings.avatar = [UIImage imageWithData:imageData];
+        }
         
         return settings;
         

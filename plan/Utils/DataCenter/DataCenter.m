@@ -86,14 +86,15 @@
     [Config shareInstance].settings.birthday = [obj objectForKey:@"birthday"];
     [Config shareInstance].settings.gender = [obj objectForKey:@"gender"];
     [Config shareInstance].settings.lifespan = [obj objectForKey:@"lifespan"];
-    [Config shareInstance].settings.syntime = [CommonFunction getTimeNowString];
-    [PlanCache storePersonalSettings:[Config shareInstance].settings];
     
     NSData *avatarData = [obj objectForKey:@"avatar"];
     if (avatarData) {
         UIImage *image = [UIImage imageWithData:avatarData];
-        [[Config shareInstance] saveAvatar:image];
+        [Config shareInstance].settings.avatar = image;
     }
+    [Config shareInstance].settings.syntime = [CommonFunction getTimeNowString];
+    
+    [PlanCache storePersonalSettings:[Config shareInstance].settings];
     
 }
 

@@ -203,7 +203,11 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     avatarBg.userInteractionEnabled = YES;
     avatarBg.contentMode = UIViewContentModeScaleAspectFit;
     
-    UIImage *avatarImage = [[Config shareInstance] getAvatar];
+    UIImage *avatarImage = [UIImage imageNamed:png_AvatarDefault];
+    if ([Config shareInstance].settings.avatar) {
+        
+        avatarImage = [Config shareInstance].settings.avatar;
+    }
     CGFloat avatarSize = bgSize - yDistance;
     UIImageView *avatar = [[UIImageView alloc] initWithFrame:CGRectMake(ceilf((bgSize - avatarSize)/2), ceilf((bgSize - avatarSize)/2), avatarSize, avatarSize)];
     avatar.backgroundColor = [UIColor clearColor];
@@ -689,7 +693,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     self.avatarView.image = icon;
     self.avatarView.contentMode = UIViewContentModeScaleAspectFit;
 
-    [[Config shareInstance] saveAvatar:icon];
+    [Config shareInstance].settings.avatar = icon;
+    [PlanCache storePersonalSettings:[Config shareInstance].settings];
     
 }
 
