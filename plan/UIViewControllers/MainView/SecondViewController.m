@@ -101,6 +101,11 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     //日期降序排列
     self.dateKeyArray = [NSMutableArray arrayWithArray:[CommonFunction arraySort:self.dateKeyArray ascending:NO]];
     
+    NSUInteger sections = self.planEverydayDic.count;
+    self.flag = (BOOL *)malloc(sections * sizeof(BOOL));
+    memset((void *)self.flag, NO, sections * sizeof(BOOL));
+    self.flag[0] = !self.flag[0];
+    
     [self reloadTableViewData];
     
 }
@@ -119,11 +124,6 @@ NSUInteger const kPlanCellDeleteTag = 9527;
 
 #pragma mark -初始化自定义界面
 - (void)loadCustomView {
-    
-    NSUInteger sections = self.planEverydayDic.count;
-    self.flag = (BOOL *)malloc(sections * sizeof(BOOL));
-    memset((void *)self.flag, NO, sections * sizeof(BOOL));
-    self.flag[0] = !self.flag[0];
     
     if (!self.underLineView) {
         
