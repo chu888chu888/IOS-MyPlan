@@ -718,6 +718,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 - (void)sinaWeiboLogin {
     
     if([WeiboSDK isWeiboAppInstalled]) {
+        
+        [self showHUD];
         //向新浪发送请求
         WBAuthorizeRequest *request = [WBAuthorizeRequest request];
         request.redirectURI = str_SinaWeibo_RedirectURI;
