@@ -51,7 +51,6 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
     [NotificationCenter addObserver:self selector:@selector(getPlanData) name:Notify_Plan_Save object:nil];
 
-    [self getPlanData];
     [self loadCustomView];
 
 }
@@ -60,10 +59,8 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
     [super viewDidAppear:animated];
     
-    if (self.planType == PlanEveryday)
-        [self moveUnderLineViewToLeft];
-    
-    [self getPlanData];
+//    if (self.planType == PlanEveryday)
+//        [self moveUnderLineViewToLeft];
     
 }
 
@@ -101,6 +98,8 @@ NSUInteger const kPlanCellDeleteTag = 9527;
         [dateArray addObject:plan];
     }
     self.planEverydayDic = [NSDictionary dictionaryWithDictionary:dic];
+    //日期降序排列
+    self.dateKeyArray = [NSMutableArray arrayWithArray:[CommonFunction arraySort:self.dateKeyArray ascending:NO]];
     
     [self reloadTableViewData];
     
