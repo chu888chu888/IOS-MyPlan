@@ -965,7 +965,7 @@
 		135B217B1B900394005CE84A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Fengzy;
 				TargetAttributes = {
 					135B21821B900394005CE84A = {
@@ -1206,7 +1206,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1225,8 +1227,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "94255e3c-aac2-4e0a-b2c7-4b093e1691e6";
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "d5d69062-d0a2-4232-8fc5-b6ab5b1f10a4";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1251,6 +1253,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1265,7 +1268,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "94255e3c-aac2-4e0a-b2c7-4b093e1691e6";
+				PROVISIONING_PROFILE = "d5d69062-d0a2-4232-8fc5-b6ab5b1f10a4";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1275,11 +1278,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D20618BBE36BB6EEAA8583DB /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/plan/Libs/ShareSDK/extends/QQSDK",
@@ -1295,8 +1298,9 @@
 					"$(PROJECT_DIR)/plan/Libs/ShareSDK/extends/WeChatSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andwho.plan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "94255e3c-aac2-4e0a-b2c7-4b093e1691e6";
+				PROVISIONING_PROFILE = "d5d69062-d0a2-4232-8fc5-b6ab5b1f10a4";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1305,11 +1309,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E63B58B1DFA51CA8858183E3 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/plan/Libs/ShareSDK/extends/QQSDK",
@@ -1325,8 +1329,9 @@
 					"$(PROJECT_DIR)/plan/Libs/ShareSDK/extends/WeChatSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andwho.plan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "94255e3c-aac2-4e0a-b2c7-4b093e1691e6";
+				PROVISIONING_PROFILE = "d5d69062-d0a2-4232-8fc5-b6ab5b1f10a4";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1347,6 +1352,7 @@
 				);
 				INFOPLIST_FILE = planTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.andwho.plan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "94255e3c-aac2-4e0a-b2c7-4b093e1691e6";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/plan.app/plan";
@@ -1365,6 +1371,7 @@
 				);
 				INFOPLIST_FILE = planTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.andwho.plan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "94255e3c-aac2-4e0a-b2c7-4b093e1691e6";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/plan.app/plan";
