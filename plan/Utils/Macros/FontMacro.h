@@ -25,7 +25,7 @@
 #define font_Normal_23   [UIFont systemFontOfSize:23]
 #define font_Normal_24   [UIFont systemFontOfSize:24]
 #define font_Normal_32   [UIFont systemFontOfSize:32]
-
+#define font_Normal_33   [UIFont fontWithName:@"Helvetica" size:33.0]
 
 #define font_Bold_10   [UIFont boldSystemFontOfSize:10]
 #define font_Bold_11   [UIFont boldSystemFontOfSize:11]
@@ -43,5 +43,6 @@
 #define font_Bold_23   [UIFont boldSystemFontOfSize:23]
 #define font_Bold_24   [UIFont boldSystemFontOfSize:24]
 #define font_Bold_32   [UIFont boldSystemFontOfSize:32]
+#define font_Bold_33   [UIFont fontWithName:@"Helvetica-Bold" size:33.0]
 
 #endif
