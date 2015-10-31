@@ -916,7 +916,9 @@ static NSMutableDictionary * __contactsOnlineState;
 + (void)linkedLocalDataToAccount {
     
     BmobUser *user = [BmobUser getCurrentUser];
+    if (!user) return;
     
+    //设置
     BOOL hasRec = NO;
     NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE account=?", str_TableName_Settings];
     FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[@""]];
@@ -930,10 +932,10 @@ static NSMutableDictionary * __contactsOnlineState;
      
         FMDBQuickCheck(b, sqlString, __db);
     }
-    
+    [NotificationCenter postNotificationName:Notify_Settings_Changed object:nil];
+    //计划
     hasRec = NO;
     sqlString = [NSString stringWithFormat:@"SELECT planid FROM %@ WHERE account=?", str_TableName_Plan];
-    
     rs = [__db executeQuery:sqlString withArgumentsInArray:@[@""]];
     hasRec = [rs next];
     [rs close];
@@ -945,6 +947,22 @@ static NSMutableDictionary * __contactsOnlineState;
         
         FMDBQuickCheck(b, sqlString, __db);
     }
+    [NotificationCenter postNotificationName:Notify_Plan_Save object:nil];
+    //影像
+    hasRec = NO;
+    sqlString = [NSString stringWithFormat:@"SELECT photoid FROM %@ WHERE account=?", str_TableName_Photo];
+    rs = [__db executeQuery:sqlString withArgumentsInArray:@[@""]];
+    hasRec = [rs next];
+    [rs close];
+    if (hasRec) {
+        
+        sqlString = [NSString stringWithFormat:@"UPDATE %@ SET account=? WHERE account=?", str_TableName_Photo];
+        
+        BOOL b = [__db executeUpdate:sqlString withArgumentsInArray:@[user.objectId, @""]];
+        
+        FMDBQuickCheck(b, sqlString, __db);
+    }
+    [NotificationCenter postNotificationName:Notify_Photo_Save object:nil];
 }
 
 + (NSArray *)getPlanForSync:(NSString *)syntime {
