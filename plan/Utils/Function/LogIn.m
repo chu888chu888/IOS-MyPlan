@@ -8,6 +8,7 @@
 
 #import "LogIn.h"
 #import "WeiboSDK.h"
+#import "PlanCache.h"
 #import "AlertCenter.h"
 
 
@@ -54,6 +55,8 @@
             NSLog(@"user objectid is :%@",user.objectId);
             
             [LogIn saveLogInPlatform:bmobSNSPlatform];
+            //登录后自动关联本地没有对应账号的数据
+            [PlanCache linkedLocalDataToAccount];
         }
         [NotificationCenter postNotificationName:Notify_Settings_LogIn object:nil];
         
