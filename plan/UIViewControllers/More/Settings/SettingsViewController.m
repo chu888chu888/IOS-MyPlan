@@ -48,8 +48,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     [super viewDidLoad];
     self.title = str_More_Settings;
     
-    [NotificationCenter addObserver:self selector:@selector(loadCustomView) name:Notify_Settings_LogIn object:nil];
-    [NotificationCenter addObserver:self selector:@selector(loadCustomView) name:Notify_Settings_LogOut object:nil];
+    [NotificationCenter addObserver:self selector:@selector(loadCustomView) name:Notify_LogIn object:nil];
+    [NotificationCenter addObserver:self selector:@selector(loadCustomView) name:Notify_Settings_Save object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -700,19 +700,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 
 - (void)exitAction {
     
-    if ([LogIn hasAuthorized:BmobSNSPlatformQQ]) {
-        
-        [LogIn bmobLogOut:BmobSNSPlatformQQ];
-        
-    } else if ([LogIn hasAuthorized:BmobSNSPlatformSinaWeibo]) {
-        
-        [LogIn bmobLogOut:BmobSNSPlatformSinaWeibo];
-        
-    } else {
-        
-        [BmobUser logout];
-        
-    }
+    [LogIn bmobLogOut];
+
 }
 
 - (void)sinaWeiboLogin {
@@ -720,6 +709,8 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     if([WeiboSDK isWeiboAppInstalled]) {
         
         [self showHUD];
+        
+        [WeiboSDK enableDebugMode:YES];
         //向新浪发送请求
         WBAuthorizeRequest *request = [WBAuthorizeRequest request];
         request.redirectURI = str_SinaWeibo_RedirectURI;

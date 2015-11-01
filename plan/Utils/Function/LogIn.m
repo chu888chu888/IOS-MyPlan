@@ -9,8 +9,6 @@
 #import "LogIn.h"
 #import "WeiboSDK.h"
 #import "PlanCache.h"
-#import "AlertCenter.h"
-
 
 @implementation LogIn
 
@@ -19,7 +17,7 @@
     BmobUser *bUser = [BmobUser getCurrentUser];
     if (bUser) {
         return YES;
-    }else{
+    } else {
         return NO;
     }
 }
@@ -42,7 +40,7 @@
     NSLog(@"UserId:%@",uid);
     NSLog(@"expiresDate:%@",expiresDate);
     NSDictionary *dic = @{@"access_token":accessToken, @"uid":uid, @"expirationDate":expiresDate};
-    
+
     //通过授权信息注册登录
     [BmobUser loginInBackgroundWithAuthorDictionary:dic platform:bmobSNSPlatform block:^(BmobUser *user, NSError *error) {
         
@@ -58,43 +56,31 @@
             //登录后自动关联本地没有对应账号的数据
             [PlanCache linkedLocalDataToAccount];
         }
-        [NotificationCenter postNotificationName:Notify_Settings_LogIn object:nil];
+        [NotificationCenter postNotificationName:Notify_LogIn object:nil];
         
     }];
     
 }
 
-+ (void)bmobLogOut:(BmobSNSPlatform)bmobSNSPlatform {
++ (void)bmobLogOut {
     
-    BmobUser *user = [BmobUser getCurrentUser];
-    [user cancelLinkedInBackgroundWithPlatform:bmobSNSPlatform block:^(BOOL isSuccessful, NSError *error) {
-        
-        if (isSuccessful) {
-            
-            [BmobUser logout];
-            [AlertCenter alertToastMessage:str_Settings_LogOut_Success];
-
-        } else {
-            
-            [AlertCenter alertButtonMessage:str_Settings_LogOut_Fail];
-            
-        }
-        [NotificationCenter postNotificationName:Notify_Settings_LogOut object:nil];
-        
-    }];
+    [BmobUser logout];
+    [NotificationCenter postNotificationName:Notify_Settings_Save object:nil];
+    [NotificationCenter postNotificationName:Notify_Plan_Save object:nil];
+    [NotificationCenter postNotificationName:Notify_Photo_Save object:nil];
     
 }
 
 + (void)saveLogInPlatform:(BmobSNSPlatform)bmobSNSPlatform {
     
-    [[NSUserDefaults standardUserDefaults] setObject:@(bmobSNSPlatform) forKey:str_LogInPlatform];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [UserDefaults setObject:@(bmobSNSPlatform) forKey:str_LogInPlatform];
+    [UserDefaults synchronize];
     
 }
 
 + (BmobSNSPlatform)getLogInPlatform {
     
-    id platform = [[NSUserDefaults standardUserDefaults] objectForKey:str_LogInPlatform];
+    id platform = [UserDefaults objectForKey:str_LogInPlatform];
     NSInteger type = [platform integerValue];
     if (type == 1) {
         return BmobSNSPlatformSinaWeibo;
