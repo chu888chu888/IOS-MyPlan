@@ -14,6 +14,7 @@
 #import "LocalNotificationManager.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 
+
 @interface AppDelegate ()
 
 @end
@@ -90,30 +91,35 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
-    return [TencentOAuth HandleOpenURL:url] ||[WeiboSDK handleOpenURL:url delegate:self];
+    return [TencentOAuth HandleOpenURL:url] || [WeiboSDK handleOpenURL:url delegate:self];
     
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     
-    return [TencentOAuth HandleOpenURL:url] ||[WeiboSDK handleOpenURL:url delegate:self];
+    return [TencentOAuth HandleOpenURL:url] || [WeiboSDK handleOpenURL:url delegate:self];
     
 }
 
 # pragma mark - 新浪回调
 //收到回复时的回调
 - (void)didReceiveWeiboResponse:(WBBaseResponse *)response {
-    
-    NSString *accessToken = [(WBAuthorizeResponse *)response accessToken];
-    NSString *uid = [(WBAuthorizeResponse *)response userID];
-    NSDate *expiresDate = [(WBAuthorizeResponse *)response expirationDate];
-    
-    [LogIn bmobLogIn:BmobSNSPlatformSinaWeibo accessToken:accessToken uid:uid expiresDate:expiresDate];
-    
+
+    if ([response isKindOfClass:WBAuthorizeResponse.class]) {
+        
+        if ((int)response.statusCode == 0) {
+            
+            NSString *accessToken = [(WBAuthorizeResponse *)response accessToken];
+            NSString *uid = [(WBAuthorizeResponse *)response userID];
+            NSDate *expiresDate = [(WBAuthorizeResponse *)response expirationDate];
+            
+            [LogIn bmobLogIn:BmobSNSPlatformSinaWeibo accessToken:accessToken uid:uid expiresDate:expiresDate];
+        }
+    }
 }
 
 //发送请求时的回调
--(void)didReceiveWeiboRequest:(WBBaseRequest *)request{
+- (void)didReceiveWeiboRequest:(WBBaseRequest *)request{
 }
 
 #pragma mark - UIAlertViewDelegate

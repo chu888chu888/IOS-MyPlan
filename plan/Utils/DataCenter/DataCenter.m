@@ -179,7 +179,7 @@
 
 + (void)uploadAvatar:(BmobObject *)obj {
     //上传头像
-    NSData *avatarData = [[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar];
+    NSData *avatarData = [UserDefaults objectForKey:str_Avatar];
     if (avatarData) {
         //上传文件
         [BmobProFile uploadFileWithFilename:@"avatar.png" fileData:avatarData block:^(BOOL isSuccessful, NSError *error, NSString *filename, NSString *url, BmobFile *bmobFile) {

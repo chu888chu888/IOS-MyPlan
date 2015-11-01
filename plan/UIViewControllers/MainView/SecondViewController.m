@@ -59,9 +59,6 @@ NSUInteger const kPlanCellDeleteTag = 9527;
     
     [super viewDidAppear:animated];
     
-//    if (self.planType == PlanEveryday)
-//        [self moveUnderLineViewToLeft];
-    
 }
 
 - (void)didReceiveMemoryWarning {

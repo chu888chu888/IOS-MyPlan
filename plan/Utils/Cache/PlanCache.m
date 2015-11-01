@@ -173,6 +173,7 @@ static NSMutableDictionary * __contactsOnlineState;
     } else { //新增字段
         
     }
+    
 }
 
 #pragma mark -存储个人设置
@@ -220,14 +221,14 @@ static NSMutableDictionary * __contactsOnlineState;
         if (settings.avatar) {
             
             avatarData = UIImageJPEGRepresentation(settings.avatar, 1.0);
-            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:str_Avatar];//过渡代码
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [UserDefaults setObject:nil forKey:str_Avatar];//过渡代码
+            [UserDefaults synchronize];
             
-        } else if ([[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar]) {//过渡代码
+        } else if ([UserDefaults objectForKey:str_Avatar]) {//过渡代码
             
-            avatarData = [[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar];
-            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:str_Avatar];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            avatarData = [UserDefaults objectForKey:str_Avatar];
+            [UserDefaults setObject:nil forKey:str_Avatar];
+            [UserDefaults synchronize];
             
         }
         settings.updatetime = [CommonFunction getTimeNowString];
@@ -254,7 +255,7 @@ static NSMutableDictionary * __contactsOnlineState;
             FMDBQuickCheck(b, sqlString, __db);
         }
         
-        [NotificationCenter postNotificationName:Notify_Settings_Changed object:nil];
+        [NotificationCenter postNotificationName:Notify_Settings_Save object:nil];
         [NotificationCenter postNotificationName:Notify_Photo_RefreshOnly object:nil];
     }
 }
@@ -487,7 +488,7 @@ static NSMutableDictionary * __contactsOnlineState;
         BOOL hasRec = NO;
         NSString *sqlString = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE photoid=? AND account=?", str_TableName_Photo];
         
-        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[photo.photoid, photo.account]];
+        FMResultSet *rs = [__db executeQuery:sqlString withArgumentsInArray:@[photo.photoid, photo.account]];
         hasRec = [rs next];
         [rs close];
         BOOL b = NO;
@@ -527,7 +528,7 @@ static NSMutableDictionary * __contactsOnlineState;
         
         NSString *sqlString = [NSString stringWithFormat:@"SELECT nickname, birthday, email, gender, lifespan, avatar, avatarURL, updatetime, syntime FROM %@ WHERE account=?", str_TableName_Settings];
         
-        FMResultSet * rs = [__db executeQuery:sqlString withArgumentsInArray:@[settings.account]];
+        FMResultSet *rs = [__db executeQuery:sqlString withArgumentsInArray:@[settings.account]];
         while ([rs next]) {
             
             settings.nickname = [rs stringForColumn:@"nickname"];
@@ -548,7 +549,7 @@ static NSMutableDictionary * __contactsOnlineState;
         [rs close];
         
         //过渡代码
-        NSData* imageData = [[NSUserDefaults standardUserDefaults] objectForKey:str_Avatar];
+        NSData* imageData = [UserDefaults objectForKey:str_Avatar];
         if (imageData) {
             
             settings.avatar = [UIImage imageWithData:imageData];
@@ -932,7 +933,7 @@ static NSMutableDictionary * __contactsOnlineState;
      
         FMDBQuickCheck(b, sqlString, __db);
     }
-    [NotificationCenter postNotificationName:Notify_Settings_Changed object:nil];
+    [NotificationCenter postNotificationName:Notify_Settings_Save object:nil];
     //计划
     hasRec = NO;
     sqlString = [NSString stringWithFormat:@"SELECT planid FROM %@ WHERE account=?", str_TableName_Plan];
