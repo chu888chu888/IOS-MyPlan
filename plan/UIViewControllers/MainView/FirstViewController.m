@@ -52,13 +52,11 @@ NSUInteger const kSecondsPerDay = 86400;
     self.tabBarItem.title = str_ViewTitle_1;
     
     [NotificationCenter addObserver:self selector:@selector(toPlan:) name:Notify_Push_LocalNotify object:nil];
-    [NotificationCenter addObserver:self selector:@selector(refreshView:) name:Notify_Settings_Changed object:nil];
+    [NotificationCenter addObserver:self selector:@selector(refreshView:) name:Notify_Settings_Save object:nil];
     [NotificationCenter addObserver:self selector:@selector(refreshView:) name:Notify_Plan_Save object:nil];
     
     //打开本地数据库
     [PlanCache openDBWithAccount:@"unknown"];
-    //加载个人设置
-    [Config shareInstance].settings = [PlanCache getPersonalSettings];
     
     [self loadCustomView];
     
@@ -109,6 +107,9 @@ NSUInteger const kSecondsPerDay = 86400;
 }
 
 - (void)loadCustomView {
+    
+    //加载个人设置
+    [Config shareInstance].settings = [PlanCache getPersonalSettings];
     
     [self createAvatar];
     [self createLabelText];
