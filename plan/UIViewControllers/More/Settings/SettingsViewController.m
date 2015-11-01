@@ -361,14 +361,17 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
     CGFloat buttonSize = WIDTH_FULL_SCREEN / 7;
     
 //    UIButton *btnSinaWeibo = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize, yOffset, buttonSize, buttonSize)];
-    UIButton *btnSinaWeibo = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 2, yOffset, buttonSize, buttonSize)];
-    [btnSinaWeibo setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_SinaWeibo] forState:UIControlStateNormal];
-    btnSinaWeibo.layer.cornerRadius = buttonSize / 2;
-    btnSinaWeibo.clipsToBounds = YES;
-    [btnSinaWeibo addTarget:self action:@selector(sinaWeiboLogin) forControlEvents:UIControlEventTouchUpInside];
+    //微博SDK又出问题了，下版本再上吧
+//    UIButton *btnSinaWeibo = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 2, yOffset, buttonSize, buttonSize)];
+//    [btnSinaWeibo setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_SinaWeibo] forState:UIControlStateNormal];
+//    btnSinaWeibo.layer.cornerRadius = buttonSize / 2;
+//    btnSinaWeibo.clipsToBounds = YES;
+//    [btnSinaWeibo addTarget:self action:@selector(sinaWeiboLogin) forControlEvents:UIControlEventTouchUpInside];
     
 //    UIButton *btnQQ = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 3, yOffset, buttonSize, buttonSize)];
-    UIButton *btnQQ = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 4, yOffset, buttonSize, buttonSize)];
+    
+//    UIButton *btnQQ = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 4, yOffset, buttonSize, buttonSize)];
+    UIButton *btnQQ = [[UIButton alloc] initWithFrame:CGRectMake(buttonSize * 3, yOffset, buttonSize, buttonSize)];
     [btnQQ setBackgroundImage:[UIImage imageNamed:png_Btn_LogIn_QQ] forState:UIControlStateNormal];
     btnQQ.layer.cornerRadius = buttonSize / 2;
     btnQQ.clipsToBounds = YES;
@@ -381,7 +384,7 @@ NSString * const kSettingsViewEdgeWhiteSpace = @"  ";
 //    btnWechat.clipsToBounds = YES;
 //    [btnWechat addTarget:self action:@selector(wechatLogIn) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.layerView addSubview:btnSinaWeibo];
+//    [self.layerView addSubview:btnSinaWeibo];
     [self.layerView addSubview:btnQQ];
 //    [self.layerView addSubview:btnWechat];
 
